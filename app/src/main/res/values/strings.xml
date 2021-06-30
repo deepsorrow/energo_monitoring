@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">energo_monitoring</string>
+    <string name="takePhotoScheme">Прикрепите фотографию схемы УУТЭ из проекта</string>
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Activity.InspectionDeviceActivity">
+
+    <ImageView
+        android:id="@+id/clientLogoImage"
+        android:layout_width="348dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/energoLogoImage"
+        app:srcCompat="@drawable/client_logo" />
+
+    <ImageView
+        android:id="@+id/energoLogoImage"
+        android:layout_width="148dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/energo_logo" />
+
+    <TextView
+        android:id="@+id/inspectionGeneralText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Проверка номеров приборов и датчиков"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintStart_toStartOf="@+id/clientLogoImage"
+        app:layout_constraintTop_toBottomOf="@+id/clientLogoImage" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listOfDevices"
+        android:layout_width="@dimen/_270sdp"
+        android:layout_height="@dimen/_400sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/gray_background"
+        app:layout_constraintEnd_toEndOf="@+id/inspectionGeneralText"
+        app:layout_constraintStart_toStartOf="@+id/inspectionGeneralText"
+        app:layout_constraintTop_toBottomOf="@+id/inspectionGeneralText"
+        android:scrollbars="vertical"/>
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:text="Сохранить и продолжить"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/listOfDevices"
+        app:layout_constraintTop_toBottomOf="@+id/listOfDevices" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

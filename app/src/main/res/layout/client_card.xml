@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_260sdp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_10sdp"
+    android:elevation="@dimen/_15sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_marginStart="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_5sdp"
+    android:layout_marginTop="@dimen/_5sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/background_click_selector">
+
+        <TextView
+            android:id="@+id/agreementNumberValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/_205sdp"
+            android:text="6019281561"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/clientNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:drawableLeft="@drawable/ic_baseline_location_city_24"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/agreementNumberValue"
+
+            />
+
+        <TextView
+            android:id="@+id/clientNameValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:maxWidth="@dimen/_170sdp"
+            android:text="ООО АйтиСервис12"
+            app:layout_constraintLeft_toRightOf="@+id/clientNameText"
+            app:layout_constraintTop_toTopOf="@id/clientNameText" />
+
+        <TextView
+            android:id="@+id/knotAddressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:drawableLeft="@drawable/ic_baseline_place_24"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/clientNameText"
+            app:layout_constraintTop_toBottomOf="@+id/clientNameText" />
+
+        <TextView
+            android:id="@+id/knotAddressValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:text="Новокузнецк, ул. Пушкина дом Колотушкина 28/44"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/knotAddressText"
+            app:layout_constraintTop_toTopOf="@id/knotAddressText" />
+
+        <TextView
+            android:id="@+id/representativeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/knotAddressText"
+            app:layout_constraintTop_toBottomOf="@id/knotAddressValue" />
+
+        <TextView
+            android:id="@+id/representativeValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:text="Начальник смены\nЛевин Алексей Витальевич"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/representativeText"
+            app:layout_constraintTop_toTopOf="@id/representativeText" />
+
+        <TextView
+            android:id="@+id/phoneText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+            app:layout_constraintLeft_toLeftOf="@id/representativeText"
+            app:layout_constraintTop_toBottomOf="@id/representativeValue" />
+
+        <TextView
+            android:id="@+id/phoneValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:text="+7(499)500-51-22"
+            app:layout_constraintStart_toEndOf="@id/phoneText"
+            app:layout_constraintTop_toTopOf="@id/phoneText" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:drawableLeft="@drawable/ic_baseline_email_24"
+            app:layout_constraintLeft_toLeftOf="@id/phoneText"
+            app:layout_constraintStart_toEndOf="@+id/phoneValue"
+            app:layout_constraintTop_toTopOf="@+id/phoneValue" />
+
+        <TextView
+            android:id="@+id/emailValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:text="test@mail.ru"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/emailText"
+            app:layout_constraintTop_toTopOf="@id/emailText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>
