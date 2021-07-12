@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Activity.InspectionDeviceActivity">
+    tools:context=".view.activity.DeviceInspectionActivity">
 
     <ImageView
         android:id="@+id/clientLogoImage"
@@ -37,15 +37,30 @@
         app:layout_constraintTop_toBottomOf="@+id/clientLogoImage" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listOfDevices"
-        android:layout_width="@dimen/_270sdp"
-        android:layout_height="@dimen/_400sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/gray_background"
+        android:id="@+id/devicesTabs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_black_1px"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@id/inspectionGeneralText"
+        app:layout_constraintStart_toStartOf="@id/inspectionGeneralText"
+        app:layout_constraintEnd_toEndOf="@id/inspectionGeneralText"
+        tools:listitem="@layout/list_item_device_inspection_tab"
+        tools:itemCount="1"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentDevices"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/border_black_1px"
         app:layout_constraintEnd_toEndOf="@+id/inspectionGeneralText"
         app:layout_constraintStart_toStartOf="@+id/inspectionGeneralText"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionGeneralText"
-        android:scrollbars="vertical"/>
+        app:layout_constraintTop_toBottomOf="@+id/devicesTabs"
+        app:layout_constraintBottom_toTopOf="@id/buttonContinue"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/device_card_flow_transducer2"/>
 
     <Button
         android:id="@+id/buttonContinue"
@@ -53,7 +68,9 @@
         android:layout_height="@dimen/_40sdp"
         android:text="Сохранить и продолжить"
         android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="@+id/listOfDevices"
-        app:layout_constraintTop_toBottomOf="@+id/listOfDevices" />
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Activity.CheckLengthOfStraightLinesAreasActivity">
+    tools:context=".view.activity.CheckLengthOfStraightLinesAreasActivity">
 
     <ImageView
         android:id="@+id/clientLogoImage"
@@ -38,11 +38,117 @@
         app:layout_constraintTop_toBottomOf="@+id/clientLogoImage" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_100sdp"
+        android:id="@+id/deviceList"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="0dp"
         android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/clientLogoImage"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:background="@drawable/border_black_1px"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintBottom_toTopOf="@+id/comment"
         app:layout_constraintStart_toStartOf="@id/clientLogoImage"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:listitem="@layout/list_item_device_flow_transducer_check_length"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/border_black_1px"
+        android:paddingStart="@dimen/_3sdp"
+        android:paddingEnd="@dimen/_3sdp"
+        app:layout_constraintTop_toTopOf="@id/deviceList"
+        app:layout_constraintStart_toEndOf="@id/deviceList"
+        app:layout_constraintEnd_toEndOf="@id/clientLogoImage"
+        app:layout_constraintBottom_toTopOf="@id/comment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lengthBeforeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Длина до расходомера"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lengthBefore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lengthAfterLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Длина после расходомера"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/lengthBeforeLayout"
+            app:layout_constraintTop_toBottomOf="@+id/lengthBeforeLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lengthAfter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/photoWithRulerText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="Приложите линейку и сфотографируйте:"
+        android:textSize="@dimen/_14ssp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lengthAfterLayout"
+        app:layout_constraintTop_toBottomOf="@id/lengthAfterLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photosList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lengthAfterLayout"
+        app:layout_constraintTop_toBottomOf="@+id/photoWithRulerText"
+        app:spanCount="2"
+        tools:listitem="@layout/list_item_flow_transducers_photo_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/comment"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Примечания"
+        app:layout_constraintBottom_toTopOf="@id/buttonContinue"
+        app:layout_constraintEnd_toEndOf="@+id/clientLogoImage"
+        app:layout_constraintStart_toStartOf="@+id/clientLogoImage">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:text="Сохранить и продолжить"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

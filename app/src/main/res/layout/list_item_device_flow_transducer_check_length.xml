@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="result"
+            type="com.example.energo_monitoring.model.FlowTransducerCheckLengthResult" />
+    </data>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_1sdp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="0dp">
+
+    <TextView
+        android:id="@+id/deviceFlowTransducerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:drawableTop="@{result.icon}"
+        android:text="@{result.deviceName}"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:textAlignment="center"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:drawableTop="@drawable/ic_baseline_incomplete_circle_24"
+        tools:text="Расходомер №123" />
+
+</com.google.android.material.card.MaterialCardView>
+</layout>

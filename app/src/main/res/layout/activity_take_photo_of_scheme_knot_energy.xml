@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constaintLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Activity.ProjectPhotoActivity">
+    tools:context=".view.activity.ProjectPhotoActivity">
 
     <ImageView
         android:id="@+id/clientLogoImage"
@@ -38,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/clientLogoImage"
         app:layout_constraintEnd_toEndOf="@id/clientLogoImage"/>
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/photoPreview"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -50,6 +52,25 @@
         app:layout_constraintEnd_toEndOf="@id/photoWasNotFoundText"
         app:layout_constraintStart_toStartOf="@+id/photoWasNotFoundText"
         app:layout_constraintTop_toBottomOf="@id/photoWasNotFoundText" />
+
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/commentProject"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Примечание"-->
+<!--        android:layout_marginTop="@dimen/_5sdp"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/photoPreview"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/photoPreview"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/photoPreview"-->
+<!--        android:enabled="true">-->
+
+<!--        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--            android:id="@+id/filled_exposed_dropdown"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewTakePhoto"
@@ -140,6 +161,16 @@
         android:text="Продолжить"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/clientLogoImage" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/photoPreview"
+        app:layout_constraintEnd_toEndOf="@+id/photoPreview"
+        app:layout_constraintStart_toStartOf="@+id/photoPreview"
+        app:layout_constraintTop_toTopOf="@+id/photoWasNotFoundText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
