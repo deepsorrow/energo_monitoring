@@ -8,14 +8,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.energo_monitoring.model.api.ClientDataBundle;
 import com.example.energo_monitoring.presenter.TemperatureCounterCharacteristicsPresenter;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.view.adapters.TemperatureCounterValuesMainListAdapter;
 import com.example.energo_monitoring.view.adapters.TemperatureCounterValuesTabsAdapter;
 import com.example.energo_monitoring.databinding.ActivityTemperatureCounterCharacteristicsBinding;
 import com.example.energo_monitoring.view.viewmodel.TemperatureCounterViewModel;
+import com.google.gson.Gson;
 
 
 public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity {
@@ -23,8 +26,9 @@ public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity
     TemperatureCounterCharacteristicsPresenter presenter;
     TemperatureCounterValuesTabsAdapter adapterTabs;
     TemperatureCounterValuesMainListAdapter adapterParameters;
-    ActivityTemperatureCounterCharacteristicsBinding binding;
+    public ActivityTemperatureCounterCharacteristicsBinding binding;
     TemperatureCounterViewModel model;
+    public int dataId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +36,22 @@ public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity
         binding = ActivityTemperatureCounterCharacteristicsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        dataId = getIntent().getIntExtra("dataId", dataId);
+
         model = new ViewModelProvider(this).get(TemperatureCounterViewModel.class);
-//        final Observer<Integer> currentId = integer -> {
-//
-//        };
-//
-//        model.getCurrentDeviceId().observe(this, );
+
+        SharedPreferences mPrefs = getSharedPreferences("data", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("currentClientDataBundle", "");
+        ClientDataBundle clientDataBundle = gson.fromJson(json, ClientDataBundle.class);
+
+        if(clientDataBundle.getDeviceCounters().size() == 0) {
+            Intent intent = new Intent(getApplicationContext(), FinalPlacePhotosActivity.class);
+            intent.putExtra("dataId", dataId);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         presenter = new TemperatureCounterCharacteristicsPresenter(this, model);
 
@@ -47,6 +61,9 @@ public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity
 
         binding.buttonContinue.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), FinalPlacePhotosActivity.class);
+            intent.putExtra("dataId", dataId);
+
+            presenter.insertDataToDb(dataId, binding.temperatureCounterComment.getText().toString());
             startActivity(intent);
         });
     }

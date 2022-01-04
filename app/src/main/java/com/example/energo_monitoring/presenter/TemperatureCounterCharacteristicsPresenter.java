@@ -1,11 +1,17 @@
 package com.example.energo_monitoring.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.energo_monitoring.model.api.ClientDataBundle;
 import com.example.energo_monitoring.model.DeviceCounter;
 import com.example.energo_monitoring.model.TemperatureCounterCharacteristicsParameter;
+import com.example.energo_monitoring.model.api.ClientInfo;
+import com.example.energo_monitoring.model.db.OtherInfo;
+import com.example.energo_monitoring.model.db.ResultDataDatabase;
+import com.example.energo_monitoring.view.activity.FinalPlacePhotosActivity;
+import com.example.energo_monitoring.view.activity.TemperatureCounterCharacteristicsActivity;
 import com.example.energo_monitoring.view.adapters.TemperatureCounterValuesMainListAdapter;
 import com.example.energo_monitoring.view.adapters.TemperatureCounterValuesTabsAdapter;
 import com.example.energo_monitoring.view.viewmodel.TemperatureCounterViewModel;
@@ -15,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class TemperatureCounterCharacteristicsPresenter {
 
@@ -86,5 +95,32 @@ public class TemperatureCounterCharacteristicsPresenter {
 
     public TemperatureCounterViewModel getModel(){
         return model;
+    }
+
+    public void insertDataToDb(int dataId, String comment){
+
+            ResultDataDatabase db = ResultDataDatabase.getDatabase(context);
+            Observable.just(db)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe((value) -> {
+                        OtherInfo otherInfo = db.resultDataDAO().getOtherInfo(dataId);
+
+                        Gson gson = new Gson();
+                        otherInfo.counterCharacteristicts = gson.toJson(parameters);
+                        otherInfo.counterCharacteristictsComment = comment;
+//                        for(int i = 0; i < parameters.size(); ++i){
+//                            for(int j = 0; j < parameters.get(i).size(); ++j) {
+//                                otherInfo.counterCharacteristicts
+//                            }
+//                        }
+
+                        db.resultDataDAO().insertOtherInfo(otherInfo);
+
+                        db.resultDataDAO().deleteDeviceCounters(dataId);
+                        for(DeviceCounter deviceCounter : devices)
+                            deviceCounter.dataId = dataId;
+                        db.resultDataDAO().insertDeviceCounters(devices);
+                    });
+
     }
 }

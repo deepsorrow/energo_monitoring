@@ -43,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/border_black_1px"
+        android:background="@drawable/border"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintEnd_toEndOf="@id/title"
@@ -57,8 +57,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        android:background="@drawable/border_black_1px"
-        app:layout_constraintBottom_toTopOf="@+id/temperatureCounterComment"
+        android:background="@drawable/border"
+        app:layout_constraintBottom_toTopOf="@+id/temperatureCounterLayout"
         app:layout_constraintEnd_toEndOf="@+id/temperatureCounterTabs"
         app:layout_constraintStart_toStartOf="@id/temperatureCounterTabs"
         app:layout_constraintTop_toBottomOf="@id/temperatureCounterTabs"
@@ -66,7 +66,7 @@
         app:spanCount="2"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/temperatureCounterComment"
+        android:id="@+id/temperatureCounterLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -76,6 +76,7 @@
         app:layout_constraintStart_toStartOf="@+id/clientLogoImage">
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/temperatureCounterComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

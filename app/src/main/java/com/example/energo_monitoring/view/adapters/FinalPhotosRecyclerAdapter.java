@@ -3,6 +3,7 @@ package com.example.energo_monitoring.view.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.energo_monitoring.presenter.utilities.LoadImageManager;
 import com.example.energo_monitoring.R;
+import com.example.energo_monitoring.view.activity.FinalPlacePhotosActivity;
 
 import java.util.ArrayList;
 
 public class FinalPhotosRecyclerAdapter extends RecyclerView.Adapter<FinalPhotosRecyclerAdapter.PhotoViewHolder> {
 
-    private ArrayList<Bitmap> photos;
+    public ArrayList<Bitmap> photos;
     ActivityResultLauncher<Intent> takePhotoLauncher;
     Context context;
 
@@ -65,8 +67,10 @@ public class FinalPhotosRecyclerAdapter extends RecyclerView.Adapter<FinalPhotos
 
         CardView cardView = view.findViewById(R.id.photoCard);
         cardView.setOnClickListener(v -> {
-            if(vh.getLayoutPosition() == photos.size() - 1)
-                LoadImageManager.takePhoto(takePhotoLauncher);
+            if(vh.getLayoutPosition() == photos.size() - 1) {
+                ((FinalPlacePhotosActivity) context).lastCreatedPath = LoadImageManager.getPhotoUri(context);
+                LoadImageManager.takePhoto(context, takePhotoLauncher, ((FinalPlacePhotosActivity) context).lastCreatedPath);
+            }
         });
 
         return vh;

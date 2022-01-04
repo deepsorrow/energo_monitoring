@@ -1,17 +1,28 @@
 package com.example.energo_monitoring.model.api;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class ProjectDescription {
+    @PrimaryKey
+    public int id;
+    public int dataId;
+
+    @Ignore
     private String photoBase64;
+    public String photoPath;
     private String comment;
-    private Boolean ok;
+    public boolean isOk;
 
     public ProjectDescription() {
     }
 
-    public ProjectDescription(String photoBase64, String comment, Boolean ok) {
+    public ProjectDescription(String photoBase64, String comment, boolean isOk) {
         this.photoBase64 = photoBase64;
         this.comment = comment;
-        this.ok = ok;
+        this.isOk = isOk;
     }
 
     public String getPhotoBase64() {
@@ -28,13 +39,5 @@ public class ProjectDescription {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public Boolean getOk() {
-        return ok;
-    }
-
-    public void setOk(Boolean ok) {
-        this.ok = ok;
     }
 }

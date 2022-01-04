@@ -1,11 +1,25 @@
 package com.example.energo_monitoring.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.energo_monitoring.model.api.DeviceInfo;
 
+@Entity
 public class DeviceTemperatureTransducer extends DeviceInfo {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    public int dataId;
+
     private String installationPlace;
     private String values;
-    private String measureType;
+    private String length;
+    private String comment;
+
+    public DeviceTemperatureTransducer() {
+        super("", 0);
+    }
 
     public DeviceTemperatureTransducer(String name, int typeId, String installationPlace, String values) {
         super(name, typeId);
@@ -29,22 +43,30 @@ public class DeviceTemperatureTransducer extends DeviceInfo {
         this.values = values;
     }
 
-    public String getMeasureType() {
-        return measureType;
+    public String getLength() {
+        return length;
     }
 
-    public void setMeasureType(String measureType) {
-        this.measureType = measureType;
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override
     public int getFilledState() {
         if(!(installationPlace == null || installationPlace.isEmpty())
-                && !(measureType == null || measureType.isEmpty())
+                && !(length == null || length.isEmpty())
                 && !(values == null || values.isEmpty()))
             return 2;
         else if(!(installationPlace == null || installationPlace.isEmpty())
-                || !(measureType == null || measureType.isEmpty())
+                || !(length == null || length.isEmpty())
                 || !(values == null || values.isEmpty()))
             return 1;
         else

@@ -12,25 +12,27 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.energo_monitoring.databinding.ActivityInspectionDeviceBinding;
+import com.example.energo_monitoring.model.DeviceCounter;
 import com.example.energo_monitoring.model.DeviceFlowTransducer;
 import com.example.energo_monitoring.model.DevicePressureTransducer;
 import com.example.energo_monitoring.model.DeviceTemperatureCounter;
 import com.example.energo_monitoring.model.DeviceTemperatureTransducer;
 import com.example.energo_monitoring.model.api.ClientDataBundle;
 import com.example.energo_monitoring.model.api.DeviceInfo;
+import com.example.energo_monitoring.model.db.ResultData;
+import com.example.energo_monitoring.model.db.ResultDataDatabase;
 import com.example.energo_monitoring.presenter.DeviceInspectionInterface;
 import com.example.energo_monitoring.presenter.DeviceInspectionPresenter;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.presenter.utilities.SharedPreferencesManager;
-import com.example.energo_monitoring.view.adapters.DeviceInspectionFragment;
 import com.example.energo_monitoring.view.adapters.DeviceInspectionTabsAdapter;
 import com.example.energo_monitoring.view.viewmodel.InspectionDeviceViewModel;
-import com.example.energo_monitoring.view.viewmodel.TemperatureCounterViewModel;
 
 import java.util.ArrayList;
 
 public class DeviceInspectionActivity extends AppCompatActivity implements DeviceInspectionInterface {
 
+    public int dataId;
     ActivityInspectionDeviceBinding binding;
     DeviceInspectionPresenter presenter;
 
@@ -40,12 +42,24 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
         binding = ActivityInspectionDeviceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        dataId = getIntent().getIntExtra("dataId", 0);
+
         ClientDataBundle clientDataBundle = SharedPreferencesManager.getClientDataBundle(this);
         ArrayList<DeviceInfo> devices = new ArrayList<>();
         devices.addAll(clientDataBundle.getDeviceTemperatureCounters());
         devices.addAll(clientDataBundle.getDeviceFlowTransducers());
         devices.addAll(clientDataBundle.getDeviceTemperatureTransducers());
         devices.addAll(clientDataBundle.getDevicePressureTransducers());
+
+        if(devices.isEmpty()) {
+            Intent intent = new Intent(getApplicationContext(),
+                    CheckLengthOfStraightLinesAreasActivity.class);
+            intent.putExtra("dataId", dataId);
+
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         presenter = new DeviceInspectionPresenter(this, devices);
         presenter.model = new ViewModelProvider(this).get(InspectionDeviceViewModel.class);
@@ -66,8 +80,12 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
 
         Button buttonContinue = findViewById(R.id.buttonContinue);
         buttonContinue.setOnClickListener((v) -> {
+            presenter.insertDataToDb(dataId);
+
             Intent intent = new Intent(getApplicationContext(),
                     CheckLengthOfStraightLinesAreasActivity.class);
+            intent.putExtra("dataId", dataId);
+
             startActivity(intent);
         });
     }
@@ -78,8 +96,8 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
     }
 
     @Override
-    public TextWatcher getLastCheckDateListener(EditText date) {
-        return presenter.getLastCheckDateTextWatcher(date);
+    public TextWatcher getLastCheckDateListener(EditText date, DeviceInfo device) {
+        return presenter.getLastCheckDateTextWatcher(date, device);
     }
 
     //    @Override

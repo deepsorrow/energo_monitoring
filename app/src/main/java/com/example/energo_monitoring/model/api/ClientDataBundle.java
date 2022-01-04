@@ -10,7 +10,11 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ClientDataBundle implements Serializable {
+    public int id;
+    public int organizationId;
+    public int clientId;
     private ClientInfo clientInfo;
+    public OrganizationInfo organizationInfo;
     private ProjectDescription project;
     private List<DeviceTemperatureCounter> deviceTemperatureCounters;
     private List<DeviceFlowTransducer> deviceFlowTransducers;

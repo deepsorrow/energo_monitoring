@@ -10,15 +10,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.energo_monitoring.databinding.ActivityTakePhotoOfSchemeKnotEnergyBinding;
 import com.example.energo_monitoring.model.api.ClientDataBundle;
+import com.example.energo_monitoring.model.api.ClientInfo;
+import com.example.energo_monitoring.model.api.ProjectDescription;
+import com.example.energo_monitoring.model.db.ResultData;
+import com.example.energo_monitoring.model.db.ResultDataDatabase;
 import com.example.energo_monitoring.presenter.utilities.LoadImageManager;
 import com.example.energo_monitoring.presenter.ProjectPhotoPresenter;
 import com.example.energo_monitoring.presenter.ServerService;
@@ -27,16 +35,23 @@ import com.example.energo_monitoring.presenter.utilities.SharedPreferencesManage
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.invoke.ConstantCallSite;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProjectPhotoActivity extends AppCompatActivity {
 
-    ActivityTakePhotoOfSchemeKnotEnergyBinding binding;
+    public int dataId;
+    public ActivityTakePhotoOfSchemeKnotEnergyBinding binding;
     ProjectPhotoPresenter presenter;
+    public Uri lastCreatedPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +59,14 @@ public class ProjectPhotoActivity extends AppCompatActivity {
         binding = ActivityTakePhotoOfSchemeKnotEnergyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ProjectPhotoPresenter presenter = new ProjectPhotoPresenter(this);
+        dataId = getIntent().getIntExtra("dataId", 0);
+
+        ProjectPhotoPresenter presenter = new ProjectPhotoPresenter(this, dataId);
         presenter.registerLaunchers(binding.photoPreview, binding.photoWasNotFoundText);
 
         binding.cardViewTakePhoto.setOnClickListener(v -> {
-            LoadImageManager.takePhoto(presenter.getTakePhotoResult());
+            lastCreatedPath = LoadImageManager.getPhotoUri(this);
+            LoadImageManager.takePhoto(this, presenter.getTakePhotoResult(), lastCreatedPath);
         });
 
         binding.cardViewLoadFromGallery.setOnClickListener(v -> {
@@ -57,11 +75,19 @@ public class ProjectPhotoActivity extends AppCompatActivity {
 
         Button buttonContinue = findViewById(R.id.buttonContinue);
         buttonContinue.setOnClickListener((v) -> {
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            BitmapDrawable drawable = (BitmapDrawable) binding.photoPreview.getDrawable();
+//            Bitmap bitmap = drawable.getBitmap();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//            byte[] bb = baos.toByteArray();
+//            String imageBase64 = Base64.encodeToString(bb, 0);
+
             Intent intent = new Intent(getApplicationContext(), GoToPlaceActivity.class);
+            intent.putExtra("dataId", dataId);
             startActivity(intent);
         });
 
-        Long selectedId = getIntent().getLongExtra("id", 0);
+        int selectedId = getIntent().getIntExtra("dataId", 0);
         ServerService.getService().getDetailedClientBundle(selectedId).enqueue(new Callback<ClientDataBundle>() {
             @Override
             public void onResponse(Call<ClientDataBundle> call, Response<ClientDataBundle> response) {
@@ -79,13 +105,15 @@ public class ProjectPhotoActivity extends AppCompatActivity {
                     constraintSet.connect(R.id.photoPreview, ConstraintSet.BOTTOM, R.id.buttonContinue, ConstraintSet.TOP, 0);
                     constraintSet.applyTo(binding.constaintLayout);
                 }
+                presenter.insertDataToDb(getApplicationContext(), response, dataId);
+
                 binding.loading.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<ClientDataBundle> call, Throwable t) {
-                Snackbar.make(binding.photoPreview, "Не удалось получить данные! Ошибка: "
-                        + t.getMessage(), 3).show();
+                Toast.makeText(getApplicationContext(),
+                        "Не удалось получить данные! Ошибка: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 binding.loading.setVisibility(View.GONE);
             }
         });

@@ -43,13 +43,15 @@ public class MainActivity extends AppCompatActivity {
         binding.clientsList.setAdapter(clientsRecyclerAdapter);
         binding.clientsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+        binding.swipeRefreshLayout.setRefreshing(true);
         binding.swipeRefreshLayout.setOnRefreshListener(() -> updateAvailableClients());
 
         updateAvailableClients();
     }
 
     public void updateAvailableClients(){
-        ServerService.getService().getAvailableClientInfo().enqueue(new Callback<List<ClientInfo>>() {
+        ServerService.getService().getAvailableClientInfo(
+                SharedPreferencesManager.getUserId(this)).enqueue(new Callback<List<ClientInfo>>() {
             @Override
             public void onResponse(Call<List<ClientInfo>> call, Response<List<ClientInfo>> response) {
                 ArrayList<ClientInfo> clients = new ArrayList<>();
@@ -69,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
                 binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        updateAvailableClients();
     }
 
     public void logout(View view) {

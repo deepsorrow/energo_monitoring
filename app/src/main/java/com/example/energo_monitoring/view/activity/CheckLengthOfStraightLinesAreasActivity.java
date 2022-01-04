@@ -34,6 +34,7 @@ public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
     CheckLengthOfStraightLinesPresenter presenter;
     private CheckLengthViewModel model;
     DeviceFlowTransducerListAdapter deviceAdapter;
+    public int dataId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,18 @@ public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
         binding = ActivityCheckLengthOfStraightLineAreasBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        dataId = getIntent().getIntExtra("dataId", dataId);
+
         ClientDataBundle dataBundle = SharedPreferencesManager.getClientDataBundle(this);
-        presenter = new CheckLengthOfStraightLinesPresenter(this, dataBundle);
+        if(dataBundle.getDeviceFlowTransducers().isEmpty()){
+            Intent intent = new Intent(getApplicationContext(), TemperatureCounterCharacteristicsActivity.class);
+            intent.putExtra("dataId", dataId);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        presenter = new CheckLengthOfStraightLinesPresenter(this, dataBundle, dataId);
 
         model = new ViewModelProvider(this).get(CheckLengthViewModel.class);
 
@@ -71,6 +82,7 @@ public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
             presenter.currentId = integer;
         };
 
+        model.getCurrentDeviceId().setValue(0);
         model.getCurrentDeviceId().observe(this, currentIdObserver);
         presenter.setViewModel(model);
 
@@ -78,6 +90,17 @@ public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
 
         binding.buttonContinue.setOnClickListener((v) -> {
             Intent intent = new Intent(getApplicationContext(), TemperatureCounterCharacteristicsActivity.class);
+            intent.putExtra("dataId", dataId);
+
+            // save current photos
+            String currentLengthBefore = binding.lengthBefore.getText().toString();
+            String currentLengthAfter = binding.lengthAfter.getText().toString();
+            presenter.saveLengths(currentLengthBefore, currentLengthAfter);
+            if(model.getCurrentDeviceId().getValue() != null)
+                presenter.saveAndSetPhotos(model.getCurrentDeviceId().getValue());
+
+            presenter.insertDataToDb(this);
+
             startActivity(intent);
         });
     }

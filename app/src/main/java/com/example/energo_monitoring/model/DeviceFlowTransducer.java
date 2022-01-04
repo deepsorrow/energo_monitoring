@@ -1,14 +1,27 @@
 package com.example.energo_monitoring.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.energo_monitoring.model.api.DeviceInfo;
 
+@Entity
 public class DeviceFlowTransducer extends DeviceInfo {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    public int dataId;
 
     private String installationPlace;
     private String manufacturer;
     private String diameter;
     private String impulseWeight;
     private String values;
+    private String comment;
+
+    public DeviceFlowTransducer() {
+        super("", 0);
+    }
 
     public DeviceFlowTransducer(String name, int typeId) {
         super(name, typeId);
@@ -60,6 +73,14 @@ public class DeviceFlowTransducer extends DeviceInfo {
 
     public void setImpulseWeight(String impulseWeight) {
         this.impulseWeight = impulseWeight;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

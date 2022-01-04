@@ -1,10 +1,24 @@
 package com.example.energo_monitoring.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.energo_monitoring.model.api.DeviceInfo;
 
+@Entity
 public class DeviceCounter extends DeviceInfo {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public int dataId;
+
     private String diameter;
     private String impulseWeight;
+
+    public DeviceCounter() {
+        super("", 0);
+    }
 
     public DeviceCounter(String name, int typeId, String diameter, String impulseWeight) {
         super(name, typeId);

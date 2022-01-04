@@ -35,9 +35,21 @@ public class SharedPreferencesManager {
         prefsEditor.commit();
     }
 
+    public static void saveUserId(Context context, int userId){
+        SharedPreferences.Editor prefsEditor =
+                context.getSharedPreferences("data", MODE_PRIVATE).edit();
+        prefsEditor.putInt("userId", userId);
+        prefsEditor.commit();
+    }
+
     public static String getUsername(Context context){
         SharedPreferences mPrefs = context.getSharedPreferences("data", MODE_PRIVATE);
         return mPrefs.getString("username", "");
+    }
+
+    public static int getUserId(Context context){
+        SharedPreferences mPrefs = context.getSharedPreferences("data", MODE_PRIVATE);
+        return mPrefs.getInt("userId", 0);
     }
 
     public static void clearUsername(Context context){

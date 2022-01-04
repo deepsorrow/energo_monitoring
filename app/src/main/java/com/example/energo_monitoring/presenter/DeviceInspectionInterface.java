@@ -15,6 +15,6 @@ public interface DeviceInspectionInterface {
 //    DeviceTemperatureCounter getDeviceTemperatureCounter(int id);
 //    DeviceTemperatureTransducer getDeviceTemperatureTransducer(int id);
     DeviceInfo getDevice(int id);
-    TextWatcher getLastCheckDateListener(EditText date);
+    TextWatcher getLastCheckDateListener(EditText date, DeviceInfo device);
     //void setDevice(DeviceInfo newDevice, int id);
 }

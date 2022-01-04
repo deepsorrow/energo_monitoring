@@ -1,35 +1,50 @@
 package com.example.energo_monitoring.presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.FileProvider;
 
 import com.example.energo_monitoring.model.DeviceFlowTransducer;
 import com.example.energo_monitoring.model.FlowTransducerCheckLengthResult;
 import com.example.energo_monitoring.model.api.ClientDataBundle;
+import com.example.energo_monitoring.model.db.ResultDataDatabase;
 import com.example.energo_monitoring.presenter.utilities.LoadImageManager;
+import com.example.energo_monitoring.presenter.utilities.PathUtil;
 import com.example.energo_monitoring.view.activity.CheckLengthOfStraightLinesAreasActivity;
 import com.example.energo_monitoring.view.adapters.FlowTransducerPhotoAdapter;
 import com.example.energo_monitoring.view.viewmodel.CheckLengthViewModel;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class CheckLengthOfStraightLinesPresenter {
 
     CheckLengthOfStraightLinesAreasActivity activity;
-    private ArrayList<FlowTransducerCheckLengthResult> results;
-    private FlowTransducerPhotoAdapter photosAdapter;
+    private final ArrayList<FlowTransducerCheckLengthResult> results;
+    private final FlowTransducerPhotoAdapter photosAdapter;
     public ArrayList<Bitmap> photos;
     public int currentId;
     ActivityResultLauncher<Intent> takePhotoLauncher;
     public ArrayList<DeviceFlowTransducer> devices;
     CheckLengthViewModel model;
+    public Uri lastCreatedPath;
 
     public CheckLengthOfStraightLinesPresenter(CheckLengthOfStraightLinesAreasActivity activity,
-                                               ClientDataBundle dataBundle) {
+                                               ClientDataBundle dataBundle, int dataId) {
         this.activity = activity;
         devices = new ArrayList<>(dataBundle.getDeviceFlowTransducers());
 
@@ -38,17 +53,27 @@ public class CheckLengthOfStraightLinesPresenter {
         initPhotos();
 
         results = new ArrayList<>();
-        for(DeviceFlowTransducer device : devices){
-            results.add(new FlowTransducerCheckLengthResult(device));
+        for(int i = 0; i < devices.size(); ++i){
+            results.add(new FlowTransducerCheckLengthResult(i, devices.get(i), dataId));
         }
 
         takePhotoLauncher = activity.registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        Bitmap thumbnail = (Bitmap) result.getData().getExtras().get("data");
-                        addPhoto(thumbnail);
-                        photosAdapter.notifyDataSetChanged();
+                        try {
+                            Bitmap photo = MediaStore.Images.Media.getBitmap(activity.getContentResolver(),
+                                    lastCreatedPath);
+
+                            results.get(model.getCurrentDeviceId().getValue()).photosString +=
+                                    lastCreatedPath + ";";
+
+                            addPhoto(photo);
+                            photosAdapter.notifyDataSetChanged();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
@@ -63,6 +88,11 @@ public class CheckLengthOfStraightLinesPresenter {
         if(!currentLength.isEmpty())
             results.get(currentId).setLengthAfter(currentLength);
         return String.valueOf(results.get(id).getLengthAfter());
+    }
+
+    public void saveLengths(String lengthBefore, String lengthAfter){
+        results.get(currentId).setLengthBefore(lengthBefore);
+        results.get(currentId).setLengthAfter(lengthAfter);
     }
 
     public void saveAndSetPhotos(int id){
@@ -84,8 +114,10 @@ public class CheckLengthOfStraightLinesPresenter {
     }
 
     public void onPhotoCardClicked(FlowTransducerPhotoAdapter.PhotoViewHolder vh){
-        if(vh.getLayoutPosition() == photos.size() - 1)
-            LoadImageManager.takePhoto(takePhotoLauncher);
+        if(vh.getLayoutPosition() == photos.size() - 1) {
+            lastCreatedPath = LoadImageManager.getPhotoUri(activity);
+            LoadImageManager.takePhoto(activity, takePhotoLauncher, lastCreatedPath);
+        }
     }
 
     public FlowTransducerPhotoAdapter getPhotosAdapter() {
@@ -118,5 +150,12 @@ public class CheckLengthOfStraightLinesPresenter {
         return results.get(id);
     }
 
-
+    public void insertDataToDb(Context context){
+        ResultDataDatabase db = ResultDataDatabase.getDatabase(context);
+        Observable.just(db)
+                .subscribeOn(Schedulers.io())
+                .subscribe((value) -> {
+                    db.resultDataDAO().insertFlowTransducerCheckLengthResults(results);
+                });
+    }
 }

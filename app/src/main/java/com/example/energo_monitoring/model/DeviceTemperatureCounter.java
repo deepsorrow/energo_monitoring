@@ -1,12 +1,25 @@
 package com.example.energo_monitoring.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.energo_monitoring.model.api.DeviceInfo;
 
+@Entity
 public class DeviceTemperatureCounter extends DeviceInfo {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    public int dataId;
 
     private String unitSystem;
     private String modification;
     private String interval;
+    private String comment;
+
+    public DeviceTemperatureCounter() {
+        super("", 0);
+    }
 
     public DeviceTemperatureCounter(String name, int typeId) {
         super(name, typeId);
@@ -42,6 +55,14 @@ public class DeviceTemperatureCounter extends DeviceInfo {
 
     public void setInterval(String interval) {
         this.interval = interval;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

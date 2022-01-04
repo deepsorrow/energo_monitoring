@@ -71,7 +71,7 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
         ClientsRecycleViewHolder vh = new ClientsRecycleViewHolder(view);
         view.setOnClickListener((v) -> {
             Intent intent = new Intent(mainPresenter.getContext(), ProjectPhotoActivity.class);
-            intent.putExtra("id", clients.get(vh.getAdapterPosition()).getId());
+            intent.putExtra("dataId", clients.get(vh.getAdapterPosition()).dataId);
 
             mainPresenter.getContext().startActivity(intent);
         });

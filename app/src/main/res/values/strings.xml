@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">energo_monitoring</string>
+    <string name="app_name">Энергомониторинг</string>
     <string name="takePhotoScheme">Прикрепите фотографию схемы УУТЭ из проекта</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -21,30 +21,31 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp">
 
-        <TextView
-            android:id="@+id/deviceName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{device.deviceName + ` №` + device.deviceNumber}"
-            tools:text="ТТ-9"
-            android:textSize="@dimen/_17ssp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginStart="@dimen/_5sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/deviceName"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@{device.deviceName + ` №` + device.deviceNumber}"-->
+<!--            tools:text="ТТ-9"-->
+<!--            android:textSize="@dimen/_17ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textAlignment="center"-->
+<!--            android:layout_marginStart="@dimen/_5sdp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/deviceType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Преобразователь температуры"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_15ssp"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/deviceName"
-            app:layout_constraintStart_toStartOf="@id/deviceName"
-            app:layout_constraintTop_toBottomOf="@id/deviceName" />
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:id="@+id/deviceNumberLayout"-->
@@ -65,18 +66,55 @@
 
 <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-        <ToggleButton
-            android:id="@+id/deviceModelNumberMatch"
-            android:layout_width="0dp"
+<!--        <ToggleButton-->
+<!--            android:id="@+id/deviceModelNumberMatch"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/devicenumber_and_model_match_background"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textOff="Номер и модель не соответствуют"-->
+<!--            android:textOn="Номер и модель соответствуют"-->
+<!--            android:layout_marginTop="@dimen/_5sdp"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/deviceName"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/deviceType" />-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/deviceNameLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/devicenumber_and_model_match_background"
-            android:textColor="@color/white"
-            android:textOff="Номер и модель не соответствуют"
-            android:textOn="Номер и модель соответствуют"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:layout_constraintEnd_toEndOf="@+id/deviceName"
+            android:hint="Наименование модели"
+            android:layout_marginTop="@dimen/_15sdp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deviceType" />
+            app:layout_constraintTop_toBottomOf="@id/deviceType">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/deviceName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{device.deviceName}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/deviceNumberLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Номер модели"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceNameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/deviceNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{device.deviceNumber}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/installationPlace"
@@ -86,7 +124,7 @@
             android:hint="Место установки"
             android:layout_marginTop="@dimen/_5sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deviceModelNumberMatch">
+            app:layout_constraintTop_toBottomOf="@id/deviceNumberLayout">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/installationPlaceSpinner"
@@ -97,20 +135,19 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/measureTypeLayout"
+            android:id="@+id/lengthLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Тип измерения"
+            android:hint="Длина"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/installationPlace">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/measureType"
+                android:id="@+id/length"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@{device.measureType}"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -122,7 +159,7 @@
             android:hint="Дата последней поверки"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/measureTypeLayout">
+            app:layout_constraintTop_toBottomOf="@id/lengthLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/lastCheckDate"
@@ -134,7 +171,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/values"
+            android:id="@+id/valuesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Показания на момент допуска"
@@ -143,6 +180,7 @@
             app:layout_constraintTop_toBottomOf="@id/lastCheckDateLayout">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@id/values"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -150,15 +188,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/comment"
+            android:id="@+id/commentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Примечания"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/values">
+            app:layout_constraintTop_toBottomOf="@id/valuesLayout">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />

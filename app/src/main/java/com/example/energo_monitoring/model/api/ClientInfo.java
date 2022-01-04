@@ -1,9 +1,18 @@
 package com.example.energo_monitoring.model.api;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class ClientInfo implements Serializable {
-    private Long id;
+
+    @PrimaryKey
+    public int id;
+
+    public int dataId;
     private String agreementNumber;
     private String addressUUTE;
     private String name;
@@ -11,6 +20,9 @@ public class ClientInfo implements Serializable {
     private String phoneNumber;
     private String email;
     private Boolean hasDebt;
+
+    public ClientInfo() {
+    }
 
     public ClientInfo(String agreementNumber, String addressUUTE, String name, String representativeName, String phoneNumber, String email) {
         this.agreementNumber = agreementNumber;
@@ -69,7 +81,15 @@ public class ClientInfo implements Serializable {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
+    public int getdataId() {
+        return dataId;
+    }
+
+    public Boolean getHasDebt() {
+        return hasDebt;
+    }
+
+    public void setHasDebt(Boolean hasDebt) {
+        this.hasDebt = hasDebt;
     }
 }

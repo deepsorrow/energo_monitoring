@@ -50,40 +50,40 @@ public class DeviceInspectionAdapter extends RecyclerView.Adapter<DeviceInspecti
 
             deviceName = itemView.findViewById(R.id.deviceName);
             EditText lastCheckDate = itemView.findViewById(R.id.lastCheckDate);
-            lastCheckDate.addTextChangedListener(presenter.getLastCheckDateTextWatcher(lastCheckDate));
+            //lastCheckDate.addTextChangedListener(presenter.getLastCheckDateTextWatcher(lastCheckDate));
         }
 
         public void setData(DeviceInfo device){
-            deviceName.setText(device.getName() + " №" + device.getDeviceNumber());
-            switch (device.getTypeId()) {
-                case 1:
-                    initSpinner(Arrays.asList("Отопление", "ГВС", "Пар", "Вентиляция"), R.id.unitSystemSpinner);
-                    break;
-                case 2:
-                    initSpinner(Arrays.asList("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner);
-                    initSpinner(Arrays.asList("Взлет", "Теплоком", "Термотроник"), R.id.manufacturerSpinner);
-                    EditText diameter = itemView.findViewById(R.id.diameter);
-
-                    DeviceFlowTransducer deviceFlowTransducer = (DeviceFlowTransducer) device;
-                    diameter.setText(deviceFlowTransducer.getDiameter());
-                    break;
-                case 3:
-                    initSpinner(Arrays.asList("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner);
-                    break;
-                case 4:
-                    initSpinner(Arrays.asList("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner);
-                    initSpinner(Arrays.asList("НПК ВИП", "Тепловодохран"), R.id.manufacturerSpinner);
-                    break;
-            }
+//            deviceName.setText(device.getName() + " №" + device.getDeviceNumber());
+//            switch (device.getTypeId()) {
+//                case 1:
+//                    initSpinner(Arrays.asList("Отопление", "ГВС", "Пар", "Вентиляция"), R.id.unitSystemSpinner);
+//                    break;
+//                case 2:
+//                    initSpinner(Arrays.asList("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner);
+//                    initSpinner(Arrays.asList("Взлет", "Теплоком", "Термотроник"), R.id.manufacturerSpinner);
+//                    EditText diameter = itemView.findViewById(R.id.diameter);
+//
+//                    DeviceFlowTransducer deviceFlowTransducer = (DeviceFlowTransducer) device;
+//                    diameter.setText(deviceFlowTransducer.getDiameter());
+//                    break;
+//                case 3:
+//                    initSpinner(Arrays.asList("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner);
+//                    break;
+//                case 4:
+//                    initSpinner(Arrays.asList("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner);
+//                    initSpinner(Arrays.asList("НПК ВИП", "Тепловодохран"), R.id.manufacturerSpinner);
+//                    break;
+//            }
         }
 
         public void initSpinner(List<String> values, int spinnerId){
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(presenter.getContext(),
-                    R.layout.list_item_spinner, values);
-
-            AutoCompleteTextView dropdownButton = itemView.findViewById(spinnerId);
-            if(dropdownButton != null)
-                dropdownButton.setAdapter(adapter);
+//            ArrayAdapter<String> adapter = new ArrayAdapter<>(presenter.getContext(),
+//                    R.layout.list_item_spinner, values);
+//
+//            AutoCompleteTextView dropdownButton = itemView.findViewById(spinnerId);
+//            if(dropdownButton != null)
+//                dropdownButton.setAdapter(adapter);
         }
     }
 
@@ -101,7 +101,7 @@ public class DeviceInspectionAdapter extends RecyclerView.Adapter<DeviceInspecti
                 break;
             case 2:
                 newView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.device_card_flow_transducer2, parent, false);
+                        .inflate(R.layout.device_card_flow_transducer, parent, false);
                 break;
             case 3:
                 newView = LayoutInflater.from(parent.getContext())

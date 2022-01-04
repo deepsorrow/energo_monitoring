@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 binding.loading.setVisibility(View.GONE);
                 if (loginResult.isSuccess())
-                    updateUiWithUser(loginResult.getUser().getName());
+                    updateUiWithUser(loginResult.getUser().getName(), loginResult.getUser().getId());
                 else
                     showLoginFailed(loginResult.getError());
             }
@@ -99,8 +99,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUiWithUser(String username) {
+    private void updateUiWithUser(String username, int userId) {
         SharedPreferencesManager.saveUsername(this, username);
+        SharedPreferencesManager.saveUserId(this, userId);
 
         startMainActivity();
     }
@@ -114,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showLoginFailed(String errorString) {
-        Snackbar.make(binding.login, "Неверный логин и/или пароль!" + errorString,
+        Snackbar.make(binding.login, errorString,
                 3000).show();
     }
 }

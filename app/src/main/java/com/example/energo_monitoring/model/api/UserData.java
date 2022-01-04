@@ -2,7 +2,7 @@ package com.example.energo_monitoring.model.api;
 
 public class UserData {
 
-    private Long id;
+    private int id;
 
     private String login;
     private String password;
@@ -32,11 +32,11 @@ public class UserData {
         this.password = password;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

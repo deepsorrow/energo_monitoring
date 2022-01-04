@@ -47,7 +47,7 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         android:padding="@dimen/_1sdp"
-        android:background="@drawable/border_black_1px"
+        android:background="@drawable/border"
         app:layout_constraintBottom_toTopOf="@id/cardViewTakePhoto"
         app:layout_constraintEnd_toEndOf="@id/photoWasNotFoundText"
         app:layout_constraintStart_toStartOf="@+id/photoWasNotFoundText"
