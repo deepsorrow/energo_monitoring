@@ -3,7 +3,7 @@
     <data>
         <variable
             name="device"
-            type="com.example.energo_monitoring.model.DeviceTemperatureCounter" />
+            type="com.example.energo_monitoring.data.devices.DeviceTemperatureCounter" />
     </data>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

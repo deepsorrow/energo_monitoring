@@ -4,7 +4,7 @@
     <data>
         <variable
             name="device"
-            type="com.example.energo_monitoring.model.api.DeviceInfo" />
+            type="com.example.energo_monitoring.data.api.DeviceInfo" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
