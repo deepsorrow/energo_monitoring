@@ -1,4 +1,4 @@
-package com.example.energo_monitoring.presentation.presenters;
+package com.example.energo_monitoring.data.api;
 
 import com.example.energo_monitoring.data.api.ServerApi;
 import com.example.energo_monitoring.presentation.presenters.utilities.Settings;

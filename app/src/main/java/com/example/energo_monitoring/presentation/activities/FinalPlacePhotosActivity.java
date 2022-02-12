@@ -22,7 +22,7 @@ import com.example.energo_monitoring.data.db.ResultData;
 import com.example.energo_monitoring.databinding.ActivityFinalPlacePhotosBinding;
 import com.example.energo_monitoring.data.FlowTransducerCheckLengthResult;
 import com.example.db.ResultDataDatabase;
-import com.example.energo_monitoring.presentation.presenters.ServerService;
+import com.example.energo_monitoring.data.api.ServerService;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.adapters.FinalPhotosRecyclerAdapter;
 

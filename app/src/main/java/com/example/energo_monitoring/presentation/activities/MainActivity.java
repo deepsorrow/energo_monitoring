@@ -11,7 +11,7 @@ import android.view.View;
 import com.example.energo_monitoring.databinding.ActivityMainBinding;
 import com.example.energo_monitoring.data.api.ClientInfo;
 import com.example.energo_monitoring.presentation.presenters.MainPresenter;
-import com.example.energo_monitoring.presentation.presenters.ServerService;
+import com.example.energo_monitoring.data.api.ServerService;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 import com.example.energo_monitoring.presentation.login.LoginActivity;
 import com.example.energo_monitoring.presentation.adapters.ClientsRecyclerAdapter;

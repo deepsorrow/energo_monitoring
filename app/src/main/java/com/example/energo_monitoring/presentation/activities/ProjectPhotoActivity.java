@@ -15,7 +15,7 @@ import com.example.energo_monitoring.databinding.ActivityTakePhotoOfSchemeKnotEn
 import com.example.energo_monitoring.data.api.ClientDataBundle;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.presenters.ProjectPhotoPresenter;
-import com.example.energo_monitoring.presentation.presenters.ServerService;
+import com.example.energo_monitoring.data.api.ServerService;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 

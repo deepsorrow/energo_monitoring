@@ -9,7 +9,7 @@ import android.util.Patterns;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.data.AuthorizeBody;
 import com.example.energo_monitoring.data.AuthorizeResponse;
-import com.example.energo_monitoring.presentation.presenters.ServerService;
+import com.example.energo_monitoring.data.api.ServerService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
