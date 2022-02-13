@@ -3,6 +3,7 @@ package com.example.feature_create_new_data.presentation.screens.mainMenu
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +32,10 @@ fun ChecksContent(
         HorizontalPager(count = tabData.size, state = pagerState) { index ->
             when(index){
                 0 -> {
-
+                    LazyColumn {
+//                        items(){ item ->
+//                        }
+                    }
                 }
                 1 -> {
 

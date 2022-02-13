@@ -16,7 +16,7 @@ import kotlinx.coroutines.Job
 @Composable
 fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job){
     val tabData = listOf(
-        "Новые" to painterResource(id = R.drawable.ic_baseline_content_paste_go_24),
+        "Новые" to painterResource(id = R.drawable.ic_outline_circle_24),
         "Начатые" to painterResource(id = R.drawable.ic_baseline_incomplete_circle_24),
     )
     val pagerState = rememberPagerState()

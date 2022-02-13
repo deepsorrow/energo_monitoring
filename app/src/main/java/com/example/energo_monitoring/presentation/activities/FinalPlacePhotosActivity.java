@@ -126,7 +126,7 @@ public class FinalPlacePhotosActivity extends AppCompatActivity {
                                         "Завершено. Данные были успешно отправлены!",
                                         Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), TestMainActivity.class);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getApplicationContext(),

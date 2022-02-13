@@ -7,9 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-
-import com.example.energo_monitoring.databinding.ActivityMainBinding;
 import com.example.energo_monitoring.data.api.ClientInfo;
+import com.example.energo_monitoring.databinding.TestActivityMainBinding;
 import com.example.energo_monitoring.presentation.presenters.MainPresenter;
 import com.example.energo_monitoring.data.api.ServerService;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
@@ -25,15 +24,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class TestMainActivity extends AppCompatActivity {
 
     ClientsRecyclerAdapter clientsRecyclerAdapter;
-    ActivityMainBinding binding;
+    TestActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = TestActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.inspectorName.setText(SharedPreferencesManager.getUsername(this));
