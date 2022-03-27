@@ -11,9 +11,9 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.common.ClientDataBundle;
 import com.example.energo_monitoring.databinding.ActivityInspectionDeviceBinding;
-import com.example.energo_monitoring.data.api.ClientDataBundle;
-import com.example.energo_monitoring.data.api.DeviceInfo;
+import com.example.common.api.DeviceInfo;
 import com.example.energo_monitoring.presentation.presenters.DeviceInspectionInterface;
 import com.example.energo_monitoring.presentation.presenters.DeviceInspectionPresenter;
 import com.example.energo_monitoring.R;

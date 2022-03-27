@@ -18,11 +18,11 @@ import com.example.energo_monitoring.databinding.DeviceCardFlowTransducerBinding
 import com.example.energo_monitoring.databinding.DeviceCardPressureTransducerBinding;
 import com.example.energo_monitoring.databinding.DeviceCardTemperatureCounterBinding;
 import com.example.energo_monitoring.databinding.DeviceCardTemperatureTransducerBinding;
-import com.example.energo_monitoring.data.devices.DeviceFlowTransducer;
-import com.example.energo_monitoring.data.devices.DevicePressureTransducer;
-import com.example.energo_monitoring.data.devices.DeviceTemperatureCounter;
-import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer;
-import com.example.energo_monitoring.data.api.DeviceInfo;
+import com.example.common.devices.DeviceFlowTransducer;
+import com.example.common.devices.DevicePressureTransducer;
+import com.example.common.devices.DeviceTemperatureCounter;
+import com.example.common.devices.DeviceTemperatureTransducer;
+import com.example.common.api.DeviceInfo;
 import com.example.energo_monitoring.presentation.presenters.DeviceInspectionInterface;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

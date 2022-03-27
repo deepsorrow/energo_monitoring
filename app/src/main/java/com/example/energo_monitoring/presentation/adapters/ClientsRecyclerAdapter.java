@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.energo_monitoring.presentation.presenters.MainPresenter;
 import com.example.energo_monitoring.R;
-import com.example.energo_monitoring.data.api.ClientInfo;
+import com.example.common.api.ClientInfo;
 import com.example.energo_monitoring.presentation.activities.ProjectPhotoActivity;
 
 import java.util.ArrayList;

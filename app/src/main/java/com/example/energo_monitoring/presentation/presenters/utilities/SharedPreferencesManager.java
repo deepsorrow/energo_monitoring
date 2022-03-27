@@ -3,7 +3,7 @@ package com.example.energo_monitoring.presentation.presenters.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.energo_monitoring.data.api.ClientDataBundle;
+import com.example.common.ClientDataBundle;
 import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;

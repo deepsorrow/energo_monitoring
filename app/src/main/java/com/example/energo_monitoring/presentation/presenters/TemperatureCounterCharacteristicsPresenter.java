@@ -3,8 +3,8 @@ package com.example.energo_monitoring.presentation.presenters;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.energo_monitoring.data.api.ClientDataBundle;
-import com.example.energo_monitoring.data.devices.DeviceCounter;
+import com.example.common.api.ClientDataBundle;
+import com.example.common.devices.DeviceCounter;
 import com.example.energo_monitoring.data.TemperatureCounterCharacteristicsParameter;
 import com.example.energo_monitoring.data.db.OtherInfo;
 import com.example.db.ResultDataDatabase;

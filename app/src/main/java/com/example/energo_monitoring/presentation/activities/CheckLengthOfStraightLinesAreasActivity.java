@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.common.ClientDataBundle;
 import com.example.energo_monitoring.R;
-import com.example.energo_monitoring.data.api.ClientDataBundle;
 import com.example.energo_monitoring.presentation.presenters.CheckLengthOfStraightLinesPresenter;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 import com.example.energo_monitoring.presentation.adapters.DeviceFlowTransducerListAdapter;

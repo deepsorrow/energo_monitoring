@@ -18,10 +18,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.FileProvider;
 
-import com.example.energo_monitoring.data.api.ClientDataBundle;
-import com.example.energo_monitoring.data.api.ClientInfo;
-import com.example.energo_monitoring.data.api.OrganizationInfo;
-import com.example.energo_monitoring.data.api.ProjectDescription;
+import com.example.common.api.ClientDataBundle;
+import com.example.common.api.ClientInfo;
+import com.example.common.api.OrganizationInfo;
+import com.example.common.api.ProjectDescription;
 import com.example.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.activities.ProjectPhotoActivity;

@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.energo_monitoring.data.devices.DeviceCounter;
+import com.example.common.devices.DeviceCounter;
 import com.example.energo_monitoring.data.TemperatureCounterCharacteristicsParameter;
 import com.example.energo_monitoring.presentation.presenters.TemperatureCounterCharacteristicsPresenter;
 import com.example.energo_monitoring.R;

@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.energo_monitoring.data.api.ClientDataBundle;
+import com.example.common.api.ClientDataBundle;
 import com.example.energo_monitoring.presentation.presenters.TemperatureCounterCharacteristicsPresenter;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.presentation.adapters.TemperatureCounterValuesMainListAdapter;

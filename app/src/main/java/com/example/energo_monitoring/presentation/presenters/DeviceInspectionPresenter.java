@@ -6,11 +6,11 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.example.energo_monitoring.R;
-import com.example.energo_monitoring.data.devices.DeviceFlowTransducer;
-import com.example.energo_monitoring.data.devices.DevicePressureTransducer;
-import com.example.energo_monitoring.data.devices.DeviceTemperatureCounter;
-import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer;
-import com.example.energo_monitoring.data.api.DeviceInfo;
+import com.example.common.devices.DeviceFlowTransducer;
+import com.example.common.devices.DevicePressureTransducer;
+import com.example.common.devices.DeviceTemperatureCounter;
+import com.example.common.devices.DeviceTemperatureTransducer;
+import com.example.common.api.DeviceInfo;
 import com.example.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.activities.DeviceInspectionActivity;
 import com.example.energo_monitoring.presentation.DeviceInspectionFragment;

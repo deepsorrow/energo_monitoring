@@ -1,7 +1,6 @@
 package com.example.feature_settings.domain
 
 import android.content.Context
-import android.content.SharedPreferences
 
 object SharedPreferencesManager {
     fun getUsername(context: Context): String? {
@@ -25,5 +24,17 @@ object SharedPreferencesManager {
         val prefsEditor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit()
         prefsEditor.putString("username", "")
         prefsEditor.apply()
+    }
+
+    fun saveUsername(context: Context, username: String?) {
+        val prefsEditor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit()
+        prefsEditor.putString("username", username)
+        prefsEditor.commit()
+    }
+
+    fun saveUserId(context: Context, userId: Int) {
+        val prefsEditor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit()
+        prefsEditor.putInt("userId", userId)
+        prefsEditor.commit()
     }
 }

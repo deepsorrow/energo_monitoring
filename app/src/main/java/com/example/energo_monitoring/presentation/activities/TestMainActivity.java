@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.energo_monitoring.data.api.ClientInfo;
+import com.example.common.api.ClientInfo;
 import com.example.energo_monitoring.databinding.TestActivityMainBinding;
 import com.example.energo_monitoring.presentation.presenters.MainPresenter;
-import com.example.energo_monitoring.data.api.ServerService;
+import com.example.common.api.ServerService;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
-import com.example.energo_monitoring.presentation.login.LoginActivity;
+import com.example.feature_settings.login.LoginActivity;
 import com.example.energo_monitoring.presentation.adapters.ClientsRecyclerAdapter;
 import com.example.feature_create_new_data.presentation.activities.CreatingNew1Activity;
 import com.google.android.material.snackbar.Snackbar;

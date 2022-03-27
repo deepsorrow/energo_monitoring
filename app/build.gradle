@@ -37,12 +37,9 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':common')
     implementation project(path: ':feature-settings')
     implementation project(path: ':feature-create_new_data')
-
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation "androidx.fragment:fragment:1.3.5"

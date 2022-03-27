@@ -7,7 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.energo_monitoring.R;
-import com.example.energo_monitoring.data.devices.DeviceFlowTransducer;
+import com.example.common.devices.DeviceFlowTransducer;
 
 import java.util.ArrayList;
 

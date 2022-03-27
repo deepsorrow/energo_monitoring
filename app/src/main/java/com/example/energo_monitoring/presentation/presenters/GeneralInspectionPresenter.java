@@ -2,9 +2,9 @@ package com.example.energo_monitoring.presentation.presenters;
 
 import android.content.Context;
 
-import com.example.energo_monitoring.data.api.ClientInfo;
-import com.example.energo_monitoring.data.api.OrganizationInfo;
-import com.example.energo_monitoring.data.api.ProjectDescription;
+import com.example.common.api.ClientInfo;
+import com.example.common.api.OrganizationInfo;
+import com.example.common.api.ProjectDescription;
 import com.example.db.ResultDataDatabase;
 import com.example.energo_monitoring.data.db.OtherInfo;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;

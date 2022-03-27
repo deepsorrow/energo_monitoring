@@ -2,3 +2,4 @@ include ':app'
 rootProject.name = "energo_monitoring"
 include ':feature-create_new_data'
 include ':feature-settings'
+include ':common'

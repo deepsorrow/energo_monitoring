@@ -3,7 +3,7 @@ package com.example.energo_monitoring.presentation.presenters;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.example.energo_monitoring.data.api.DeviceInfo;
+import com.example.common.api.DeviceInfo;
 
 public interface DeviceInspectionInterface {
 //    DeviceFlowTransducer getDeviceFlowTransducer(int id);

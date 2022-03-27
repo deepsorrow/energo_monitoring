@@ -35,7 +35,7 @@
         </provider>
 
         <activity
-            android:name=".presentation.login.LoginActivity"
+            android:name="com.example.feature_settings.login.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
