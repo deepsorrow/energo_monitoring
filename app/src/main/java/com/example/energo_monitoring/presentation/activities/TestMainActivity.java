@@ -14,7 +14,7 @@ import com.example.energo_monitoring.data.api.ServerService;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 import com.example.energo_monitoring.presentation.login.LoginActivity;
 import com.example.energo_monitoring.presentation.adapters.ClientsRecyclerAdapter;
-import com.example.feature_create_new_data.presentation.activities.CreatingNew1Activity;
+import com.example.energo_monitoring.compose.activities.CreatingNew1Activity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;

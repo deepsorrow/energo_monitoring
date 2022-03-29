@@ -25,4 +25,7 @@ public interface ServerApi {
 
     @POST("/api/v1/sendResults")
     Call<Boolean> sendResults(@Body ResultData resultData);
+
+    @GET("/api/v1/getAllAgreements")
+    Call<List<ClientInfo>> getAllAgreements();
 }

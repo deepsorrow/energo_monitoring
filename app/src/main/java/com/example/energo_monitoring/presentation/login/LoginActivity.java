@@ -18,10 +18,11 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.energo_monitoring.compose.activities.CreatingNew1Activity;
 import com.example.energo_monitoring.databinding.ActivityLoginBinding;
 import com.example.energo_monitoring.data.AuthorizeResponse;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
-import com.example.energo_monitoring.presentation.activities.TestMainActivity;
+import com.example.energo_monitoring.presentation.activities.MainActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(!SharedPreferencesManager.getUsername(this).equals(""))
+        if (!SharedPreferencesManager.getUsername(this).equals(""))
             startMainActivity();
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
@@ -69,9 +70,13 @@ public class LoginActivity extends AppCompatActivity {
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
                 loginViewModel.loginDataChanged(binding.username.getText().toString(),
@@ -89,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         binding.login.setOnClickListener(v -> {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
 
             binding.loading.setVisibility(View.VISIBLE);
@@ -105,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
         startMainActivity();
     }
 
-    private void startMainActivity(){
-        Intent intent = new Intent(this, TestMainActivity.class);
+    private void startMainActivity() {
+        Intent intent = new Intent(this, CreatingNew1Activity.class);
         startActivity(intent);
 
         setResult(Activity.RESULT_OK);
@@ -114,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showLoginFailed(String errorString) {
-        Snackbar.make(binding.login, errorString,
-                3000).show();
+        Snackbar.make(binding.login, errorString,3000).show();
     }
 }
