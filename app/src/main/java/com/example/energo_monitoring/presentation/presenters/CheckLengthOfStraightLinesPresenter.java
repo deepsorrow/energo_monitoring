@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.energo_monitoring.data.devices.DeviceFlowTransducer;
 import com.example.energo_monitoring.data.FlowTransducerCheckLengthResult;
 import com.example.energo_monitoring.data.api.ClientDataBundle;
-import com.example.db.ResultDataDatabase;
+import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.activities.CheckLengthOfStraightLinesAreasActivity;
 import com.example.energo_monitoring.presentation.adapters.FlowTransducerPhotoAdapter;

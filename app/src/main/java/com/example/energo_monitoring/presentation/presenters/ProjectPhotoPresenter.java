@@ -22,7 +22,7 @@ import com.example.energo_monitoring.data.api.ClientDataBundle;
 import com.example.energo_monitoring.data.api.ClientInfo;
 import com.example.energo_monitoring.data.api.OrganizationInfo;
 import com.example.energo_monitoring.data.api.ProjectDescription;
-import com.example.db.ResultDataDatabase;
+import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.activities.ProjectPhotoActivity;
 

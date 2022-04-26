@@ -11,7 +11,7 @@ import com.example.energo_monitoring.data.devices.DevicePressureTransducer;
 import com.example.energo_monitoring.data.devices.DeviceTemperatureCounter;
 import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer;
 import com.example.energo_monitoring.data.api.DeviceInfo;
-import com.example.db.ResultDataDatabase;
+import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.activities.DeviceInspectionActivity;
 import com.example.energo_monitoring.presentation.DeviceInspectionFragment;
 import com.example.energo_monitoring.presentation.viewmodel.InspectionDeviceViewModel;

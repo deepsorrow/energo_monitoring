@@ -1,17 +1,12 @@
 package com.example.energo_monitoring.compose.viewmodels
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.energo_monitoring.compose.NewClientInfo
-import com.example.energo_monitoring.compose.repo.Repository
-import com.example.energo_monitoring.data.api.ServerService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.energo_monitoring.compose.domain.db.Repository
+import com.example.energo_monitoring.data.api.ClientInfo
 
 class SyncViewModel : ViewModel() {
-
+    val checks: List<ClientInfo> = emptyList()
     fun isUpToDate(): Boolean {
         return true
     }

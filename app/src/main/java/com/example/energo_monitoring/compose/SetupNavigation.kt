@@ -6,8 +6,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.energo_monitoring.compose.DrawerScreens
+import com.example.energo_monitoring.compose.navigation.createNewNavGraph
+import com.example.energo_monitoring.compose.navigation.drawerNavGraph
 import com.example.energo_monitoring.compose.screens.drawer.Drawer
 import com.example.energo_monitoring.compose.screens.mainMenu.ChecksScreen
 import com.example.energo_monitoring.compose.screens.syncScreen.SyncScreen
@@ -27,18 +30,8 @@ fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val openDrawer = {
-        scope.launch {
-            drawerState.open()
-        }
-    }
-
-    val closeDrawer = {
-        scope.launch {
-            drawerState.close()
-        }
-    }
-
+    val openDrawer = { scope.launch { drawerState.open() } }
+    val closeDrawer = { scope.launch { drawerState.close() } }
     ModalDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
@@ -53,15 +46,20 @@ fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
     ) {
         NavHost(
             navController = navController,
-            startDestination = DrawerScreens.Checks.route
+            startDestination = DrawerScreens.Checks.route,
+            route = "drawer_route"
         ) {
-            composable(DrawerScreens.Checks.route) {
-                ChecksScreen(viewModel = checksViewModel, openDrawer = openDrawer)
-            }
-
-            composable(DrawerScreens.Sync.route) {
-                SyncScreen(viewModel = syncViewModel, openDrawer = openDrawer)
-            }
+            drawerNavGraph(
+                checksViewModel = checksViewModel,
+                syncViewModel = syncViewModel,
+                openDrawer = openDrawer,
+                navController = navController
+            )
+            createNewNavGraph(
+                navController = navController,
+                clientInfoViewModel = clientInfoViewModel,
+                openDrawer = openDrawer
+            )
         }
     }
 }

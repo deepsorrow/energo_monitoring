@@ -24,6 +24,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Energo_monitoring"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".presentation.activities.SplashActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -36,7 +46,6 @@
 
         <activity
             android:name=".presentation.login.LoginActivity"
-            android:exported="true"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -66,7 +75,7 @@
         <activity
             android:name=".presentation.activities.TestMainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".compose.activities.CreatingNew1Activity"
             android:launchMode="singleTop"

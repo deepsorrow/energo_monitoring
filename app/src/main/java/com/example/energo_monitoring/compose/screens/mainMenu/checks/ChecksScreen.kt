@@ -1,7 +1,10 @@
 package com.example.energo_monitoring.compose.screens.mainMenu
 
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.energo_monitoring.R
@@ -13,20 +16,27 @@ import kotlinx.coroutines.Job
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job){
+fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job, openCreateNewScreen: () -> Unit){
     val tabData = listOf(
-        "Новые" to painterResource(id = R.drawable.ic_outline_circle_24),
+        "Новые" to painterResource(id = R.drawable.ic_paste),
         "Начатые" to painterResource(id = R.drawable.ic_baseline_incomplete_circle_24),
     )
     val pagerState = rememberPagerState()
 
     Scaffold(
-        topBar = { TopBar(
-            title = "Проверки",
-            onNavigationIconClicked = { openDrawer() }
-        ) },
+        topBar = {
+            TopBar(
+                title = "Проверки",
+                onNavigationIconClicked = { openDrawer() }
+            )
+        },
         content = {
-            ChecksContent(viewModel = viewModel, tabData = tabData, pagerState = pagerState)
+            ChecksContent(
+                viewModel = viewModel,
+                tabData = tabData,
+                pagerState = pagerState,
+                openCreateNewScreen = openCreateNewScreen
+            )
         },
         bottomBar = {
             CheckTabs(viewModel = viewModel, tabData = tabData, pagerState = pagerState)
@@ -37,5 +47,5 @@ fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job){
 @Preview
 @Composable
 fun PreviewChecksScreen(){
-    ChecksScreen(viewModel = ChecksViewModel(), { Job(null) })
+    ChecksScreen(viewModel = ChecksViewModel(), { Job(null) }, {})
 }

@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_baseline_location_city_24"
+            android:drawableLeft="@drawable/ic_city"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/agreementNumberValue"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_baseline_place_24"
+            android:drawableLeft="@drawable/ic_place"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@id/clientNameText"
             app:layout_constraintTop_toBottomOf="@+id/clientNameText" />
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_7sdp"
-            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:drawableLeft="@drawable/ic_person"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@id/knotAddressText"
             app:layout_constraintTop_toBottomOf="@id/knotAddressValue" />
@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+            android:drawableLeft="@drawable/ic_phone"
             app:layout_constraintLeft_toLeftOf="@id/representativeText"
             app:layout_constraintTop_toBottomOf="@id/representativeValue" />
 
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_6sdp"
-            android:drawableLeft="@drawable/ic_baseline_email_24"
+            android:drawableLeft="@drawable/ic_email"
             app:layout_constraintLeft_toLeftOf="@id/phoneText"
             app:layout_constraintStart_toEndOf="@+id/phoneValue"
             app:layout_constraintTop_toTopOf="@+id/phoneValue" />
