@@ -1,9 +1,7 @@
 package com.example.energo_monitoring.compose.screens.mainMenu
 
 import android.content.Intent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
@@ -21,6 +19,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.compose.screens.mainMenu.checks.CheckItem
@@ -50,7 +49,6 @@ fun ChecksContent(
         intent.putExtra("dataId", dataId)
         context.startActivity(intent)
     }
-
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -58,27 +56,31 @@ fun ChecksContent(
         HorizontalPager(count = tabData.size, state = pagerState) { index ->
             when(index){
                 0 -> {
-                    Scaffold(content = {
-                        LazyColumn {
-                            items(items = clients) { item ->
-                                CheckItem(clientInfo = item, onClick = { onClientSelected(it) })
-                            }
-                        }
-                    }, floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = { openCreateNewScreen() },
-                            backgroundColor = Color(74, 20, 140, 255),
-                            content = {
-                                Row {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                                        contentDescription = null,
-                                        tint = Color.White
-                                    )
+                    Scaffold(
+                        content = {
+                            LazyColumn {
+                                items(items = clients) { item ->
+                                    CheckItem(clientInfo = item, onClick = { onClientSelected(it) })
                                 }
                             }
-                        )
-                    })
+                        },
+                        floatingActionButton = {
+                            FloatingActionButton(
+                                modifier = Modifier.padding(bottom = 70.dp),
+                                onClick = { openCreateNewScreen() },
+                                backgroundColor = Color(74, 20, 140, 255),
+                                content = {
+                                    Row {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                                            contentDescription = "",
+                                            tint = Color.White
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    )
 
                 }
                 1 -> {
