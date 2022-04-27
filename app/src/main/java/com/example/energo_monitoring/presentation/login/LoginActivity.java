@@ -22,7 +22,6 @@ import com.example.energo_monitoring.compose.activities.CreatingNew1Activity;
 import com.example.energo_monitoring.databinding.ActivityLoginBinding;
 import com.example.energo_monitoring.data.AuthorizeResponse;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
-import com.example.energo_monitoring.presentation.activities.MainActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity {
