@@ -28,7 +28,11 @@ fun NavGraphBuilder.createNewNavGraph(
         composable(
             route = "create_new_2"
         ) {
-            CreatingNew2Screen(openDrawer = openDrawer)
+            CreatingNew2Screen(
+                viewModel = clientInfoViewModel,
+                openDrawer = openDrawer,
+                goToNextScreen = { }
+            )
         }
     }
 }

@@ -20,9 +20,6 @@ import com.example.energo_monitoring.R
 
 @Composable
 fun CreatingNew1Content(viewModel: ClientInfoViewModel, goToNextScreen: () -> Unit) {
-
-    val context = LocalContext.current
-
     Column(
         modifier = Modifier
             .fillMaxSize()

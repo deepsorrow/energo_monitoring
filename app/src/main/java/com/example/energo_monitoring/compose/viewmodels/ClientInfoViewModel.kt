@@ -7,14 +7,17 @@ import com.example.energo_monitoring.compose.ContractInfo
 import com.example.energo_monitoring.compose.screens.creatingNew1.ServingOrganization
 
 class ClientInfoViewModel : ViewModel() {
-    var agreementNumber: MutableState<ContractInfo?> = mutableStateOf(null)
-    var name: MutableState<String> = mutableStateOf("")
-    var addressUUTE: MutableState<String> = mutableStateOf("")
-    var representativeName: MutableState<String> = mutableStateOf("")
-    var phoneNumber: MutableState<String> = mutableStateOf("")
-    var email: MutableState<String> = mutableStateOf("")
-    var servingOrganization: MutableState<ServingOrganization?> = mutableStateOf(null)
-    var boolean: MutableState<Boolean> = mutableStateOf(false)
+    val agreementNumber: MutableState<ContractInfo?> = mutableStateOf(null)
+    val name: MutableState<String> = mutableStateOf("")
+    val addressUUTE: MutableState<String> = mutableStateOf("")
+    val representativeName: MutableState<String> = mutableStateOf("")
+    val phoneNumber: MutableState<String> = mutableStateOf("")
+    val email: MutableState<String> = mutableStateOf("")
+    val servingOrganization: MutableState<ServingOrganization?> = mutableStateOf(null)
+    val boolean: MutableState<Boolean> = mutableStateOf(false)
+
+    val commentary: MutableState<String> = mutableStateOf("")
+    val matchesConditions: MutableState<Boolean> = mutableStateOf(true)
 
     var agreementFound: Boolean = false
 
