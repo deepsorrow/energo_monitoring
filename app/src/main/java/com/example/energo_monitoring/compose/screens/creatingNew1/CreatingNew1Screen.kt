@@ -10,7 +10,8 @@ import kotlinx.coroutines.Job
 @Composable
 fun CreatingNew1Screen(
     viewModel: ClientInfoViewModel,
-    openDrawer: () -> Job
+    openDrawer: () -> Job,
+    goToNextScreen: () -> Unit
 ){
     Scaffold(
         topBar = {
@@ -20,7 +21,7 @@ fun CreatingNew1Screen(
             )
         },
         content = {
-            CreatingNew1Content(viewModel = viewModel)
+            CreatingNew1Content(viewModel = viewModel, goToNextScreen = goToNextScreen)
         }
     )
 }

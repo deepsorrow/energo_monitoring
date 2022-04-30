@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,7 +17,10 @@ import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import com.example.energo_monitoring.R
 
 @Composable
-fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
+fun CreatingNew1Content(viewModel: ClientInfoViewModel, goToNextScreen: () -> Unit) {
+
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +92,7 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
         }
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = goToNextScreen,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp)
@@ -101,5 +105,5 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
 @Preview
 @Composable
 fun PreviewMainMenuContent() {
-    CreatingNew1Content(ClientInfoViewModel())
+    CreatingNew1Content(ClientInfoViewModel(), {})
 }
