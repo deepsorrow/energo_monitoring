@@ -44,7 +44,7 @@ public class FinalPhotosRecyclerAdapter extends RecyclerView.Adapter<FinalPhotos
         this.takePhotoLauncher = launcher;
     }
 
-    public class PhotoViewHolder extends RecyclerView.ViewHolder{
+    public static class PhotoViewHolder extends RecyclerView.ViewHolder{
 
         public PhotoViewHolder(@NonNull View itemView) {
             super(itemView);

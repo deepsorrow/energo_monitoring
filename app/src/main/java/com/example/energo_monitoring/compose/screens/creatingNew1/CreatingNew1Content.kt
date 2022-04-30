@@ -7,11 +7,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +36,7 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel, goToNextScreen: () -> Un
         AgreementNumTextField(
             placeholder = "Номер договора абонента",
             viewModel.agreementNumber.value,
-            viewModel.availableClientInfos
+            viewModel.availableClientsInfo
         ) {
             viewModel.agreementNumber.value = it
 
@@ -140,5 +137,5 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel, goToNextScreen: () -> Un
 @Preview
 @Composable
 fun PreviewMainMenuContent() {
-    CreatingNew1Content(ClientInfoViewModel(), {})
+    CreatingNew1Content(ClientInfoViewModel()) {}
 }

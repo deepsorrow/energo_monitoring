@@ -1,33 +1,23 @@
-package com.example.energo_monitoring.compose.screens.mainMenu
+package com.example.energo_monitoring.compose.screens.mainMenu.checks
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.R
-import com.example.energo_monitoring.compose.screens.mainMenu.checks.CheckItem
-import com.example.energo_monitoring.compose.screens.mainMenu.checks.CheckItemInProgress
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
+import com.example.energo_monitoring.data.api.ClientInfo
 import com.example.energo_monitoring.data.db.ResultDataDatabase
 import com.example.energo_monitoring.presentation.activities.*
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -35,27 +25,18 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @Composable
 fun ChecksContent(
     viewModel: ChecksViewModel,
-    tabData: List<Pair<String, Painter>>,
-    pagerState: PagerState,
     openCreateNewScreen: () -> Unit,
-){
+) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.requestClientsInfo(context)
     }
 
     val clients by viewModel.clients.collectAsState()
-    val checksInProgress by viewModel.clientsInProgress.collectAsState()
-
     val onClientSelected = { dataId: Int ->
-        val intent = Intent(context, Step1_ProjectPhotoActivity::class.java)
-        intent.putExtra("dataId", dataId)
-        context.startActivity(intent)
-    }
-    val onCheckInProgressOpen = { dataId: Int ->
-        val screenToOpen =
-            ResultDataDatabase.getDatabase(context).resultDataDAO().getOtherInfo(dataId).currentScreen
-        val activity = when(screenToOpen){
+        val screenToOpen = ResultDataDatabase.getDatabase(context).resultDataDAO()
+            .getOtherInfo(dataId).currentScreen
+        val activity = when (screenToOpen) {
             1 -> Step1_ProjectPhotoActivity::class.java
             2 -> Step2_GoToPlaceActivity::class.java
             3 -> Step3_GeneralInspectionActivity::class.java
@@ -69,6 +50,14 @@ fun ChecksContent(
         intent.putExtra("dataId", dataId)
         context.startActivity(intent)
     }
+    var isOpen by remember { mutableStateOf(false) }
+    var currentClientInfo by remember { mutableStateOf(ClientInfo()) }
+
+    AdditionalInfoDialog(
+        isOpen = isOpen,
+        onDismiss = { isOpen = !isOpen },
+        clientInfo = currentClientInfo
+    )
 
     val isRefreshing by viewModel.isRefreshing
     SwipeRefresh(
@@ -79,55 +68,38 @@ fun ChecksContent(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HorizontalPager(count = tabData.size, state = pagerState) { index ->
-                when (index) {
-                    0 -> {
-                        Scaffold(
-                            content = {
-                                LazyColumn {
-                                    items(items = clients) { item ->
-                                        CheckItem(
-                                            clientInfo = item,
-                                            onClick = { onClientSelected(it) })
-                                    }
+            Scaffold(
+                content = {
+                    LazyColumn {
+                        items(items = clients) { item ->
+                            CheckItem(
+                                clientInfo = item.clientInfo,
+                                onClick = { onClientSelected(it) },
+                                progress = item.progress,
+                                onInfoClicked = {
+                                    isOpen = true
+                                    currentClientInfo = item.clientInfo
                                 }
-                            },
-                            floatingActionButton = {
-                                FloatingActionButton(
-                                    modifier = Modifier.padding(bottom = 70.dp),
-                                    onClick = { openCreateNewScreen() },
-                                    backgroundColor = Color(74, 20, 140, 255),
-                                    content = {
-                                        Row {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                                                contentDescription = "",
-                                                tint = Color.White
-                                            )
-                                        }
-                                    }
+                            )
+                        }
+                    }
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { openCreateNewScreen() },
+                        backgroundColor = MaterialTheme.colors.primary,
+                        content = {
+                            Row {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                                    contentDescription = "",
+                                    tint = Color.White
                                 )
                             }
-                        )
-
-                    }
-                    1 -> {
-                        Scaffold(
-                            content = {
-                                LazyColumn {
-                                    items(items = checksInProgress) { item ->
-                                        CheckItemInProgress(
-                                            clientInfo = item.clientInfo,
-                                            onClick = { onCheckInProgressOpen(it) },
-                                            progress = item.progress
-                                        )
-                                    }
-                                }
-                            }
-                        )
-                    }
+                        }
+                    )
                 }
-            }
+            )
         }
     }
 }
@@ -135,14 +107,8 @@ fun ChecksContent(
 @OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
-fun ChecksContentPreview(){
+fun ChecksContentPreview() {
     ChecksContent(
-        ChecksViewModel(),
-        listOf(
-            "Проверки" to painterResource(id = R.drawable.ic_paste),
-            "Начатые" to painterResource(id = R.drawable.ic_baseline_incomplete_circle_24)
-        ),
-        PagerState(),
-        {}
-    )
+        ChecksViewModel()
+    ) {}
 }

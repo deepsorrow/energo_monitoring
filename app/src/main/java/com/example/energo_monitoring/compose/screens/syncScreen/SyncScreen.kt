@@ -40,5 +40,5 @@ fun SyncScreen(viewModel: SyncViewModel, openDrawer: () -> Job) {
 @Composable
 @Preview
 fun PreviewSyncScreen(){
-    SyncScreen(SyncViewModel(), { Job(null) })
+    SyncScreen(SyncViewModel()) { Job(null) }
 }

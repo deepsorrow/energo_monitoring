@@ -2,7 +2,6 @@ package com.example.energo_monitoring.compose.screens.creatingNew2
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -23,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.FileProvider
 import com.example.energo_monitoring.compose.screens.creatingNew1.CreatingLongTextField
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 

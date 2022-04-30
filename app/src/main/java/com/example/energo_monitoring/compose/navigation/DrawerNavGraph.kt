@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.energo_monitoring.compose.DrawerScreens
-import com.example.energo_monitoring.compose.screens.mainMenu.ChecksScreen
+import com.example.energo_monitoring.compose.screens.mainMenu.checks.ChecksScreen
 import com.example.energo_monitoring.compose.screens.syncScreen.SyncScreen
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.compose.viewmodels.SyncViewModel

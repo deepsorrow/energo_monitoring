@@ -37,7 +37,7 @@ public class DeviceInspectionAdapter extends RecyclerView.Adapter<DeviceInspecti
         this.recyclerView = recyclerView;
     }
 
-    public class InspectionDeviceViewHolder extends RecyclerView.ViewHolder{
+    public static class InspectionDeviceViewHolder extends RecyclerView.ViewHolder{
 
         TextView deviceName;
 
@@ -113,7 +113,7 @@ public class DeviceInspectionAdapter extends RecyclerView.Adapter<DeviceInspecti
 
         currentPosition += 1;
 
-        return new DeviceInspectionAdapter.InspectionDeviceViewHolder(newView);
+        return new InspectionDeviceViewHolder(newView);
     }
 
     @Override

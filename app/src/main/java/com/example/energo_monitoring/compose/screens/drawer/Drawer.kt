@@ -93,5 +93,5 @@ fun Drawer(onDestinationClicked: (String) -> Unit) {
 @Composable
 @Preview
 fun PreviewDrawer() {
-    Drawer({})
+    Drawer {}
 }

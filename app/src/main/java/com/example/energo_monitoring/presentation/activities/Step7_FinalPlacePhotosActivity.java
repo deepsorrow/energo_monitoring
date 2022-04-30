@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.energo_monitoring.R;
+import com.example.energo_monitoring.compose.activities.CreatingNew1Activity;
 import com.example.energo_monitoring.data.db.OtherInfo;
 import com.example.energo_monitoring.data.db.ResultData;
 import com.example.energo_monitoring.databinding.ActivityFinalPlacePhotosBinding;
@@ -128,7 +129,7 @@ public class Step7_FinalPlacePhotosActivity extends AppCompatActivity {
                                         "Завершено. Данные были успешно отправлены!",
                                         Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(getApplicationContext(), TestMainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), CreatingNew1Activity.class);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getApplicationContext(),

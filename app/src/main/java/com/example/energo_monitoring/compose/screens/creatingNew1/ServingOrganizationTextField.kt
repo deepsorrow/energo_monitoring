@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 
 @Entity
 data class ServingOrganization(

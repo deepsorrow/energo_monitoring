@@ -22,12 +22,11 @@ public class PathUtil {
      */
     @SuppressLint("NewApi")
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
-        final boolean needToCheckUri = Build.VERSION.SDK_INT >= 19;
         String selection = null;
         String[] selectionArgs = null;
         // Uri is different in versions after KITKAT (Android 4.4), we need to
         // deal with different Uris.
-        if (needToCheckUri && DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
+        if (DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
             if (isExternalStorageDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -35,7 +34,7 @@ public class PathUtil {
             } else if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
                 uri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                        Uri.parse("content://downloads/public_downloads"), Long.parseLong(id));
             } else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -53,14 +52,17 @@ public class PathUtil {
         }
         if ("content".equalsIgnoreCase(uri.getScheme())) {
             String[] projection = { MediaStore.Images.Media.DATA };
-            Cursor cursor = null;
+            Cursor cursor;
             try {
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
+                    String result = cursor.getString(column_index);
+                    cursor.close();
+                    return result;
                 }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
+
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();

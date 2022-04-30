@@ -149,8 +149,6 @@ public class CheckLengthOfStraightLinesPresenter {
         ResultDataDatabase db = ResultDataDatabase.getDatabase(context);
         Observable.just(db)
                 .subscribeOn(Schedulers.io())
-                .subscribe((value) -> {
-                    db.resultDataDAO().insertFlowTransducerCheckLengthResults(results);
-                });
+                .subscribe((value) -> db.resultDataDAO().insertFlowTransducerCheckLengthResults(results));
     }
 }

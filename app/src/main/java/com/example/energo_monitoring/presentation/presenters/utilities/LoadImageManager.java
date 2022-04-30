@@ -116,7 +116,7 @@ public class LoadImageManager {
     }
 
     public static String getBase64FromPath(Context context, String paths){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for(String path : paths.split(";")) {
             if(path.isEmpty())
                 continue;
@@ -129,16 +129,20 @@ public class LoadImageManager {
                 e.printStackTrace();
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            if (bitmap == null) {
+                Toast.makeText(context, "Произошла ошибка! Bitmap равен null!", Toast.LENGTH_LONG).show();
+                return "";
+            }
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            result += encoded + ";";
+            result.append(encoded).append(";");
         }
 
-        if(!result.isEmpty())
+        if(result.length() > 0)
             result.substring(0, result.length() - 1);
 
-        return result;
+        return result.toString();
     }
 
 //    public static String getFilePath(Context context, Uri contentUri){

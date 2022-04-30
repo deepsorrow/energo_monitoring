@@ -17,7 +17,7 @@ class Repository {
         }
     }
 
-//    val getAllClientInfos: List<NewClientInfo> = dao!!.getClientInfos()
+//    val getAllClientsInfo: List<NewClientInfo> = dao!!.getClientInfos()
 //
 //    fun insertClientInfo(clientInfo: NewClientInfo) {
 //        dao!!.insertClientInfo(clientInfo = clientInfo)

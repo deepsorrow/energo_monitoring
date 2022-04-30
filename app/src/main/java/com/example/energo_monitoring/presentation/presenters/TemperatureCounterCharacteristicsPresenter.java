@@ -104,11 +104,6 @@ public class TemperatureCounterCharacteristicsPresenter {
                         Gson gson = new Gson();
                         otherInfo.counterCharacteristicts = gson.toJson(parameters);
                         otherInfo.counterCharacteristictsComment = comment;
-//                        for(int i = 0; i < parameters.size(); ++i){
-//                            for(int j = 0; j < parameters.get(i).size(); ++j) {
-//                                otherInfo.counterCharacteristicts
-//                            }
-//                        }
 
                         db.resultDataDAO().insertOtherInfo(otherInfo);
 

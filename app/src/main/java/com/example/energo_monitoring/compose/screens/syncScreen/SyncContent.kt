@@ -44,7 +44,7 @@ fun SyncContent(
                 1 -> {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         val lastUpdateDate = SharedPreferencesManager
-                            .getLastClientInfosUpdateDate(LocalContext.current)
+                            .getLastClientsInfoUpdateDate(LocalContext.current)
                         if(lastUpdateDate == null || lastUpdateDate.isEmpty())
                             Text(text = "База номеров договоров еще не была загружена")
                         else

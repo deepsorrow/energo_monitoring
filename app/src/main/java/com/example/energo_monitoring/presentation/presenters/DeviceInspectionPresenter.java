@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.example.energo_monitoring.R;
-import com.example.energo_monitoring.data.db.OtherInfo;
 import com.example.energo_monitoring.data.devices.DeviceFlowTransducer;
 import com.example.energo_monitoring.data.devices.DevicePressureTransducer;
 import com.example.energo_monitoring.data.devices.DeviceTemperatureCounter;
@@ -15,7 +14,6 @@ import com.example.energo_monitoring.data.api.DeviceInfo;
 import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.activities.Step4_DeviceInspectionActivity;
 import com.example.energo_monitoring.presentation.DeviceInspectionFragment;
-import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 import com.example.energo_monitoring.presentation.viewmodel.InspectionDeviceViewModel;
 
 import java.util.ArrayList;

@@ -16,7 +16,7 @@ data class ContractInfo(
     var email: String,
     var boolean: Boolean,
 ) : IListEntry {
-    constructor(): this(0, 0, "", "", "", "", "", false) { }
+    constructor(): this(0, 0, "", "", "", "", "", false)
 
     override val listLabel: String
         get() = "${agreementNumber}\n${name}"

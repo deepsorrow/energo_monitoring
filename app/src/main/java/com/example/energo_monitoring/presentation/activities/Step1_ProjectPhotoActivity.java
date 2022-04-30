@@ -48,9 +48,7 @@ public class Step1_ProjectPhotoActivity extends AppCompatActivity {
             LoadImageManager.takePhoto(this, presenter.getTakePhotoResult(), lastCreatedPath);
         });
 
-        binding.cardViewLoadFromGallery.setOnClickListener(v -> {
-            presenter.getLoadImageManager().pickFromGallery();
-        });
+        binding.cardViewLoadFromGallery.setOnClickListener(v -> presenter.getLoadImageManager().pickFromGallery());
 
         Button buttonContinue = findViewById(R.id.buttonContinue);
         buttonContinue.setOnClickListener((v) -> {

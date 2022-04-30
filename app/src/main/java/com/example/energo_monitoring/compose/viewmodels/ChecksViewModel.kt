@@ -17,27 +17,20 @@ import javax.inject.Inject
 
 class ChecksViewModel @Inject constructor() : ViewModel(){
 
-    val clients = MutableStateFlow<List<ClientInfo>>(emptyList())
-    val clientsInProgress = MutableStateFlow<List<ClientInfoWithProgress>>(emptyList())
+    val clients = MutableStateFlow<List<ClientInfoWithProgress>>(emptyList())
     val isRefreshing = mutableStateOf(false)
 
     fun requestClientsInfo(context: Context) {
         val userId = SharedPreferencesManager.getUserId(context)
         ServerService.getService().getAvailableClientInfo(userId).enqueue(object : Callback<List<ClientInfo>> {
             override fun onResponse(call: Call<List<ClientInfo>>, response: Response<List<ClientInfo>>) {
-                val checksInProgressList = mutableListOf<ClientInfoWithProgress>()
-                val clientsList = mutableListOf<ClientInfo>()
-
+                val clientsWithProgress = mutableListOf<ClientInfoWithProgress>()
                 response.body()?.forEach {
                     val progress = getProgress(context, it.dataId)
-                    if (progress == -1) {
-                        clientsList.add(it) // прогресса нет, отображаем в "новых"
-                    } else {
-                        checksInProgressList.add(ClientInfoWithProgress(it, progress))
-                    }
+                    clientsWithProgress.add(ClientInfoWithProgress(it, progress))
                 }
-                clientsInProgress.value = checksInProgressList
-                clients.value = clientsList
+                clientsWithProgress.sortByDescending { it.progress }
+                clients.value = clientsWithProgress
                 isRefreshing.value = false
             }
 
@@ -55,7 +48,7 @@ class ChecksViewModel @Inject constructor() : ViewModel(){
 
     fun getProgress(context: Context, id: Int): Int {
         val data = ResultDataDatabase.getDatabase(context).resultDataDAO().getData(id)
-        data == null && return -1
+        data == null && return 0
         return data.otherInfo.currentScreen
     }
 }

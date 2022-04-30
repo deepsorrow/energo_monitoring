@@ -53,18 +53,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<AuthorizeResponse>() {
-            @Override
-            public void onChanged(@Nullable AuthorizeResponse loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                binding.loading.setVisibility(View.GONE);
-                if (loginResult.isSuccess())
-                    updateUiWithUser(loginResult.getUser().getName(), loginResult.getUser().getId());
-                else
-                    showLoginFailed(loginResult.getError());
+        loginViewModel.getLoginResult().observe(this, loginResult -> {
+            if (loginResult == null) {
+                return;
             }
+            binding.loading.setVisibility(View.GONE);
+            if (loginResult.isSuccess())
+                updateUiWithUser(loginResult.getUser().getName(), loginResult.getUser().getId());
+            else
+                showLoginFailed(loginResult.getError());
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {

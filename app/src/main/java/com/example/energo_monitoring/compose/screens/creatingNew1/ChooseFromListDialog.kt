@@ -42,7 +42,7 @@ fun <T : IListEntry> ChooseFromListDialog(
                         modifier = Modifier.padding(bottom = 5.dp),
                         value = searchQuery,
                         placeholder = {
-                            Row() {
+                            Row {
                                 Icon(
                                     imageVector = Icons.Filled.Search,
                                     contentDescription = "Search"

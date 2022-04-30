@@ -80,7 +80,7 @@ public class ClientInfo implements Serializable {
         this.email = email;
     }
 
-    public int getdataId() {
+    public int getDataId() {
         return dataId;
     }
 

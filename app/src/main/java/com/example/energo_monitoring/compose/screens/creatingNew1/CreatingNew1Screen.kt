@@ -3,7 +3,6 @@ package com.example.energo_monitoring.compose.screens.creatingNew1
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import com.example.energo_monitoring.compose.screens.TopBar
-import com.example.energo_monitoring.compose.screens.mainMenu.ChecksContent
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import kotlinx.coroutines.Job
 

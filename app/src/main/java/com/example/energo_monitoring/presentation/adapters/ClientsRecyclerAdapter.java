@@ -33,8 +33,8 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
         this.clients = clients;
     }
 
-    public class ClientsRecycleViewHolder extends RecyclerView.ViewHolder{
-        private View view;
+    public static class ClientsRecycleViewHolder extends RecyclerView.ViewHolder{
+        private final View view;
 
         public ClientsRecycleViewHolder(@NonNull View itemView) {
             super(itemView);

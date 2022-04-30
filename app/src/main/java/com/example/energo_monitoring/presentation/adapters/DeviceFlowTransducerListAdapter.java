@@ -27,14 +27,10 @@ public class DeviceFlowTransducerListAdapter extends RecyclerView.Adapter<Device
             super(itemView);
             binding = ListItemDeviceFlowTransducerCheckLengthBinding.bind(itemView);
 
-            Observer<Integer> currentId = integer -> {
-                binding.card.setDragged(integer.equals(getAdapterPosition()));
-            };
+            Observer<Integer> currentId = integer -> binding.card.setDragged(integer.equals(getAdapterPosition()));
             presenter.getModel().getCurrentDeviceId().observeForever(currentId);
 
-            binding.card.setOnClickListener(v -> {
-                presenter.onDeviceCardClicked(getAdapterPosition());
-            });
+            binding.card.setOnClickListener(v -> presenter.onDeviceCardClicked(getAdapterPosition()));
         }
     }
 

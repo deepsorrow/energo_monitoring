@@ -9,13 +9,13 @@ object SharedPreferencesManager {
         return mPrefs.getString("username", "")
     }
 
-    fun getLastClientInfosUpdateDate(context: Context): String? {
+    fun getLastClientsInfoUpdateDate(context: Context): String? {
         val mPrefs: SharedPreferences =
             context.getSharedPreferences("data", Context.MODE_PRIVATE)
         return mPrefs.getString("lastClientInfoUpdateDate", "")
     }
 
-    fun setLastClientInfosUpdateDate(date: String, context: Context) {
+    fun setLastClientsInfoUpdateDate(date: String, context: Context) {
         val prefsEditor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit()
         prefsEditor.putString("lastClientInfoUpdateDate", date)
         prefsEditor.apply()

@@ -6,10 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -54,6 +51,8 @@ sealed class AbstractDevice {
 
     @Composable
     open fun compose() {
+
+
         CreatingTextField(placeholder = "Номер свидетельства", certificateNum?.toString() ?: "") {
             certificateNum = it.toIntOrNull()
         }
@@ -96,7 +95,7 @@ class HeatCalculator : AbstractDevice() {
         override val nominative: String
             get() = "Тепловычислитель"
         override val genitive: String
-            get() = "Тепловычислителя"
+            get() = "тепловычислителя"
 
         override fun factory() = HeatCalculator()
     }
@@ -149,7 +148,7 @@ class FlowConverter : AbstractDevice() {
         override val nominative: String
             get() = "Преобразователь расхода"
         override val genitive: String
-            get() = "Преобразователя расхода"
+            get() = "преобразователя расхода"
 
         override fun factory() = FlowConverter()
     }
@@ -191,7 +190,7 @@ class TemperatureConverter : AbstractDevice() {
         override val nominative: String
             get() = "Преобразователь температуры"
         override val genitive: String
-            get() = "Преобразователя температуры"
+            get() = "преобразователя температуры"
 
         override fun factory() = TemperatureConverter()
     }
@@ -244,7 +243,7 @@ class PressureConverter : AbstractDevice() {
         override val nominative: String
             get() = "Преобразователь давления"
         override val genitive: String
-            get() = "Преобразователя давления"
+            get() = "преобразователя давления"
 
         override fun factory() = PressureConverter()
     }
@@ -297,7 +296,7 @@ class Counter : AbstractDevice() {
         override val nominative: String
             get() = "Счётчик"
         override val genitive: String
-            get() = "Счётчика"
+            get() = "счётчика"
 
         override fun factory() = Counter()
     }

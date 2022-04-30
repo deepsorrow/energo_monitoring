@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.compose.ContractInfo
-import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 
 @Composable
 fun AgreementNumTextField(

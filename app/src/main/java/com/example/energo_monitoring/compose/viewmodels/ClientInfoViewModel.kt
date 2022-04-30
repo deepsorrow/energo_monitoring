@@ -36,7 +36,7 @@ class ClientInfoViewModel : ViewModel() {
     var agreementFound: Boolean = false
     var modifiedByUserOnce = false
 
-    val availableClientInfos: List<ContractInfo> = listOf(
+    val availableClientsInfo: List<ContractInfo> = listOf(
         ContractInfo(0, 123120321, "Школа №13", "Адрес школы", "А", "1", "мыло 1", false),
         ContractInfo(1, 523131321, "Дет. сад №5", "Детский сад", "Б", "2", "мыло 2", false),
         ContractInfo(2, 865120321, "Школа №153", "Школа", "В", "3", "мыло 3", false)

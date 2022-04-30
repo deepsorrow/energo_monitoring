@@ -43,11 +43,11 @@ fun CreatingLongTextField(placeholder: String, value: String, onValueChanged: (S
 @Composable
 @Preview
 fun CreatingTextFieldPreview() {
-    CreatingTextField(placeholder = "Номер договора абонента", "123", {})
+    CreatingTextField(placeholder = "Номер договора абонента", "123") {}
 }
 
 @Composable
 @Preview
 fun CreatingLongTextFieldPreview() {
-    CreatingLongTextField(placeholder = "Текст", "123\nабв", {})
+    CreatingLongTextField(placeholder = "Текст", "123\nабв") {}
 }

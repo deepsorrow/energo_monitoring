@@ -27,7 +27,7 @@ public class FlowTransducerPhotoAdapter extends RecyclerView.Adapter<FlowTransdu
         this.presenter = presenter;
     }
 
-    public class PhotoViewHolder extends RecyclerView.ViewHolder{
+    public static class PhotoViewHolder extends RecyclerView.ViewHolder{
         public PhotoViewHolder(@NonNull View itemView) {
             super(itemView);
         }
