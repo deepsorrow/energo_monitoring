@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 fun CreatingNew1Screen(
     viewModel: ClientInfoViewModel,
     openDrawer: () -> Job
-){
+) {
     Scaffold(
         topBar = {
             TopBar(

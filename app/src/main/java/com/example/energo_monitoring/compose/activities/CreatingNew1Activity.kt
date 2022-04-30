@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
-import com.example.energo_monitoring.compose.screens.creatingNew1.SetupNavigation
+import com.example.energo_monitoring.compose.SetupNavigation
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import com.example.energo_monitoring.compose.viewmodels.SharedViewModel

@@ -1,7 +1,6 @@
 package com.example.energo_monitoring.compose.domain.db
 
 import android.content.Context
-import com.example.energo_monitoring.compose.NewClientInfo
 
 class Repository {
     companion object {

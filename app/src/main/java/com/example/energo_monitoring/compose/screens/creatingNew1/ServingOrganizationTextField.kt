@@ -9,15 +9,35 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.energo_monitoring.compose.ContractInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 
+@Entity
+data class ServingOrganization(
+    @PrimaryKey
+    var id: Int,
+
+    var name: String,
+    var contactName: String,
+    var contactPhone: String,
+    var address: String = "",
+
+    // Объект на обслуживании (?)
+    var obj: String = "",
+) : IListEntry {
+    constructor() : this(0, "", "", "", "", "")
+
+    override val listLabel: String
+        get() = name
+}
+
 @Composable
-fun AgreementNumTextField(
+fun ServingOrganizationTextField(
     placeholder: String,
-    initialValue: ContractInfo?,
-    available: List<ContractInfo>,
-    onValueChanged: (ContractInfo) -> Unit,
+    initialValue: ServingOrganization?,
+    available: List<ServingOrganization>,
+    onValueChanged: (ServingOrganization) -> Unit,
 ) {
     val openDialog = remember {
         mutableStateOf(false)
@@ -37,14 +57,15 @@ fun AgreementNumTextField(
         label = {
             Text(text = placeholder)
         },
-        value = value?.agreementNumber?.toString() ?: "",
-        onValueChange = {},
+        value = value?.name ?: "",
+        onValueChange = {}, // NO-OP
+        // мы меняем значения внутри диалога
         enabled = false,
     )
 
     if (openDialog.value) {
         ChooseFromListDialog(
-            title = "Выбрать номер договора",
+            title = "Выбрать обслуживающую организацию",
             list = available,
             openDialog = true,
             onCloseClicked = { openDialog.value = false },
@@ -57,8 +78,8 @@ fun AgreementNumTextField(
     }
 }
 
-@Composable
 @Preview
-fun PreviewAgreementNumTextField() {
-    AgreementNumTextField(placeholder = "Номер договора абонента", null, listOf()) {}
+@Composable
+fun PreviewServingOrganizationTextField() {
+    ServingOrganizationTextField(placeholder = "Обслуживающая организация", null, listOf()) {}
 }

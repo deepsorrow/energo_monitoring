@@ -13,8 +13,7 @@ fun NavGraphBuilder.createNewNavGraph(
     clientInfoViewModel: ClientInfoViewModel,
     openDrawer: () -> Job
 ) {
-    navigation(startDestination = "create_new_1", route = "create_new_route")
-    {
+    navigation(startDestination = "create_new_1", route = "create_new_route") {
         composable(
             route = "create_new_1"
         ) {

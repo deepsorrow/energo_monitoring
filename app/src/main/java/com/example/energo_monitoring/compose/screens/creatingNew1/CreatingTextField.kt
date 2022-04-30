@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CreatingTextField(placeholder: String, value: String, onValueChanged: (String) -> Unit) {
-
     OutlinedTextField(
             modifier = Modifier
                     .padding(bottom = 5.dp, start = 20.dp, end = 20.dp)

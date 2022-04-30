@@ -18,15 +18,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.energo_monitoring.compose.NewClientInfo
+import com.example.energo_monitoring.compose.ContractInfo
 
 @Composable
-fun ChooseFromListDialog(
+fun <T : IListEntry> ChooseFromListDialog(
     title: String,
-    list: List<NewClientInfo>,
+    list: List<T>,
     openDialog: Boolean,
     onCloseClicked: () -> Unit,
-    onConfirmClicked: (Int) -> Unit
+    onConfirmClicked: (T) -> Unit
 ) {
     if (openDialog) {
         var searchQuery by remember {
@@ -59,18 +59,17 @@ fun ChooseFromListDialog(
                             color = Color.Gray,
                             shape = RoundedCornerShape(10.dp)
                         )
-                    )
-                    {
+                    ) {
                         items(items = list) { item ->
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = if (item != list[list.size - 1]) 5.dp else 0.dp)
-                                    .clickable { onConfirmClicked(item.agreementNumber) },
+                                    .clickable { onConfirmClicked(item) },
                                 border = BorderStroke(0.1.dp, Color.Gray)
                             ) {
                                 Text(
-                                    text = "${item.agreementNumber}\n${item.name}",
+                                    text = item.listLabel,
                                     modifier = Modifier.padding(5.dp),
                                     fontSize = 18.sp
                                 )
@@ -91,9 +90,9 @@ fun PreviewDialog() {
     ChooseFromListDialog(
         title = "Выберите договор абонента",
         list = listOf(
-            NewClientInfo(0, 123120321, "Школа №3", "", "", "", "", false),
-            NewClientInfo(1, 123131321, "Школа №551", "", "", "", "", false),
-            NewClientInfo(2, 155120321, "Школа №321", "", "", "", "", false)
+            ContractInfo(0, 123120321, "Школа №3", "", "", "", "", false),
+            ContractInfo(1, 123131321, "Школа №551", "", "", "", "", false),
+            ContractInfo(2, 155120321, "Школа №321", "", "", "", "", false)
         ),
         openDialog = true,
         onCloseClicked = {},

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.energo_monitoring.compose.NewClientInfo
+import com.example.energo_monitoring.compose.ContractInfo
 
-@Database(entities = [NewClientInfo::class], version = 1)
+@Database(entities = [ContractInfo::class], version = 1)
 abstract class CreatingNewDatabase : RoomDatabase() {
 
     abstract fun dao(): CreatingNewDAO

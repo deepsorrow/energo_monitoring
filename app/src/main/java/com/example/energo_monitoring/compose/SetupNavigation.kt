@@ -1,19 +1,14 @@
-package com.example.energo_monitoring.compose.screens.creatingNew1
+package com.example.energo_monitoring.compose
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.energo_monitoring.compose.DrawerScreens
 import com.example.energo_monitoring.compose.navigation.createNewNavGraph
 import com.example.energo_monitoring.compose.navigation.drawerNavGraph
 import com.example.energo_monitoring.compose.screens.drawer.Drawer
-import com.example.energo_monitoring.compose.screens.mainMenu.ChecksScreen
-import com.example.energo_monitoring.compose.screens.syncScreen.SyncScreen
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import com.example.energo_monitoring.compose.viewmodels.SharedViewModel
