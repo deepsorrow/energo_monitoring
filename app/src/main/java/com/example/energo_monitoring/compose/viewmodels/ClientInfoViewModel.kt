@@ -1,10 +1,15 @@
 package com.example.energo_monitoring.compose.viewmodels
 
+import android.net.Uri
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.energo_monitoring.compose.ContractInfo
 import com.example.energo_monitoring.compose.screens.creatingNew1.ServingOrganization
+import com.example.energo_monitoring.compose.screens.creatingNew3.AbstractDevice
+import com.example.energo_monitoring.compose.screens.creatingNew3.IDeviceInfo
 
 class ClientInfoViewModel : ViewModel() {
     val agreementNumber: MutableState<ContractInfo?> = mutableStateOf(null)
@@ -19,8 +24,16 @@ class ClientInfoViewModel : ViewModel() {
     val commentary: MutableState<String> = mutableStateOf("")
     val matchesConditions: MutableState<Boolean> = mutableStateOf(true)
 
-    var agreementFound: Boolean = false
+    // val devices: MutableList<AbstractDevice> = mutableListOf()
+    val devices: MutableSet<AbstractDevice> = HashSet()
 
+    var deviceInQuestion: AbstractDevice? by mutableStateOf(null)
+    var deviceInfoInQuestion: IDeviceInfo<*>? by mutableStateOf(null)
+    var deviceShouldBeAdded = false
+
+    var photo: Uri? by mutableStateOf(null)
+
+    var agreementFound: Boolean = false
     var modifiedByUserOnce = false
 
     val availableClientInfos: List<ContractInfo> = listOf(

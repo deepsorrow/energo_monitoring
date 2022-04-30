@@ -6,6 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.energo_monitoring.compose.screens.creatingNew2.CreatingNew2Screen
 import com.example.energo_monitoring.compose.screens.creatingNew1.CreatingNew1Screen
+import com.example.energo_monitoring.compose.screens.creatingNew3.CreatingNew3Screen
+import com.example.energo_monitoring.compose.screens.creatingNew3.CreatingNewDeviceScreen
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import kotlinx.coroutines.Job
 
@@ -31,7 +33,27 @@ fun NavGraphBuilder.createNewNavGraph(
             CreatingNew2Screen(
                 viewModel = clientInfoViewModel,
                 openDrawer = openDrawer,
-                goToNextScreen = { }
+                goToNextScreen = { navController.navigate("create_new_3") }
+            )
+        }
+
+        composable(
+            route = "create_new_3"
+        ) {
+            CreatingNew3Screen(
+                viewModel = clientInfoViewModel,
+                openDrawer = openDrawer,
+                navController = navController,
+                goToNextScreen = { /* TODO */ }
+            )
+        }
+
+        composable(
+            route = "create_new_3_device"
+        ) {
+            CreatingNewDeviceScreen(
+                viewModel = clientInfoViewModel,
+                openDrawer = openDrawer,
             )
         }
     }
