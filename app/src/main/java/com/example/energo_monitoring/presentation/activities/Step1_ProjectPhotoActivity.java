@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.energo_monitoring.databinding.ActivityTakePhotoOfSchemeKnotEnergyBinding;
 import com.example.energo_monitoring.data.api.ClientDataBundle;
+import com.example.energo_monitoring.domain.Utils;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.presenters.ProjectPhotoPresenter;
 import com.example.energo_monitoring.data.api.ServerService;
@@ -23,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProjectPhotoActivity extends AppCompatActivity {
+public class Step1_ProjectPhotoActivity extends AppCompatActivity {
 
     public int dataId;
     public ActivityTakePhotoOfSchemeKnotEnergyBinding binding;
@@ -37,6 +38,7 @@ public class ProjectPhotoActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         dataId = getIntent().getIntExtra("dataId", 0);
+        Utils.logProgress(this, 1, dataId);
 
         ProjectPhotoPresenter presenter = new ProjectPhotoPresenter(this, dataId);
         presenter.registerLaunchers(binding.photoPreview, binding.photoWasNotFoundText);
@@ -52,14 +54,7 @@ public class ProjectPhotoActivity extends AppCompatActivity {
 
         Button buttonContinue = findViewById(R.id.buttonContinue);
         buttonContinue.setOnClickListener((v) -> {
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            BitmapDrawable drawable = (BitmapDrawable) binding.photoPreview.getDrawable();
-//            Bitmap bitmap = drawable.getBitmap();
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//            byte[] bb = baos.toByteArray();
-//            String imageBase64 = Base64.encodeToString(bb, 0);
-
-            Intent intent = new Intent(getApplicationContext(), GoToPlaceActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Step2_GoToPlaceActivity.class);
             intent.putExtra("dataId", dataId);
             startActivity(intent);
         });

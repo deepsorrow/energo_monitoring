@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.energo_monitoring.R;
+import com.example.energo_monitoring.domain.Utils;
 
-public class GoToPlaceActivity extends AppCompatActivity {
+public class Step2_GoToPlaceActivity extends AppCompatActivity {
 
     public int dataId;
 
@@ -19,9 +20,11 @@ public class GoToPlaceActivity extends AppCompatActivity {
 
         dataId = getIntent().getIntExtra("dataId", dataId);
 
+        Utils.logProgress(this, 2, dataId);
+
         Button button = findViewById(R.id.buttonContinue);
         button.setOnClickListener((v) -> {
-            Intent intent = new Intent(getApplicationContext(), GeneralInspectionActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Step3_GeneralInspectionActivity.class);
             intent.putExtra("dataId", dataId);
             startActivity(intent);
         });

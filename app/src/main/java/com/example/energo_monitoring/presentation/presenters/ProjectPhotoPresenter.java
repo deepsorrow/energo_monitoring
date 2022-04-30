@@ -22,9 +22,11 @@ import com.example.energo_monitoring.data.api.ClientDataBundle;
 import com.example.energo_monitoring.data.api.ClientInfo;
 import com.example.energo_monitoring.data.api.OrganizationInfo;
 import com.example.energo_monitoring.data.api.ProjectDescription;
+import com.example.energo_monitoring.data.db.OtherInfo;
 import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
-import com.example.energo_monitoring.presentation.activities.ProjectPhotoActivity;
+import com.example.energo_monitoring.presentation.activities.Step1_ProjectPhotoActivity;
+import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -42,10 +44,10 @@ public class ProjectPhotoPresenter {
     private ActivityResultLauncher<Intent> getPhotoFromGalleryResult;
     private ActivityResultLauncher<Intent> takePermissions;
     private LoadImageManager loadImageManager;
-    private ProjectPhotoActivity projectPhotoActivity;
+    private Step1_ProjectPhotoActivity projectPhotoActivity;
     private int dataId;
 
-    public ProjectPhotoPresenter(ProjectPhotoActivity projectPhotoActivity, int dataId) {
+    public ProjectPhotoPresenter(Step1_ProjectPhotoActivity projectPhotoActivity, int dataId) {
         this.projectPhotoActivity = projectPhotoActivity;
         this.dataId = dataId;
     }
@@ -146,7 +148,6 @@ public class ProjectPhotoPresenter {
                     ProjectDescription projectDescription = response.body().getProject();
                     projectDescription.dataId = dataId;
 
-//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     BitmapDrawable drawable = (BitmapDrawable) projectPhotoActivity.binding.photoPreview.getDrawable();
                     if(drawable != null) {
                         Bitmap bitmap = drawable.getBitmap();
@@ -169,6 +170,15 @@ public class ProjectPhotoPresenter {
                     OrganizationInfo organizationInfo = response.body().organizationInfo;
                     organizationInfo.dataId = dataId;
                     db.resultDataDAO().insertOrganizationInfo(organizationInfo);
+
+                    // Записать прогресс для восстанавления из главной страницы при необходимости
+                    OtherInfo otherInfo = db.resultDataDAO().getOtherInfo(dataId);
+                    if (otherInfo == null)
+                        otherInfo = new OtherInfo(dataId);
+                    otherInfo.projectId = projectDescription.id;
+                    otherInfo.userId = SharedPreferencesManager.getUserId(context);
+
+                    db.resultDataDAO().insertOtherInfo(otherInfo);
                 });
     }
 

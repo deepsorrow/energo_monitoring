@@ -16,7 +16,7 @@ import com.example.energo_monitoring.data.FlowTransducerCheckLengthResult;
 import com.example.energo_monitoring.data.api.ClientDataBundle;
 import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
-import com.example.energo_monitoring.presentation.activities.CheckLengthOfStraightLinesAreasActivity;
+import com.example.energo_monitoring.presentation.activities.Step5_CheckLengthOfStraightLinesAreasActivity;
 import com.example.energo_monitoring.presentation.adapters.FlowTransducerPhotoAdapter;
 import com.example.energo_monitoring.presentation.viewmodel.CheckLengthViewModel;
 
@@ -28,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CheckLengthOfStraightLinesPresenter {
 
-    CheckLengthOfStraightLinesAreasActivity activity;
+    Step5_CheckLengthOfStraightLinesAreasActivity activity;
     private final ArrayList<FlowTransducerCheckLengthResult> results;
     private final FlowTransducerPhotoAdapter photosAdapter;
     public ArrayList<Bitmap> photos;
@@ -38,7 +38,7 @@ public class CheckLengthOfStraightLinesPresenter {
     CheckLengthViewModel model;
     public Uri lastCreatedPath;
 
-    public CheckLengthOfStraightLinesPresenter(CheckLengthOfStraightLinesAreasActivity activity,
+    public CheckLengthOfStraightLinesPresenter(Step5_CheckLengthOfStraightLinesAreasActivity activity,
                                                ClientDataBundle dataBundle, int dataId) {
         this.activity = activity;
         devices = new ArrayList<>(dataBundle.getDeviceFlowTransducers());

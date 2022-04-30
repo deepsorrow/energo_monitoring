@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,14 +19,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.compose.screens.mainMenu.checks.CheckItem
+import com.example.energo_monitoring.compose.screens.mainMenu.checks.CheckItemInProgress
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
-import com.example.energo_monitoring.presentation.activities.ProjectPhotoActivity
+import com.example.energo_monitoring.data.db.ResultDataDatabase
+import com.example.energo_monitoring.presentation.activities.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -39,52 +41,91 @@ fun ChecksContent(
 ){
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
-        viewModel.getClients(context)
+        viewModel.requestClientsInfo(context)
     }
 
     val clients by viewModel.clients.collectAsState()
+    val checksInProgress by viewModel.clientsInProgress.collectAsState()
 
     val onClientSelected = { dataId: Int ->
-        val intent = Intent(context, ProjectPhotoActivity::class.java)
+        val intent = Intent(context, Step1_ProjectPhotoActivity::class.java)
         intent.putExtra("dataId", dataId)
         context.startActivity(intent)
     }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    val onCheckInProgressOpen = { dataId: Int ->
+        val screenToOpen =
+            ResultDataDatabase.getDatabase(context).resultDataDAO().getOtherInfo(dataId).currentScreen
+        val activity = when(screenToOpen){
+            1 -> Step1_ProjectPhotoActivity::class.java
+            2 -> Step2_GoToPlaceActivity::class.java
+            3 -> Step3_GeneralInspectionActivity::class.java
+            4 -> Step4_DeviceInspectionActivity::class.java
+            5 -> Step5_CheckLengthOfStraightLinesAreasActivity::class.java
+            6 -> Step6_TemperatureCounterCharacteristicsActivity::class.java
+            7 -> Step7_FinalPlacePhotosActivity::class.java
+            else -> Step1_ProjectPhotoActivity::class.java
+        }
+        val intent = Intent(context, activity)
+        intent.putExtra("dataId", dataId)
+        context.startActivity(intent)
+    }
+
+    val isRefreshing by viewModel.isRefreshing
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = { viewModel.refresh(context) },
     ) {
-        HorizontalPager(count = tabData.size, state = pagerState) { index ->
-            when(index){
-                0 -> {
-                    Scaffold(
-                        content = {
-                            LazyColumn {
-                                items(items = clients) { item ->
-                                    CheckItem(clientInfo = item, onClick = { onClientSelected(it) })
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            HorizontalPager(count = tabData.size, state = pagerState) { index ->
+                when (index) {
+                    0 -> {
+                        Scaffold(
+                            content = {
+                                LazyColumn {
+                                    items(items = clients) { item ->
+                                        CheckItem(
+                                            clientInfo = item,
+                                            onClick = { onClientSelected(it) })
+                                    }
                                 }
+                            },
+                            floatingActionButton = {
+                                FloatingActionButton(
+                                    modifier = Modifier.padding(bottom = 70.dp),
+                                    onClick = { openCreateNewScreen() },
+                                    backgroundColor = Color(74, 20, 140, 255),
+                                    content = {
+                                        Row {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                                                contentDescription = "",
+                                                tint = Color.White
+                                            )
+                                        }
+                                    }
+                                )
                             }
-                        },
-                        floatingActionButton = {
-                            FloatingActionButton(
-                                modifier = Modifier.padding(bottom = 70.dp),
-                                onClick = { openCreateNewScreen() },
-                                backgroundColor = Color(74, 20, 140, 255),
-                                content = {
-                                    Row {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                                            contentDescription = "",
-                                            tint = Color.White
+                        )
+
+                    }
+                    1 -> {
+                        Scaffold(
+                            content = {
+                                LazyColumn {
+                                    items(items = checksInProgress) { item ->
+                                        CheckItemInProgress(
+                                            clientInfo = item.clientInfo,
+                                            onClick = { onCheckInProgressOpen(it) },
+                                            progress = item.progress
                                         )
                                     }
                                 }
-                            )
-                        }
-                    )
-
-                }
-                1 -> {
-
+                            }
+                        )
+                    }
                 }
             }
         }

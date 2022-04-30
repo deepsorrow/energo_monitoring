@@ -31,6 +31,7 @@ public class GeneralInspectionPresenter {
 
                     db.resultDataDAO().deleteOtherInfo(dataId);
                     OtherInfo otherInfo = new OtherInfo(dataId, lightIsOk, sanPinIsOk, comment);
+                    otherInfo.currentScreen = 3;
                     otherInfo.clientId = clientInfo.id;
                     otherInfo.organizationId = organizationInfo.id;
                     otherInfo.projectId = projectDescription.id;

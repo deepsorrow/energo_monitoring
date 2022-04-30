@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.R;
-import com.example.energo_monitoring.presentation.activities.FinalPlacePhotosActivity;
+import com.example.energo_monitoring.presentation.activities.Step7_FinalPlacePhotosActivity;
 
 import java.util.ArrayList;
 
@@ -67,8 +67,8 @@ public class FinalPhotosRecyclerAdapter extends RecyclerView.Adapter<FinalPhotos
         CardView cardView = view.findViewById(R.id.photoCard);
         cardView.setOnClickListener(v -> {
             if(vh.getLayoutPosition() == photos.size() - 1) {
-                ((FinalPlacePhotosActivity) context).lastCreatedPath = LoadImageManager.getPhotoUri(context);
-                LoadImageManager.takePhoto(context, takePhotoLauncher, ((FinalPlacePhotosActivity) context).lastCreatedPath);
+                ((Step7_FinalPlacePhotosActivity) context).lastCreatedPath = LoadImageManager.getPhotoUri(context);
+                LoadImageManager.takePhoto(context, takePhotoLauncher, ((Step7_FinalPlacePhotosActivity) context).lastCreatedPath);
             }
         });
 

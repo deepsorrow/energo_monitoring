@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.example.energo_monitoring.databinding.ActivityInspectionDeviceBinding;
 import com.example.energo_monitoring.data.api.ClientDataBundle;
 import com.example.energo_monitoring.data.api.DeviceInfo;
+import com.example.energo_monitoring.domain.Utils;
 import com.example.energo_monitoring.presentation.presenters.DeviceInspectionInterface;
 import com.example.energo_monitoring.presentation.presenters.DeviceInspectionPresenter;
 import com.example.energo_monitoring.R;
@@ -23,7 +24,7 @@ import com.example.energo_monitoring.presentation.viewmodel.InspectionDeviceView
 
 import java.util.ArrayList;
 
-public class DeviceInspectionActivity extends AppCompatActivity implements DeviceInspectionInterface {
+public class Step4_DeviceInspectionActivity extends AppCompatActivity implements DeviceInspectionInterface {
 
     public int dataId;
     ActivityInspectionDeviceBinding binding;
@@ -36,6 +37,7 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
         setContentView(binding.getRoot());
 
         dataId = getIntent().getIntExtra("dataId", 0);
+        Utils.logProgress(this, 4, dataId);
 
         ClientDataBundle clientDataBundle = SharedPreferencesManager.getClientDataBundle(this);
         ArrayList<DeviceInfo> devices = new ArrayList<>();
@@ -46,7 +48,7 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
 
         if(devices.isEmpty()) {
             Intent intent = new Intent(getApplicationContext(),
-                    CheckLengthOfStraightLinesAreasActivity.class);
+                    Step5_CheckLengthOfStraightLinesAreasActivity.class);
             intent.putExtra("dataId", dataId);
 
             startActivity(intent);
@@ -76,7 +78,7 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
             presenter.insertDataToDb(dataId);
 
             Intent intent = new Intent(getApplicationContext(),
-                    CheckLengthOfStraightLinesAreasActivity.class);
+                    Step5_CheckLengthOfStraightLinesAreasActivity.class);
             intent.putExtra("dataId", dataId);
 
             startActivity(intent);
@@ -92,29 +94,4 @@ public class DeviceInspectionActivity extends AppCompatActivity implements Devic
     public TextWatcher getLastCheckDateListener(EditText date, DeviceInfo device) {
         return presenter.getLastCheckDateTextWatcher(date, device);
     }
-
-    //    @Override
-//    public DeviceFlowTransducer getDeviceFlowTransducer(int id) {
-//        return (DeviceFlowTransducer) presenter.devices.get(id);
-//    }
-//
-//    @Override
-//    public DevicePressureTransducer getDevicePressureTransducer(int id) {
-//        return (DevicePressureTransducer) presenter.devices.get(id);
-//    }
-//
-//    @Override
-//    public DeviceTemperatureCounter getDeviceTemperatureCounter(int id) {
-//        return (DeviceTemperatureCounter) presenter.devices.get(id);
-//    }
-//
-//    @Override
-//    public DeviceTemperatureTransducer getDeviceTemperatureTransducer(int id) {
-//        return (DeviceTemperatureTransducer) presenter.devices.get(id);
-//    }
-
-    //    @Override
-//    public void setDevice(DeviceInfo newDevice, int id) {
-//        return presenter.devices.remove(id);
-//    }
 }

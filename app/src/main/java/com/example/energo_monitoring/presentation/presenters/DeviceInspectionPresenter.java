@@ -6,14 +6,16 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.example.energo_monitoring.R;
+import com.example.energo_monitoring.data.db.OtherInfo;
 import com.example.energo_monitoring.data.devices.DeviceFlowTransducer;
 import com.example.energo_monitoring.data.devices.DevicePressureTransducer;
 import com.example.energo_monitoring.data.devices.DeviceTemperatureCounter;
 import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer;
 import com.example.energo_monitoring.data.api.DeviceInfo;
 import com.example.energo_monitoring.data.db.ResultDataDatabase;
-import com.example.energo_monitoring.presentation.activities.DeviceInspectionActivity;
+import com.example.energo_monitoring.presentation.activities.Step4_DeviceInspectionActivity;
 import com.example.energo_monitoring.presentation.DeviceInspectionFragment;
+import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 import com.example.energo_monitoring.presentation.viewmodel.InspectionDeviceViewModel;
 
 import java.util.ArrayList;
@@ -24,12 +26,12 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 public class DeviceInspectionPresenter {
-    public DeviceInspectionActivity activity;
+    public Step4_DeviceInspectionActivity activity;
     public ArrayList<DeviceInfo> devices;
     public InspectionDeviceViewModel model;
     public ArrayList<DeviceInspectionFragment> fragments;
 
-    public DeviceInspectionPresenter(DeviceInspectionActivity activity, ArrayList<DeviceInfo> devices) {
+    public DeviceInspectionPresenter(Step4_DeviceInspectionActivity activity, ArrayList<DeviceInfo> devices) {
         this.activity = activity;
         this.devices = devices;
 
@@ -158,8 +160,6 @@ public class DeviceInspectionPresenter {
                     db.resultDataDAO().insertDeviceFlowTransducers(deviceFlowTransducers);
                     db.resultDataDAO().insertDeviceTemperatureTransducers(deviceTemperatureTransducers);
                     db.resultDataDAO().insertDevicePressureTransducers(devicePressureTransducers);
-
-
                 });
     }
 }

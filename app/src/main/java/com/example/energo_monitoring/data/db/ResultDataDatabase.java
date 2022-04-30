@@ -20,16 +20,16 @@ import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer;
 
 @Database(entities = {ClientInfo.class, ProjectDescription.class, OrganizationInfo.class, DeviceCounter.class,
         DeviceFlowTransducer.class, DevicePressureTransducer.class, DeviceTemperatureCounter.class,
-        DeviceTemperatureTransducer.class, OtherInfo.class, FlowTransducerCheckLengthResult.class}, version = 15)
+        DeviceTemperatureTransducer.class, OtherInfo.class, FlowTransducerCheckLengthResult.class}, version = 16)
 public abstract class ResultDataDatabase extends RoomDatabase {
-    public static ResultDataDatabase resultDataDatabase;
+    private static ResultDataDatabase resultDataDatabase;
     public abstract ResultDataDAO resultDataDAO();
 
     public static ResultDataDatabase getDatabase(Context context){
-        if(resultDataDatabase == null)
-            return Room.databaseBuilder(context, ResultDataDatabase.class,
+        if (resultDataDatabase == null)
+            resultDataDatabase = Room.databaseBuilder(context, ResultDataDatabase.class,
                     "ResultData").fallbackToDestructiveMigration().allowMainThreadQueries().build();
-        else
-            return resultDataDatabase;
+
+        return resultDataDatabase;
     }
 }

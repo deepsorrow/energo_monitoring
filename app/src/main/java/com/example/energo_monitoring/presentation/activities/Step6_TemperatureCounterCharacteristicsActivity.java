@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.energo_monitoring.data.api.ClientDataBundle;
+import com.example.energo_monitoring.domain.Utils;
 import com.example.energo_monitoring.presentation.presenters.TemperatureCounterCharacteristicsPresenter;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.presentation.adapters.TemperatureCounterValuesMainListAdapter;
@@ -20,7 +21,7 @@ import com.example.energo_monitoring.presentation.viewmodel.TemperatureCounterVi
 import com.google.gson.Gson;
 
 
-public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity {
+public class Step6_TemperatureCounterCharacteristicsActivity extends AppCompatActivity {
 
     TemperatureCounterCharacteristicsPresenter presenter;
     TemperatureCounterValuesTabsAdapter adapterTabs;
@@ -36,6 +37,7 @@ public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity
         setContentView(binding.getRoot());
 
         dataId = getIntent().getIntExtra("dataId", dataId);
+        Utils.logProgress(this, 6, dataId);
 
         model = new ViewModelProvider(this).get(TemperatureCounterViewModel.class);
 
@@ -45,7 +47,7 @@ public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity
         ClientDataBundle clientDataBundle = gson.fromJson(json, ClientDataBundle.class);
 
         if(clientDataBundle.getDeviceCounters().size() == 0) {
-            Intent intent = new Intent(getApplicationContext(), FinalPlacePhotosActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Step7_FinalPlacePhotosActivity.class);
             intent.putExtra("dataId", dataId);
             startActivity(intent);
             finish();
@@ -59,7 +61,7 @@ public class TemperatureCounterCharacteristicsActivity extends AppCompatActivity
         presenter.setAdapters(adapterTabs, adapterParameters);
 
         binding.buttonContinue.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), FinalPlacePhotosActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Step7_FinalPlacePhotosActivity.class);
             intent.putExtra("dataId", dataId);
 
             presenter.insertDataToDb(dataId, binding.temperatureCounterComment.getText().toString());

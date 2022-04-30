@@ -23,7 +23,7 @@ import com.example.energo_monitoring.data.api.ClientInfo
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CheckItem(clientInfo: ClientInfo, onClick: (Int) -> Unit) {
+fun CheckItem(clientInfo: ClientInfo, onClick: (Int) -> Unit, extraRow: @Composable () -> Unit = {}) {
     val gradient = Brush.horizontalGradient(
         colors = listOf(
             Color.White,
@@ -33,9 +33,8 @@ fun CheckItem(clientInfo: ClientInfo, onClick: (Int) -> Unit) {
     )
     Card(
         modifier = Modifier
-            .background(gradient)
-            .height(200.dp)
-            .padding(start = 5.dp, end = 5.dp, top = 5.dp),
+            .padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp)
+            .background(gradient),
         border = BorderStroke(1.dp, Color.LightGray),
         onClick = { onClick(clientInfo.dataId) }
     ) {
@@ -53,6 +52,7 @@ fun CheckItem(clientInfo: ClientInfo, onClick: (Int) -> Unit) {
                 CheckRow(R.drawable.ic_person, "Представитель", clientInfo.representativeName)
                 CheckRow(R.drawable.ic_phone, "Телефон", clientInfo.phoneNumber)
                 CheckRow(R.drawable.ic_email, "Почта", clientInfo.email)
+                extraRow()
             }
         }
     }

@@ -49,27 +49,27 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".presentation.activities.TemperatureCounterCharacteristicsActivity"
+            android:name=".presentation.activities.Step6_TemperatureCounterCharacteristicsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".presentation.activities.FinalPlacePhotosActivity"
+            android:name=".presentation.activities.Step7_FinalPlacePhotosActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activities.CheckLengthOfStraightLinesAreasActivity"
+            android:name=".presentation.activities.Step5_CheckLengthOfStraightLinesAreasActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activities.DeviceInspectionActivity"
+            android:name=".presentation.activities.Step4_DeviceInspectionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".presentation.activities.GeneralInspectionActivity"
+            android:name=".presentation.activities.Step3_GeneralInspectionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activities.GoToPlaceActivity"
+            android:name=".presentation.activities.Step2_GoToPlaceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activities.ProjectPhotoActivity"
+            android:name=".presentation.activities.Step1_ProjectPhotoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity

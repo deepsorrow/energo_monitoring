@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.energo_monitoring.presentation.presenters.MainPresenter;
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.data.api.ClientInfo;
-import com.example.energo_monitoring.presentation.activities.ProjectPhotoActivity;
+import com.example.energo_monitoring.presentation.activities.Step1_ProjectPhotoActivity;
 
 import java.util.ArrayList;
 
@@ -70,7 +70,7 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
 
         ClientsRecycleViewHolder vh = new ClientsRecycleViewHolder(view);
         view.setOnClickListener((v) -> {
-            Intent intent = new Intent(mainPresenter.getContext(), ProjectPhotoActivity.class);
+            Intent intent = new Intent(mainPresenter.getContext(), Step1_ProjectPhotoActivity.class);
             intent.putExtra("dataId", clients.get(vh.getAdapterPosition()).dataId);
 
             mainPresenter.getContext().startActivity(intent);

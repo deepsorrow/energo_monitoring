@@ -14,6 +14,8 @@ public class OtherInfo {
     public int organizationId;
     public int projectId;
     public int userId;
+    public int completedScreens;
+    public int currentScreen;
 
     public boolean lightIsOk;
     public boolean sanPinIsOk;
@@ -31,6 +33,10 @@ public class OtherInfo {
     public String finalPhotosSealsPath;
 
     public OtherInfo() {
+    }
+
+    public OtherInfo(int dataId) {
+        this.dataId = dataId;
     }
 
     public OtherInfo(int dataId, boolean lightIsOk, boolean sanPinIsOk, String generalInspectionComment) {

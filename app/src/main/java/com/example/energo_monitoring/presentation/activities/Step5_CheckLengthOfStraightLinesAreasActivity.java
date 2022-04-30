@@ -11,13 +11,14 @@ import android.os.Bundle;
 
 import com.example.energo_monitoring.R;
 import com.example.energo_monitoring.data.api.ClientDataBundle;
+import com.example.energo_monitoring.domain.Utils;
 import com.example.energo_monitoring.presentation.presenters.CheckLengthOfStraightLinesPresenter;
 import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager;
 import com.example.energo_monitoring.presentation.adapters.DeviceFlowTransducerListAdapter;
 import com.example.energo_monitoring.databinding.ActivityCheckLengthOfStraightLineAreasBinding;
 import com.example.energo_monitoring.presentation.viewmodel.CheckLengthViewModel;
 
-public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
+public class Step5_CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
 
     ActivityCheckLengthOfStraightLineAreasBinding binding;
     CheckLengthOfStraightLinesPresenter presenter;
@@ -32,10 +33,11 @@ public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         dataId = getIntent().getIntExtra("dataId", dataId);
+        Utils.logProgress(this, 5, dataId);
 
         ClientDataBundle dataBundle = SharedPreferencesManager.getClientDataBundle(this);
         if(dataBundle.getDeviceFlowTransducers().isEmpty()){
-            Intent intent = new Intent(getApplicationContext(), TemperatureCounterCharacteristicsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Step6_TemperatureCounterCharacteristicsActivity.class);
             intent.putExtra("dataId", dataId);
             startActivity(intent);
             finish();
@@ -78,7 +80,7 @@ public class CheckLengthOfStraightLinesAreasActivity extends AppCompatActivity {
         initLists();
 
         binding.buttonContinue.setOnClickListener((v) -> {
-            Intent intent = new Intent(getApplicationContext(), TemperatureCounterCharacteristicsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Step6_TemperatureCounterCharacteristicsActivity.class);
             intent.putExtra("dataId", dataId);
 
             // save current photos

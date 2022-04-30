@@ -23,6 +23,7 @@ import com.example.energo_monitoring.databinding.ActivityFinalPlacePhotosBinding
 import com.example.energo_monitoring.data.FlowTransducerCheckLengthResult;
 import com.example.energo_monitoring.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.data.api.ServerService;
+import com.example.energo_monitoring.domain.Utils;
 import com.example.energo_monitoring.presentation.presenters.utilities.LoadImageManager;
 import com.example.energo_monitoring.presentation.adapters.FinalPhotosRecyclerAdapter;
 
@@ -35,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FinalPlacePhotosActivity extends AppCompatActivity {
+public class Step7_FinalPlacePhotosActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> takePhotoResultGeneral;
     ActivityResultLauncher<Intent> takePhotoResultDevices;
@@ -54,6 +55,7 @@ public class FinalPlacePhotosActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         dataId = getIntent().getIntExtra("dataId", dataId);
+        Utils.logProgress(this, 7, dataId);
 
         initPhotos(R.id.generalPhotoRecycler, takePhotoResultGeneral);
         initPhotos(R.id.deviceParkRecycler, takePhotoResultDevices);
