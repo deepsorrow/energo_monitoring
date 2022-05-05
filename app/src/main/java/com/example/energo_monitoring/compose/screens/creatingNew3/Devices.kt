@@ -42,17 +42,9 @@ private fun NumberField(placeholder: String, value: String, onValueChanged: (Str
     )
 }
 
-sealed class AbstractDevice {
-    var certificateNum: Int? by mutableStateOf(null)
-    var model by mutableStateOf("")
-
-    open val isValid: Boolean
-        get() = certificateNum != null && certificateNum!! > 0
-
-    @Composable
-    open fun compose() {
-
-
+@Composable
+fun ComposeCommonFields(device: AbstractDevice){
+    with (device) {
         CreatingTextField(placeholder = "Номер свидетельства", certificateNum?.toString() ?: "") {
             certificateNum = it.toIntOrNull()
         }
@@ -72,6 +64,17 @@ sealed class AbstractDevice {
     }
 }
 
+sealed class AbstractDevice {
+    var certificateNum: Int? by mutableStateOf(null)
+    var model by mutableStateOf("")
+
+    open val isValid: Boolean
+        get() = certificateNum != null && certificateNum!! > 0
+
+    @Composable
+    abstract fun compose()
+}
+
 class HeatCalculator : AbstractDevice() {
     var numberOfDevice: Int? by mutableStateOf(null)
 
@@ -84,7 +87,7 @@ class HeatCalculator : AbstractDevice() {
 
     @Composable
     override fun compose() {
-        super.compose()
+        ComposeCommonFields(this)
 
         NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
             numberOfDevice = it.toIntOrNull()
@@ -121,7 +124,7 @@ class FlowConverter : AbstractDevice() {
 
     @Composable
     override fun compose() {
-        super.compose()
+        ComposeCommonFields(this)
 
         NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
             numberOfDevice = it.toIntOrNull()
@@ -171,7 +174,7 @@ class TemperatureConverter : AbstractDevice() {
 
     @Composable
     override fun compose() {
-        super.compose()
+        ComposeCommonFields(this)
 
         NumberField(placeholder = "Номер датчика", numberOfSensor?.toString() ?: "") {
             numberOfSensor = it.toIntOrNull()
@@ -216,7 +219,7 @@ class PressureConverter : AbstractDevice() {
 
     @Composable
     override fun compose() {
-        super.compose()
+        ComposeCommonFields(this)
 
         NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
             numberOfDevice = it.toIntOrNull()
@@ -269,7 +272,7 @@ class Counter : AbstractDevice() {
 
     @Composable
     override fun compose() {
-        super.compose()
+        ComposeCommonFields(this)
 
         NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
             numberOfDevice = it.toIntOrNull()
