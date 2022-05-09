@@ -59,6 +59,7 @@ fun CreatingNewDeviceScreen(
 ) {
     val info = viewModel.deviceInfoInQuestion ?: throw IllegalStateException("Device info is absent in ClientInfoViewModel")
     // val info = viewModel.deviceInfoInQuestion ?: return
+    val device = viewModel.deviceInQuestion ?: throw IllegalStateException("Device is absent in ClientInfoViewModel")
 
     Scaffold(
         topBar = {
@@ -75,7 +76,6 @@ fun CreatingNewDeviceScreen(
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val device = viewModel.deviceInQuestion ?: throw IllegalStateException("Device is absent in ClientInfoViewModel")
                 device.compose()
 
                 Button(

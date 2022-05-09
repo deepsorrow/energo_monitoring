@@ -31,7 +31,8 @@ class ClientInfoViewModel : ViewModel() {
     var deviceInfoInQuestion: IDeviceInfo<*>? by mutableStateOf(null)
     var deviceShouldBeAdded = false
 
-    var photo: Uri? by mutableStateOf(null)
+    // var photo: Uri? by mutableStateOf(null)
+    val photos = mutableListOf<Uri>()
 
     var agreementFound: Boolean = false
     var modifiedByUserOnce = false

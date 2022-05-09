@@ -7,15 +7,18 @@ import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -65,43 +68,133 @@ fun CreatingNew2Content(
             viewModel.commentary.value = it
         }
 
-        var bitmap by remember {
-            mutableStateOf<Bitmap?>(null)
+        val bitmap = remember {
+            mutableListOf<Bitmap>()
+        }
+
+        if (bitmap.size != viewModel.photos.size) {
+            for (i in viewModel.photos.indices.reversed()) {
+                val uri = viewModel.photos[i]
+
+                val newBitmap = if (Build.VERSION.SDK_INT < 28) {
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                } else {
+                    val decoder = ImageDecoder.createSource(context.contentResolver, uri)
+                    ImageDecoder.decodeBitmap(decoder)
+                }
+
+                if (newBitmap == null) {
+                    viewModel.photos.removeAt(i)
+                } else {
+                    bitmap.add(newBitmap)
+                }
+            }
+        }
+
+        // TODO: как иначе вызывать перекомпоновку?
+        var changeset by remember { mutableStateOf(0) }
+        var alertBrokenImage by remember { mutableStateOf(false) }
+
+        if (alertBrokenImage) {
+            AlertDialog(
+                text = {
+                    Text(text = "Невозможно получить данные о изображении, пожалуйста, выберите другое изображение")
+                },
+
+                onDismissRequest = { alertBrokenImage = false },
+
+                confirmButton = {
+                    Text(
+                        color = Color.Cyan,
+                        text = "ОК",
+                        modifier = Modifier.clickable {
+                            alertBrokenImage = false
+                        }.padding(10.dp)
+                    )
+                },
+
+                dismissButton = { },
+
+                title = {
+                    Text(text = "Изображение повреждено")
+                },
+            )
         }
 
         val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(), onResult = {
-            viewModel.photo = it
+            if (it != null) {
+                if (!viewModel.photos.contains(it)) {
+                    val newBitmap = if (Build.VERSION.SDK_INT < 28) {
+                        MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                    } else {
+                        val decoder = ImageDecoder.createSource(context.contentResolver, it)
+                        ImageDecoder.decodeBitmap(decoder)
+                    }
+
+                    if (newBitmap == null) {
+                        alertBrokenImage = true
+                        return@rememberLauncherForActivityResult
+                    }
+
+                    viewModel.photos.add(it)
+                    changeset++
+                    bitmap.add(newBitmap)
+                }
+            }
         })
 
-        bitmap = if (viewModel.photo != null) {
-            if (Build.VERSION.SDK_INT < 28) {
-                MediaStore.Images.Media.getBitmap(context.contentResolver, viewModel.photo!!)
-            } else {
-                val decoder = ImageDecoder.createSource(context.contentResolver, viewModel.photo!!)
-                ImageDecoder.decodeBitmap(decoder)
-            }
-        } else {
-            null
+        var removeImageIndex by remember {
+            mutableStateOf<Int?>(null)
         }
 
-        if (bitmap != null) {
-            Text(
-                text = "Фото/скан схемы:",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
-            )
+        when (bitmap.size) {
+            0 -> {
+                Text(
+                    text = "Фото/скан схемы не выбран...",
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
-            Image(
-                bitmap = bitmap!!.asImageBitmap(),
-                contentDescription = "Фото/скан схемы",
-                modifier = Modifier.size(400.dp)
-            )
-        } else {
-            Text(
-                text = "Фото/скан схемы не выбран...",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
-            )
+            1 -> {
+                Text(
+                    text = "Фото/скан схемы:",
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                val obj = bitmap[0]
+
+                Image(
+                    bitmap = obj.asImageBitmap(),
+                    contentDescription = "Фото/скан схемы",
+                    modifier = Modifier
+                        .size(400.dp)
+                        .clickable {
+                            removeImageIndex = 0
+                        },
+                )
+            }
+
+            else -> {
+                Text(
+                    text = "Фото/сканы схемы:",
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                for ((i, img) in bitmap.withIndex()) {
+                    Image(
+                        bitmap = img.asImageBitmap(),
+                        contentDescription = "Фото/скан схемы",
+                        modifier = Modifier
+                            .size(400.dp)
+                            .clickable {
+                                removeImageIndex = i
+                            },
+                    )
+                }
+            }
         }
 
         Button(
@@ -122,6 +215,43 @@ fun CreatingNew2Content(
                 .padding(start = 20.dp, end = 20.dp)
         ) {
             Text(text = "Продолжить")
+        }
+
+        if (removeImageIndex != null) {
+            AlertDialog(
+                text = {
+                    Text(text = "Вы действительно хотите убрать это изображение из списка?")
+                },
+
+                onDismissRequest = { removeImageIndex = null },
+
+                confirmButton = {
+                    Text(
+                        color = Color.Red,
+                        text = "Убрать",
+                        modifier = Modifier.clickable {
+                            bitmap.removeAt(removeImageIndex!!)
+                            viewModel.photos.removeAt(removeImageIndex!!)
+                            changeset++
+                            removeImageIndex = null
+                        }.padding(10.dp)
+                    )
+                },
+
+                dismissButton = {
+                    Text(
+                        color = Color.Cyan,
+                        text = "Оставить",
+                        modifier = Modifier.clickable {
+                            removeImageIndex = null
+                        }.padding(10.dp)
+                    )
+                },
+
+                title = {
+                    Text(text = "Убрать изображение")
+                },
+            )
         }
     }
 }

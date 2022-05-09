@@ -43,7 +43,7 @@ private fun NumberField(placeholder: String, value: String, onValueChanged: (Str
 }
 
 @Composable
-fun ComposeCommonFields(device: AbstractDevice){
+private fun ComposeCommonFields(device: AbstractDevice) {
     with (device) {
         CreatingTextField(placeholder = "Номер свидетельства", certificateNum?.toString() ?: "") {
             certificateNum = it.toIntOrNull()
