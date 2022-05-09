@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Energo_monitoring" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#4527A0</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#3F51B5</item>
@@ -13,4 +13,24 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="MenuItems" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="MyDenseOutlined" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="materialThemeOverlay">@style/MyThemeOverlayOutlinedDense</item>
+
+    </style>
+
+    <style name="MyThemeOverlayOutlinedDense">
+        <item name="editTextStyle">@style/MyTextInputEditText_outlinedBox_dense_h
+        </item>
+    </style>
+
+    <style name="MyTextInputEditText_outlinedBox_dense_h" parent="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
 </resources>

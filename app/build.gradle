@@ -86,10 +86,18 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:0.23.0"
     // Compose navigation
     implementation("androidx.navigation:navigation-compose:2.4.1")
+    // Fragment navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    // ViewPager 2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     // Dagger 2
-    implementation 'com.google.dagger:dagger:2.39.1'
-    kapt 'com.google.dagger:dagger-compiler:2.39.1'
+    def dagger2 = '2.39.1'
+    implementation "com.google.dagger:dagger:$dagger2"
+    implementation "com.google.dagger:dagger-android:$dagger2"
+    kapt "com.google.dagger:dagger-compiler:$dagger2"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2"
 }

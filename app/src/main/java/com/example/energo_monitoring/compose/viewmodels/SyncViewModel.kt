@@ -3,7 +3,7 @@ package com.example.energo_monitoring.compose.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.energo_monitoring.compose.domain.db.Repository
-import com.example.energo_monitoring.data.api.ClientInfo
+import com.example.energo_monitoring.checks.data.api.ClientInfo
 
 class SyncViewModel : ViewModel() {
     val checks: List<ClientInfo> = emptyList()

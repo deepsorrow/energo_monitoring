@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="clientInfo"
+            type="com.example.energo_monitoring.checks.data.api.ClientInfo" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_horizontal">
+
+            <TextView
+                android:id="@+id/contact_info_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Контактная информация"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintEnd_toEndOf="@+id/commentEditTextLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/contact_info_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/border"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@+id/commentEditTextLayout"
+                app:layout_constraintStart_toStartOf="@id/contact_info_text"
+                app:layout_constraintTop_toBottomOf="@+id/contact_info_text">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/agreementNumberLayout"
+                        style="@style/MyDenseOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Номер договора"
+                        app:startIconDrawable="@drawable/ic_assignment">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/agreementNumberValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{clientInfo.agreementNumber.trim()}"
+                            android:textColor="@color/contact_info_text_color"
+                            tools:text="123" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/organizationLayout"
+                        style="@style/MyDenseOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Название организации"
+                        app:startIconDrawable="@drawable/ic_city">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/organizationValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{clientInfo.name.trim()}"
+                            android:textColor="@color/contact_info_text_color"
+                            tools:text="123" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/addressLayout"
+                        style="@style/MyDenseOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Адрес"
+                        app:startIconDrawable="@drawable/ic_place">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/addressValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{clientInfo.addressUUTE.trim()}"
+                            android:textColor="@color/contact_info_text_color"
+                            tools:text="123" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/emailLayout"
+                        style="@style/MyDenseOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Почта"
+                        app:startIconDrawable="@drawable/ic_email">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/emailValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{clientInfo.email.trim()}"
+                            android:textColor="@color/contact_info_text_color"
+                            tools:text="123" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/representativeLayout"
+                        style="@style/MyDenseOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Контактное лицо"
+                        app:startIconDrawable="@drawable/ic_person">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/representativeValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{clientInfo.representativeName.trim()}"
+                            android:textColor="@color/contact_info_text_color"
+                            tools:text="123" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phoneLayout"
+                        style="@style/MyDenseOutlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Контактный номер"
+                        app:startIconDrawable="@drawable/ic_phone">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phoneValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{clientInfo.phoneNumber.trim()}"
+                            android:textColor="@color/contact_info_text_color"
+                            tools:text="123" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/project_photo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/commentEditTextLayout"
+                app:layout_constraintStart_toStartOf="@+id/contact_info_layout"
+                app:layout_constraintTop_toBottomOf="@+id/contact_info_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="@integer/material_motion_duration_medium_1"
+                    android:text="Файлы проекта"
+                    android:textColor="@color/title_color"
+                    android:textSize="@dimen/_15ssp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/project_photo_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_60sdp"
+                        android:background="@drawable/border"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/project_file_list_item" />
+
+                    <TextView
+                        android:id="@+id/no_files_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Файлов еще нет"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:background="@drawable/circle_button"
+                        android:src="@drawable/ic_add_green"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checks_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@id/project_photo"
+                app:layout_constraintStart_toStartOf="@id/project_photo"
+                app:layout_constraintTop_toBottomOf="@id/project_photo">
+
+                <TextView
+                    android:id="@+id/inspectionGeneralText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Проверка основных данных"
+                    android:textColor="@color/title_color"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/checks_layout_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/light_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/light_is_ok_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:text="Соответствие освещенности"
+                            android:textSize="@dimen/_14ssp" />
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/light_toggle_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:singleSelection="true">
+
+                            <Button
+                                android:id="@+id/light_yes_button"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Да" />
+
+                            <Button
+                                android:id="@+id/light_no_button"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Нет" />
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/sanpin_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/sanPin_is_ok_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:text="Соответствие СанПИН"
+                            android:textSize="@dimen/_14ssp" />
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/sanPin_toggle_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:singleSelection="true">
+
+                            <Button
+                                android:id="@+id/sanPin_yes_button"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Да" />
+
+                            <Button
+                                android:id="@+id/sanPin_no_button"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Нет" />
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/commentEditTextLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Примечания"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checks_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/commentEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="17"
+                    android:inputType="textMultiLine"
+                    tools:text="123" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.compose.DrawerScreens
-import com.example.energo_monitoring.presentation.presenters.utilities.SharedPreferencesManager
+import com.example.energo_monitoring.checks.presenters.utilities.SharedPreferencesManager
 import com.example.energo_monitoring.R
 
 @Composable
@@ -63,7 +63,7 @@ fun Drawer(onDestinationClicked: (String) -> Unit) {
             }
             Divider()
             screens.forEach { screen ->
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(12.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

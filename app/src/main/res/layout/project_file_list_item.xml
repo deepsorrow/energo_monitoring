@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="file"
+            type="com.example.energo_monitoring.checks.data.ProjectFile" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:background="@drawable/border_gray"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/file_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/energomonitoring_logo"/>
+
+        <TextView
+            android:id="@+id/file_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@{file.title}"
+            android:background="#E6EAEAEA"
+            android:maxLines="2"
+            android:textSize="@dimen/_7ssp"
+            tools:text="Фото_проекта.jpg"
+            android:textColor="@color/black"/>
+
+    </FrameLayout>
+</layout>

@@ -16,6 +16,7 @@
     </queries>
 
     <application
+        android:name=".EnergomonitoringApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,8 +26,12 @@
         android:theme="@style/Theme.Energo_monitoring"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".presentation.activities.SplashActivity"
-            android:exported="true" >
+            android:name=".checks.activities.CheckMainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".checks.activities.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,36 +50,11 @@
         </provider>
 
         <activity
-            android:name=".presentation.login.LoginActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".presentation.activities.Step6_TemperatureCounterCharacteristicsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".presentation.activities.Step7_FinalPlacePhotosActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.activities.Step5_CheckLengthOfStraightLinesAreasActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.activities.Step4_DeviceInspectionActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".presentation.activities.Step3_GeneralInspectionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.activities.Step2_GoToPlaceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.activities.Step1_ProjectPhotoActivity"
-            android:launchMode="singleTop"
+            android:name=".checks.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".compose.activities.CreatingNew1Activity"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
     </application>
 

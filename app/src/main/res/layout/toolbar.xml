@@ -5,43 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:background="?attr/colorPrimary">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_menu_24" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:src="@drawable/logo_white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:text="Энергомониторинг"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="@dimen/_16ssp" />
-
-        </LinearLayout>
-    </Toolbar>
-
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/navigation_drawer"
+        app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/navigation_header_layout"/>
 </LinearLayout>
