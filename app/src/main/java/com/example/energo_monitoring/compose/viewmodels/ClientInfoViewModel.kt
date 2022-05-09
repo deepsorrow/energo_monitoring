@@ -1,10 +1,7 @@
 package com.example.energo_monitoring.compose.viewmodels
 
 import android.net.Uri
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.example.energo_monitoring.compose.ContractInfo
 import com.example.energo_monitoring.compose.screens.creatingNew1.ServingOrganization
@@ -32,7 +29,7 @@ class ClientInfoViewModel : ViewModel() {
     var deviceShouldBeAdded = false
 
     // var photo: Uri? by mutableStateOf(null)
-    val photos = mutableListOf<Uri>()
+    val photos = mutableStateListOf<Uri>()
 
     var agreementFound: Boolean = false
     var modifiedByUserOnce = false

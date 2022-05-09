@@ -69,7 +69,7 @@ fun CreatingNew2Content(
         }
 
         val bitmap = remember {
-            mutableListOf<Bitmap>()
+            mutableStateListOf<Bitmap>()
         }
 
         if (bitmap.size != viewModel.photos.size) {
@@ -94,8 +94,6 @@ fun CreatingNew2Content(
             }
         }
 
-        // TODO: как иначе вызывать перекомпоновку?
-        var changeset by remember { mutableStateOf(0) }
         var alertBrokenImage by remember { mutableStateOf(false) }
 
         if (alertBrokenImage) {
@@ -141,7 +139,6 @@ fun CreatingNew2Content(
 
                     viewModel.photos.add(it)
                     bitmap.add(newBitmap)
-                    changeset++
                 }
             }
         })
@@ -235,7 +232,6 @@ fun CreatingNew2Content(
                         modifier = Modifier.clickable {
                             bitmap.removeAt(removeImageIndex!!)
                             viewModel.photos.removeAt(removeImageIndex!!)
-                            changeset++
                             removeImageIndex = null
                         }.padding(10.dp)
                     )
