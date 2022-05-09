@@ -9,25 +9,17 @@ import com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer
 import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureTransducer
 import com.example.energo_monitoring.checks.data.devices.DevicePressureTransducer
 import com.example.energo_monitoring.checks.data.devices.DeviceCounter
-import com.example.energo_monitoring.checks.data.FlowTransducerCheckLengthResult
+import com.example.energo_monitoring.checks.data.FlowTransducerLength
 import com.example.energo_monitoring.checks.data.ProjectFile
 
 @Dao
 abstract class ResultDataDAO {
-    open fun insertProjectDescription(projectDescription: ProjectDescription) {
-        projectDescription.files.forEach {
-            it.dataId = projectDescription.dataId
-            it.projectId = projectDescription.id
-        }
-        insertProjectFiles(projectDescription.files)
-        _insertProjectDescription(projectDescription)
-    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertOrganizationInfo(organizationInfo: OrganizationInfo)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun _insertProjectDescription(projectDescription: ProjectDescription)
+    abstract fun insertProjectDescription(projectDescription: ProjectDescription)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertClientInfo(clientInfo: ClientInfo)
@@ -36,7 +28,7 @@ abstract class ResultDataDAO {
     abstract fun insertOtherInfo(otherInfo: OtherInfo)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertDeviceTemperatureCounter(devices: List<DeviceTemperatureCounter?>)
+    abstract fun insertDeviceTemperatureCounters(devices: List<DeviceTemperatureCounter>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertDeviceFlowTransducers(devices: List<DeviceFlowTransducer?>)
@@ -51,7 +43,7 @@ abstract class ResultDataDAO {
     abstract fun insertDeviceCounters(devices: List<DeviceCounter?>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertFlowTransducerCheckLengthResults(results: List<FlowTransducerCheckLengthResult?>)
+    abstract fun insertFlowTransducerCheckLengthResults(results: List<FlowTransducerLength?>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertProjectFiles(files: List<ProjectFile?>)
@@ -83,18 +75,13 @@ abstract class ResultDataDAO {
     @Query("DELETE FROM Clientinfo WHERE dataId = :dataId")
     abstract fun deleteClientInfo(dataId: Int)
 
-    fun getProjectDescription(dataId: Int): ProjectDescription? {
-        val project = _getProjectDescription(dataId)
-        if (project != null) {
-            project.files = getProjectFiles(dataId)
-        }
-        return project
-    }
-
     @Query("SELECT * FROM ProjectDescription WHERE dataId = :dataId")
-    abstract fun _getProjectDescription(dataId: Int): ProjectDescription?
+    abstract fun getProjectDescription(dataId: Int): ProjectDescription?
 
-    @Query("SELECT * FROM DevicePressureTransducer WHERE dataId = :dataId")
+    @Query("SELECT * FROM DeviceCounter WHERE dataId = :dataId")
+    abstract fun getDeviceCounters(dataId: Int): List<DeviceCounter?>?
+
+    @Query("SELECT * FROM DeviceTemperatureCounter WHERE dataId = :dataId")
     abstract fun getDeviceTemperatureCounter(dataId: Int): List<DeviceTemperatureCounter?>?
 
     @Query("SELECT * FROM DeviceFlowTransducer WHERE dataId = :dataId")

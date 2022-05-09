@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".checks.activities.SplashActivity">
+    tools:context=".checks.ui.activities.SplashActivity">
 
     <ImageView
         android:layout_width="@dimen/_110sdp"

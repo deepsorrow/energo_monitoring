@@ -2,7 +2,7 @@ package com.example.energo_monitoring.application.di.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.energo_monitoring.checks.viewmodel.GeneralInspectionViewModel
+import com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -14,6 +14,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(GeneralInspectionViewModel::class)
-    abstract fun provideGeneralInspectionViewModel(viewModel: GeneralInspectionViewModel): ViewModel
+    @ViewModelKey(GeneralInspectionVM::class)
+    abstract fun provideGeneralInspectionViewModel(viewModel: GeneralInspectionVM): ViewModel
 }

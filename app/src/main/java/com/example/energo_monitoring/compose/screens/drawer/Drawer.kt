@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.compose.DrawerScreens
-import com.example.energo_monitoring.checks.presenters.utilities.SharedPreferencesManager
+import com.example.energo_monitoring.checks.ui.presenters.utilities.SharedPreferencesManager
 import com.example.energo_monitoring.R
 
 @Composable

@@ -15,4 +15,23 @@
     <string name="continue_button">Продолжить</string>
     <string name="gallery">Галерея</string>
     <string name="take_photo">Сделать фото</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="san_pin_is_ok">Соответствие СанПИН</string>
+    <string name="comments">Примечания</string>
+    <string name="light_is_ok">Соответствие освещенности</string>
+    <string name="check_main_data">Проверка основных данных</string>
+    <string name="no_files_yet">Файлов еще нет</string>
+    <string name="project_files">Файлы проекта</string>
+    <string name="contact_number">Контактный номер</string>
+    <string name="contact_person">Контактное лицо</string>
+    <string name="email">Почта</string>
+    <string name="address">Адрес</string>
+    <string name="organization_name">Название организации</string>
+    <string name="agreement_number">Номер договора</string>
+    <string name="contact_info">Контактная информация</string>
+    <string name="add_project_file">Добавить файл к проекту</string>
+    <string name="project_photo">Фото проекта</string>
+    <string name="pick_from_gallery">Выбрать из галереи</string>
+    <string name="choose_file">Выбрать файл</string>
 </resources>

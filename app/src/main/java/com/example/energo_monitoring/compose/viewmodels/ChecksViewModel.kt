@@ -2,18 +2,21 @@ package com.example.energo_monitoring.compose.viewmodels
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
-import com.example.energo_monitoring.compose.data.ClientInfoWithProgress
-import com.example.energo_monitoring.compose.data.SyncStatus
 import com.example.energo_monitoring.checks.data.api.*
 import com.example.energo_monitoring.checks.data.db.OtherInfo
 import com.example.energo_monitoring.checks.data.db.ResultData
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase
-import com.example.energo_monitoring.checks.activities.CheckMainActivity
-import com.example.energo_monitoring.checks.presenters.utilities.SharedPreferencesManager
+import com.example.energo_monitoring.checks.domain.repo.ResultDataRepository
+import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
+import com.example.energo_monitoring.checks.ui.presenters.utilities.SharedPreferencesManager
+import com.example.energo_monitoring.compose.data.ClientInfoWithProgress
+import com.example.energo_monitoring.compose.data.SyncStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +25,8 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-class ChecksViewModel @Inject constructor() : ViewModel(){
+
+class ChecksViewModel : ViewModel(){
 
     val clients = MutableStateFlow<List<ClientInfoWithProgress>>(emptyList())
     val isRefreshing = mutableStateOf(false)
@@ -51,11 +55,11 @@ class ChecksViewModel @Inject constructor() : ViewModel(){
         })
     }
 
-    fun loadInfo(dataId: Int, clientName: String, onComplete: (Response<ClientDataBundle>) -> Unit, onError: (String) -> Unit) {
+    fun loadInfo(dataId: Int, onComplete: (ClientDataBundle?) -> Unit, onError: (String) -> Unit) {
         ServerService.getService().getDetailedClientBundle(dataId)
             .enqueue(object : Callback<ClientDataBundle> {
                 override fun onResponse(call: Call<ClientDataBundle>, response: Response<ClientDataBundle>) {
-                    onComplete(response)
+                    onComplete(response.body())
                 }
 
                 override fun onFailure(call: Call<ClientDataBundle>, t: Throwable) {
@@ -65,41 +69,69 @@ class ChecksViewModel @Inject constructor() : ViewModel(){
     }
 
     fun saveDataFromCloud(context: Context, dataId: Int, dataBundle: ClientDataBundle){
-        val db = ResultDataDatabase.getDatabase(context)
+
+        val repository = ResultDataRepository(ResultDataDatabase.getDatabase(context).resultDataDAO())
         // 1 - ClientInfo
         val clientInfo = dataBundle.clientInfo.also { it.dataId = dataId }
-        db.resultDataDAO().insertClientInfo(clientInfo)
+        repository.insertClientInfo(clientInfo, true)
 
         // 2 - ProjectDescription
         val projectDescription: ProjectDescription = dataBundle.project.also { it.dataId = dataId }
         projectDescription.files.forEach {
-            it.dataId = dataId
-            val file = File.createTempFile("projectFile", ".${it.extension}", context.filesDir)
-            val fOut = FileOutputStream(file)
-            fOut.flush()
-            fOut.close()
-            val path = FileProvider.getUriForFile(
-                context,
-                context.applicationContext.packageName + ".provider",
-                file
-            )
-            it.path = path.toString()
+            if (it.extension == "png" || it.extension == "jpg") {
+                it.dataId = dataId
+
+                it.dataBase64 = it.dataBase64.replace("data:image/png;base64,", "")
+                    .replace("data:image/jpeg;base64,", "")
+                    .replace("data:image/gif;base64,", "")
+                val decodedString: ByteArray = Base64.decode(it.dataBase64, Base64.DEFAULT)
+
+                val file = File.createTempFile("projectFile_", ".${it.extension}", context.filesDir)
+                val fOut = FileOutputStream(file)
+
+                val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                val compressFormat = when (it.extension) {
+                    "png" -> Bitmap.CompressFormat.PNG
+                    "jpg" -> Bitmap.CompressFormat.JPEG
+                    else -> Bitmap.CompressFormat.WEBP
+                }
+                bitmap.compress(compressFormat, 100, fOut);
+
+                fOut.flush()
+                fOut.close()
+                it.path = file.absolutePath
+            } else if (it.extension == "pdf") {
+
+            }
         }
-        db.resultDataDAO().insertProjectDescription(projectDescription)
+        repository.insertProjectDescription(projectDescription, true)
 
         // 3 - OrganizationInfo
         val organizationInfo: OrganizationInfo = dataBundle.organizationInfo.also { it.dataId = dataId }
-        db.resultDataDAO().insertOrganizationInfo(organizationInfo)
+        repository.insertOrganizationInfo(organizationInfo, true)
 
         // 4 - OtherInfo
-        val otherInfo: OtherInfo = db.resultDataDAO().getOtherInfo(dataId) ?: OtherInfo(dataId)
+        val otherInfo: OtherInfo = repository.getOtherInfo(dataId) ?: OtherInfo(dataId)
         otherInfo.clientId = clientInfo.id
         otherInfo.organizationId = organizationInfo.id
         otherInfo.projectId = projectDescription.id
         otherInfo.localVersion = dataBundle.version
         otherInfo.cloudVersion = dataBundle.version
         otherInfo.userId = SharedPreferencesManager.getUserId(context)
-        db.resultDataDAO().insertOtherInfo(otherInfo)
+        repository.insertOtherInfo(otherInfo, true)
+
+        // 5 - Devices
+        dataBundle.deviceTemperatureCounters.forEach { it.dataId = dataId }
+        dataBundle.deviceFlowTransducers.forEach { it.dataId = dataId }
+        dataBundle.deviceTemperatureTransducers.forEach { it.dataId = dataId }
+        dataBundle.devicePressureTransducers.forEach { it.dataId = dataId }
+        dataBundle.deviceCounters.forEach { it.dataId = dataId }
+
+        repository.insertDeviceTemperatureCounters(dataBundle.deviceTemperatureCounters, true)
+        repository.insertDeviceFlowTransducers(dataBundle.deviceFlowTransducers, true)
+        repository.insertDeviceTemperatureTransducers(dataBundle.deviceTemperatureTransducers, true)
+        repository.insertDevicePressureTransducers(dataBundle.devicePressureTransducers, true)
+        repository.insertDeviceCounters(dataBundle.deviceCounters, true)
     }
 
     fun openCheck(context: Context, clientName: String, dataId: Int) {

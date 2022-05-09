@@ -10,12 +10,18 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.compose.data.SyncStatus
 import com.example.energo_monitoring.checks.data.api.ClientInfo
@@ -63,84 +69,118 @@ fun CheckItem(
                 .fillMaxWidth()
                 .background(gradient)
         ) {
-            Row {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    when (syncStatus) {
-                        SyncStatus.SYNCED -> {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_check_circle),
-                                contentDescription = "Sync"
-                            )
-                            Text(
-                                modifier = Modifier.padding(start = 5.dp),
-                                text = "Синхронизировано",
-                                color = Color.DarkGray
-                            )
-                        }
-                        SyncStatus.NOT_SYNCED -> {
-                            OutlinedButton(
-                                onClick = onSyncClicked
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_sync_circle),
-                                    contentDescription = "Sync"
-                                )
-                                Text(
-                                    modifier = Modifier.padding(start = 5.dp),
-                                    text = "Синхронизировать",
-                                    color = Color.DarkGray
-                                )
-                            }
-                        }
-                        SyncStatus.NOT_LOADED -> {
-                            OutlinedButton(
-                                onClick = onSyncClicked
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_sync_circle),
-                                    contentDescription = "Sync"
-                                )
-                                Text(
-                                    modifier = Modifier.padding(start = 5.dp),
-                                    text = "Выгрузить",
-                                    color = Color.DarkGray
-                                )
-                            }
-                        }
-                        else -> {}
-                    }
-                    OutlinedButton(
+            Box {
+                Column {
+                    Text(
                         modifier = Modifier
-                            .padding(end = 5.dp)
-                            .width(50.dp)
-                            .defaultMinSize(minHeight = 40.dp),
-                        contentPadding = PaddingValues(5.dp),
-                        onClick = onInfoClicked
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_baseline_info_24),
-                            contentDescription = "Contact info"
-                        )
-                    }
+                            .fillMaxWidth()
+                            .height(26.dp),
+                        text = clientInfo.name + "\n",
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(21.dp),
+                        text = clientInfo.addressUUTE + "\n",
+                        textAlign = TextAlign.Center,
+                        color = Color.DarkGray,
+                        fontSize = 15.sp
+                    )
+                }
+
+                OutlinedButton(onClick = {}) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_info_24),
+                        tint = Color(106, 27, 154, 255),
+                        contentDescription = ""
+                    )
                 }
             }
-            CheckRow(
-                icon = R.drawable.ic_city,
-                description = "Организация",
-                text = clientInfo.name
+
+            Divider(
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                    .height(1.dp)
             )
+
             CheckRow(
-                icon = R.drawable.ic_place,
-                description = "Адрес",
-                text = clientInfo.addressUUTE
+                icon = R.drawable.ic_person,
+                description = "Контактное лицо",
+                text = "${clientInfo.representativeName}, ${clientInfo.phoneNumber}"
             )
+            Divider(
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                    .height(1.dp)
+            )
+
+            Row(modifier = Modifier.padding(start = 10.dp)) {
+                when (syncStatus) {
+                    SyncStatus.SYNCED -> {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = "Sync",
+                            colorFilter = ColorFilter.tint(Color(56, 142, 60)),
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Версия актуальная",
+                            color = Color.DarkGray
+                        )
+                    }
+                    SyncStatus.NOT_SYNCED -> {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_sync),
+                            contentDescription = "Sync",
+                            colorFilter = ColorFilter.tint(Color(249, 214, 37, 255)),
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Не сохранено на сервере",
+                            color = Color.DarkGray
+                        )
+                    }
+                    SyncStatus.NOT_LOADED -> {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_sync),
+                            colorFilter = ColorFilter.tint(Color(249, 214, 37, 255)),
+                            contentDescription = "Sync"
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Необходимо загрузить с сервера",
+                            color = Color.DarkGray
+                        )
+                    }
+                    else -> {}
+                }
+            }
+            Row(
+                modifier = Modifier.padding(start = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.ic_storage),
+                    tint = Color.LightGray,
+                    contentDescription = ""
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 5.dp, top = 5.dp),
+                    text = "Занимаемое место: 0 МБ",
+                    color = Color.DarkGray
+                )
+            }
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 5.dp),
+                    .padding(top = 5.dp, start = 5.dp),
                 text = progressText,
                 color = Color.DarkGray
             )
@@ -149,7 +189,6 @@ fun CheckItem(
                 progress = progress.toFloat() / 7
             )
         }
-
     }
 }
 
@@ -158,9 +197,7 @@ fun CheckRow(@DrawableRes icon: Int, description: String, text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(32.dp)
-            .padding(start = 10.dp, end = 10.dp, bottom = 5.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp),
     ) {
         Image(
             modifier = Modifier.padding(end = 5.dp),

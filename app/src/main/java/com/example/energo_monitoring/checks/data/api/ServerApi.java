@@ -1,7 +1,5 @@
 package com.example.energo_monitoring.checks.data.api;
 
-import com.example.energo_monitoring.checks.data.AuthorizeBody;
-import com.example.energo_monitoring.checks.data.AuthorizeResponse;
 import com.example.energo_monitoring.checks.data.db.ResultData;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import androidx.room.Embedded;
 import androidx.room.Relation;
 
 
-import com.example.energo_monitoring.checks.data.FlowTransducerCheckLengthResult;
+import com.example.energo_monitoring.checks.data.FlowTransducerLength;
 import com.example.energo_monitoring.checks.data.api.ClientInfo;
 import com.example.energo_monitoring.checks.data.api.OrganizationInfo;
 import com.example.energo_monitoring.checks.data.api.ProjectDescription;
@@ -33,7 +33,7 @@ public class ResultData {
     @Relation(entityColumn = "dataId", parentColumn = "dataId", entity = DeviceFlowTransducer.class)
     public List<DeviceFlowTransducer> deviceFlowTransducers;
     @Relation(entityColumn = "dataId", parentColumn = "dataId")
-    public List<FlowTransducerCheckLengthResult> flowTransducerCheckLengthResults;
+    public List<FlowTransducerLength> flowTransducerLengths;
     @Relation(entityColumn = "dataId", parentColumn = "dataId", entity = DeviceTemperatureTransducer.class)
     public List<DeviceTemperatureTransducer> deviceTemperatureTransducers;
     @Relation(entityColumn = "dataId", parentColumn = "dataId", entity = DevicePressureTransducer.class)

@@ -1,6 +1,6 @@
 package com.example.energo_monitoring.checks.data.api;
 
-import com.example.energo_monitoring.checks.presenters.utilities.Settings;
+import com.example.energo_monitoring.checks.ui.presenters.utilities.Settings;
 
 import java.util.concurrent.TimeUnit;
 

@@ -26,11 +26,11 @@
         android:theme="@style/Theme.Energo_monitoring"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".checks.activities.CheckMainActivity"
+            android:name="com.example.energo_monitoring.checks.ui.activities.CheckMainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".checks.activities.SplashActivity"
+            android:name="com.example.energo_monitoring.checks.ui.activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +50,7 @@
         </provider>
 
         <activity
-            android:name=".checks.login.LoginActivity"
+            android:name=".checks.ui.activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".compose.activities.CreatingNew1Activity"

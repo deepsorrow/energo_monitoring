@@ -10,7 +10,7 @@ import com.example.energo_monitoring.checks.data.ProjectFile;
 import com.example.energo_monitoring.checks.data.api.ClientInfo;
 import com.example.energo_monitoring.checks.data.api.OrganizationInfo;
 import com.example.energo_monitoring.checks.data.api.ProjectDescription;
-import com.example.energo_monitoring.checks.data.FlowTransducerCheckLengthResult;
+import com.example.energo_monitoring.checks.data.FlowTransducerLength;
 import com.example.energo_monitoring.checks.data.devices.DeviceCounter;
 import com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer;
 import com.example.energo_monitoring.checks.data.devices.DevicePressureTransducer;
@@ -19,7 +19,7 @@ import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureTransd
 
 @Database(entities = {ClientInfo.class, ProjectDescription.class, OrganizationInfo.class, DeviceCounter.class,
         DeviceFlowTransducer.class, DevicePressureTransducer.class, DeviceTemperatureCounter.class,
-        DeviceTemperatureTransducer.class, OtherInfo.class, FlowTransducerCheckLengthResult.class, ProjectFile.class}, version = 22)
+        DeviceTemperatureTransducer.class, OtherInfo.class, FlowTransducerLength.class, ProjectFile.class}, version = 23)
 public abstract class ResultDataDatabase extends RoomDatabase {
     private static ResultDataDatabase resultDataDatabase;
     public abstract ResultDataDAO resultDataDAO();

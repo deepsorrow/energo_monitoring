@@ -25,7 +25,6 @@ import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.checks.data.api.ClientDataBundle
 import com.example.energo_monitoring.checks.data.api.ClientInfo
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase
-import com.example.energo_monitoring.checks.presenters.utilities.SharedPreferencesManager
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -57,31 +56,21 @@ fun ChecksContent(
             showProgressBar = true
             viewModel.loadInfo(
                 dataId = dataId,
-                clientName = clientName,
                 onComplete = { response ->
                     showProgressBar = false
-                    if (response.body() == null) {
-                        Toast.makeText(
-                            context,
-                            "Произошла ошибка! Код ошибки: 101.",
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
+                    if (response == null) {
+                        Toast.makeText(context,"Произошла ошибка! Код ошибки: 101.",  Toast.LENGTH_LONG).show()
                     } else {
-                        SharedPreferencesManager.saveClientDataBundle(context, response.body())
+                        viewModel.saveDataFromCloud(context, dataId, response)
                         if (needToOpenCheck) {
                             viewModel.openCheck(context, clientName, dataId)
                         }
-                        onComplete(response.body()!!)
+                        onComplete(response)
                     }
                 },
                 onError = {
                     showProgressBar = false
-                    Toast.makeText(
-                        context,
-                        "Не удалось получить данные! Ошибка: $it",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(context,"Не удалось получить данные! Ошибка: $it", Toast.LENGTH_LONG).show()
                 }
             )
         }

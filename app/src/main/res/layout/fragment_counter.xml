@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".checks.fragments.devices.CounterFragment">
+    tools:context=".checks.ui.fragments.devices.CounterFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/metrics_list"

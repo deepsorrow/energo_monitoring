@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
-            name="clientInfo"
-            type="com.example.energo_monitoring.checks.data.api.ClientInfo" />
+            name="viewModel"
+            type="com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="Контактная информация"
+                android:text="@string/contact_info"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintEnd_toEndOf="@+id/commentEditTextLayout"
@@ -48,14 +47,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Номер договора"
+                        android:hint="@string/agreement_number"
                         app:startIconDrawable="@drawable/ic_assignment">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/agreementNumberValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{clientInfo.agreementNumber.trim()}"
+                            android:text="@={viewModel.agreementNumber}"
+                            android:afterTextChanged="@{() -> viewModel.onAgreementNumChanged()}"
                             android:textColor="@color/contact_info_text_color"
                             tools:text="123" />
 
@@ -67,14 +67,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Название организации"
+                        android:hint="@string/organization_name"
                         app:startIconDrawable="@drawable/ic_city">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/organizationValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{clientInfo.name.trim()}"
+                            android:text="@={viewModel.organizationName}"
+                            android:afterTextChanged="@{() -> viewModel.onOrganizationNameChanged()}"
                             android:textColor="@color/contact_info_text_color"
                             tools:text="123" />
 
@@ -86,14 +87,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Адрес"
+                        android:hint="@string/address"
                         app:startIconDrawable="@drawable/ic_place">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/addressValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{clientInfo.addressUUTE.trim()}"
+                            android:text="@={viewModel.address}"
+                            android:afterTextChanged="@{() -> viewModel.onAddressChanged()}"
                             android:textColor="@color/contact_info_text_color"
                             tools:text="123" />
 
@@ -105,14 +107,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Почта"
+                        android:hint="@string/email"
                         app:startIconDrawable="@drawable/ic_email">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/emailValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{clientInfo.email.trim()}"
+                            android:text="@={viewModel.email}"
+                            android:afterTextChanged="@{() -> viewModel.onEmailChanged()}"
                             android:textColor="@color/contact_info_text_color"
                             tools:text="123" />
 
@@ -124,14 +127,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Контактное лицо"
+                        android:hint="@string/contact_person"
                         app:startIconDrawable="@drawable/ic_person">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/representativeValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{clientInfo.representativeName.trim()}"
+                            android:text="@={viewModel.contactPerson}"
+                            android:afterTextChanged="@{() -> viewModel.onContactPersonChanged()}"
                             android:textColor="@color/contact_info_text_color"
                             tools:text="123" />
 
@@ -143,14 +147,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Контактный номер"
+                        android:hint="@string/contact_number"
                         app:startIconDrawable="@drawable/ic_phone">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/phoneValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{clientInfo.phoneNumber.trim()}"
+                            android:text="@={viewModel.phone}"
+                            android:afterTextChanged="@{() -> viewModel.onPhoneChanged()}"
                             android:textColor="@color/contact_info_text_color"
                             tools:text="123" />
 
@@ -170,21 +175,22 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="bottom"
                     android:layout_weight="@integer/material_motion_duration_medium_1"
-                    android:text="Файлы проекта"
+                    android:text="@string/project_files"
                     android:textColor="@color/title_color"
                     android:textSize="@dimen/_15ssp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/files_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_60sdp">
+                    android:layout_height="@dimen/project_photo_height">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/project_photo_list"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_60sdp"
+                        android:layout_height="match_parent"
                         android:background="@drawable/border"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -196,13 +202,14 @@
                         android:id="@+id/no_files_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Файлов еще нет"
+                        android:text="@string/no_files_yet"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
+                        android:id="@+id/add_file_button"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_gravity="end"
@@ -210,7 +217,8 @@
                         android:background="@drawable/circle_button"
                         android:src="@drawable/ic_add_green"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:contentDescription="@string/add_project_file" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
@@ -229,7 +237,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Проверка основных данных"
+                    android:text="@string/check_main_data"
                     android:textColor="@color/title_color"
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -251,11 +259,11 @@
                         <TextView
                             android:id="@+id/light_is_ok_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_weight="1"
-                            android:text="Соответствие освещенности"
+                            android:text="@string/light_is_ok"
                             android:textSize="@dimen/_14ssp" />
 
                         <com.google.android.material.button.MaterialButtonToggleGroup
@@ -265,19 +273,19 @@
                             android:layout_gravity="center"
                             app:singleSelection="true">
 
-                            <Button
+                            <com.google.android.material.button.MaterialButton
                                 android:id="@+id/light_yes_button"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                style="?attr/materialButtonOutlinedStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Да" />
+                                android:text="@string/yes" />
 
-                            <Button
+                            <com.google.android.material.button.MaterialButton
                                 android:id="@+id/light_no_button"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                style="?attr/materialButtonOutlinedStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Нет" />
+                                android:text="@string/no" />
                         </com.google.android.material.button.MaterialButtonToggleGroup>
                     </LinearLayout>
 
@@ -291,33 +299,32 @@
                         <TextView
                             android:id="@+id/sanPin_is_ok_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_weight="1"
-                            android:text="Соответствие СанПИН"
+                            android:text="@string/san_pin_is_ok"
                             android:textSize="@dimen/_14ssp" />
 
                         <com.google.android.material.button.MaterialButtonToggleGroup
                             android:id="@+id/sanPin_toggle_group"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            app:singleSelection="true">
+                            android:layout_gravity="center">
 
-                            <Button
+                            <com.google.android.material.button.MaterialButton
                                 android:id="@+id/sanPin_yes_button"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                style="?attr/materialButtonOutlinedStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Да" />
+                                android:text="@string/yes" />
 
-                            <Button
+                            <com.google.android.material.button.MaterialButton
                                 android:id="@+id/sanPin_no_button"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                style="?attr/materialButtonOutlinedStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Нет" />
+                                android:text="@string/no" />
                         </com.google.android.material.button.MaterialButtonToggleGroup>
 
                     </LinearLayout>
@@ -330,7 +337,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Примечания"
+                android:hint="@string/comments"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -342,6 +349,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="17"
+                    android:text="@={viewModel.comment}"
+                    android:afterTextChanged="@{() -> viewModel.onCommentChanged()}"
                     android:inputType="textMultiLine"
                     tools:text="123" />
 

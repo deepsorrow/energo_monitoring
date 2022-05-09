@@ -5,7 +5,7 @@
 
         <variable
             name="checkLength"
-            type="com.example.energo_monitoring.checks.data.FlowTransducerCheckLengthResult" />
+            type="com.example.energo_monitoring.checks.data.FlowTransducerLength" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
