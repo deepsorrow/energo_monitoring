@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.energo_monitoring.compose.screens.CreatingNewNavBottom
 import com.example.energo_monitoring.compose.screens.TopBar
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import kotlinx.coroutines.Job
@@ -23,7 +24,7 @@ import kotlinx.coroutines.Job
 fun CreatingNew3Screen(
     viewModel: ClientInfoViewModel,
     openDrawer: () -> Job,
-    goToNextScreen: (() -> Unit)? = null,
+    goToNextScreen: (() -> Unit) = {},
     navController: NavController? = null,
 ) {
     Scaffold(
@@ -32,6 +33,10 @@ fun CreatingNew3Screen(
                 title = "Создание нового акта",
                 onNavigationIconClicked = { openDrawer() }
             )
+        },
+        bottomBar = {
+            if (navController != null)
+                CreatingNewNavBottom(navController)
         },
         content = {
             CreatingNew3Content(
@@ -88,9 +93,9 @@ fun CreatingNewDeviceScreen(
                         // viewModel.deviceInfoInQuestion = null
                         // viewModel.deviceInQuestion = null
 
-                        //if (navController?.popBackStack() != true) {
+                        if (navController?.popBackStack() != true) {
                             navController?.navigate("create_new_3")
-                        //}
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()

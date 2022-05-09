@@ -30,7 +30,7 @@ private val deviceTypes: List<IDeviceInfo<*>> = listOf(
 @Composable
 fun CreatingNew3Content(
     viewModel: ClientInfoViewModel,
-    goToNextScreen: (() -> Unit)? = null,
+    goToNextScreen: (() -> Unit) = {},
     navController: NavController? = null
 ) {
     Column(
@@ -104,12 +104,12 @@ fun CreatingNew3Content(
         }
 
         Button(
-            onClick = goToNextScreen ?: {},
+            onClick = goToNextScreen,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp)
         ) {
-            Text(text = "Продолжить")
+            Text(text = "Сохранить акт на сервере")
         }
     }
 }

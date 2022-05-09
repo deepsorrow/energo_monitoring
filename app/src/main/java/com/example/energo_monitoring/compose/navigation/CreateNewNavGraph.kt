@@ -23,7 +23,7 @@ fun NavGraphBuilder.createNewNavGraph(
             CreatingNew1Screen(
                 viewModel = clientInfoViewModel,
                 openDrawer = openDrawer,
-                goToNextScreen = { navController.navigate("create_new_2") }
+                navController = navController
             )
         }
 
@@ -33,7 +33,7 @@ fun NavGraphBuilder.createNewNavGraph(
             CreatingNew2Screen(
                 viewModel = clientInfoViewModel,
                 openDrawer = openDrawer,
-                goToNextScreen = { navController.navigate("create_new_3") }
+                navController = navController
             )
         }
 
@@ -44,7 +44,7 @@ fun NavGraphBuilder.createNewNavGraph(
                 viewModel = clientInfoViewModel,
                 openDrawer = openDrawer,
                 navController = navController,
-                goToNextScreen = { /* TODO */ }
+                goToNextScreen = { /* загрузка на сервер */ }
             )
         }
 
@@ -54,6 +54,7 @@ fun NavGraphBuilder.createNewNavGraph(
             CreatingNewDeviceScreen(
                 viewModel = clientInfoViewModel,
                 openDrawer = openDrawer,
+                navController = navController
             )
         }
     }

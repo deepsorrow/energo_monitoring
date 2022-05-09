@@ -3,6 +3,8 @@ package com.example.energo_monitoring.compose.screens.creatingNew2
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import com.example.energo_monitoring.compose.screens.CreatingNewNavBottom
 import com.example.energo_monitoring.compose.screens.TopBar
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import kotlinx.coroutines.Job
@@ -11,7 +13,7 @@ import kotlinx.coroutines.Job
 fun CreatingNew2Screen(
     viewModel: ClientInfoViewModel,
     openDrawer: () -> Job,
-    goToNextScreen: () -> Unit
+    navController: NavController?
 ) {
     Scaffold(
         topBar = {
@@ -20,8 +22,12 @@ fun CreatingNew2Screen(
                 onNavigationIconClicked = { openDrawer() }
             )
         },
+        bottomBar = {
+            if (navController != null)
+                CreatingNewNavBottom(navController)
+        },
         content = {
-            CreatingNew2Content(viewModel = viewModel, goToNextScreen = goToNextScreen)
+            CreatingNew2Content(viewModel = viewModel)
         }
     )
 }
@@ -29,5 +35,5 @@ fun CreatingNew2Screen(
 @Preview
 @Composable
 fun CreatingNew2ScreenPreview(){
-    CreatingNew2Screen(ClientInfoViewModel(), { Job() }, {})
+    CreatingNew2Screen(ClientInfoViewModel(), { Job() }, null)
 }

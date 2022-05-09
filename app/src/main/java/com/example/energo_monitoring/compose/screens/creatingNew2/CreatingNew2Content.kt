@@ -30,8 +30,7 @@ import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 
 @Composable
 fun CreatingNew2Content(
-    viewModel: ClientInfoViewModel,
-    goToNextScreen: () -> Unit
+    viewModel: ClientInfoViewModel
 ) {
     val context = LocalContext.current
 
@@ -208,15 +207,6 @@ fun CreatingNew2Content(
             Text(text = "Выбрать изображение")
         }
 
-        Button(
-            onClick = goToNextScreen,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp)
-        ) {
-            Text(text = "Продолжить")
-        }
-
         if (removeImageIndex != null) {
             AlertDialog(
                 text = {
@@ -258,6 +248,6 @@ fun CreatingNew2Content(
 @Composable
 @Preview
 fun CreatingNew2ContentPreview() {
-    CreatingNew2Content(ClientInfoViewModel()) {}
+    CreatingNew2Content(ClientInfoViewModel())
 }
 

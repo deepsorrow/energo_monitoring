@@ -18,7 +18,7 @@ import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import com.example.energo_monitoring.R
 
 @Composable
-fun CreatingNew1Content(viewModel: ClientInfoViewModel, goToNextScreen: () -> Unit) {
+fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -122,20 +122,11 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel, goToNextScreen: () -> Un
                 )
             }
         }
-
-        Button(
-            onClick = goToNextScreen,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp)
-        ) {
-            Text(text = "Продолжить")
-        }
     }
 }
 
 @Preview
 @Composable
 fun PreviewMainMenuContent() {
-    CreatingNew1Content(ClientInfoViewModel()) {}
+    CreatingNew1Content(ClientInfoViewModel())
 }
