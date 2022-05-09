@@ -73,7 +73,9 @@ fun CreatingNew2Content(
         }
 
         if (bitmap.size != viewModel.photos.size) {
-            for (i in viewModel.photos.indices.reversed()) {
+            var i = 0
+
+            while (i < viewModel.photos.size) {
                 val uri = viewModel.photos[i]
 
                 val newBitmap = if (Build.VERSION.SDK_INT < 28) {
@@ -87,6 +89,7 @@ fun CreatingNew2Content(
                     viewModel.photos.removeAt(i)
                 } else {
                     bitmap.add(newBitmap)
+                    i++
                 }
             }
         }
@@ -137,8 +140,8 @@ fun CreatingNew2Content(
                     }
 
                     viewModel.photos.add(it)
-                    changeset++
                     bitmap.add(newBitmap)
+                    changeset++
                 }
             }
         })
