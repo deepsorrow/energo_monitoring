@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="photo_is_not_loaded">Фото проекта не было ранее загружено!</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="gallery">Галерея</string>
+    <string name="take_photo">Сделать фото</string>
+</resources>

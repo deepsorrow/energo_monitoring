@@ -5,30 +5,38 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.energo_monitoring.R
-import com.example.energo_monitoring.data.api.ClientInfo
+import com.example.energo_monitoring.compose.data.SyncStatus
+import com.example.energo_monitoring.checks.data.api.ClientInfo
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CheckItem(
     clientInfo: ClientInfo,
-    onClick: (Int) -> Unit,
+    onClick: () -> Unit,
     onInfoClicked: () -> Unit,
-    progress: Int
+    onSyncClicked: () -> Unit,
+    progress: Int,
+    syncStatus: SyncStatus
 ) {
-    val progressText = when(progress){
+    val progressText = when (progress) {
         0 -> "Нажмите, чтобы начать..."
         1 -> "Введите фото проекта..."
         2 -> "Проследуйте на объект..."
@@ -43,7 +51,7 @@ fun CheckItem(
     val gradient = Brush.horizontalGradient(
         colors = listOf(
             Color.White,
-            Color(235, 236, 241, 255),
+            Color(216, 201, 247, 84),
             Color.White
         ),
         tileMode = TileMode.Repeated
@@ -52,59 +60,135 @@ fun CheckItem(
         modifier = Modifier
             .padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp),
         border = BorderStroke(1.dp, Color.LightGray),
-        onClick = { onClick(clientInfo.dataId) }
+        onClick = onClick,
+        elevation = 5.dp,
+        shape = RoundedCornerShape(6)
     ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(gradient)
-            ) {
-                Row {
-                    Box {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(5.dp),
-                            textAlign = TextAlign.Center,
-                            text = clientInfo.agreementNumber,
-                            fontSize = 16.sp
-                        )
-                        Row(modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End) {
-                            OutlinedButton(
-                                modifier = Modifier.padding(end = 5.dp),
-                                onClick = onInfoClicked
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_baseline_info_24),
-                                    contentDescription = "Contact info"
-                                )
-                            }
-                        }
-                    }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(gradient)
+        ) {
+            Box {
+                Column {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(26.dp),
+                        text = clientInfo.name + "\n",
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(21.dp),
+                        text = clientInfo.addressUUTE + "\n",
+                        textAlign = TextAlign.Center,
+                        color = Color.DarkGray,
+                        fontSize = 15.sp
+                    )
                 }
-                CheckRow(
-                    icon = R.drawable.ic_city,
-                    description = "Организация",
-                    text = clientInfo.name
-                )
-                CheckRow(
-                    icon = R.drawable.ic_place,
-                    description = "Адрес",
-                    text = clientInfo.addressUUTE
+
+                OutlinedButton(onClick = {}) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_info_24),
+                        tint = Color(106, 27, 154, 255),
+                        contentDescription = ""
+                    )
+                }
+            }
+
+            Divider(
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                    .height(1.dp)
+            )
+
+            CheckRow(
+                icon = R.drawable.ic_person,
+                description = "Контактное лицо",
+                text = "${clientInfo.representativeName}, ${clientInfo.phoneNumber}"
+            )
+            Divider(
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                    .height(1.dp)
+            )
+
+            Row(modifier = Modifier.padding(start = 10.dp)) {
+                when (syncStatus) {
+                    SyncStatus.SYNCED -> {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = "Sync",
+                            colorFilter = ColorFilter.tint(Color(56, 142, 60)),
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Версия актуальная",
+                            color = Color.DarkGray
+                        )
+                    }
+                    SyncStatus.NOT_SYNCED -> {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_sync),
+                            contentDescription = "Sync",
+                            colorFilter = ColorFilter.tint(Color(249, 214, 37, 255)),
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Не сохранено на сервере",
+                            color = Color.DarkGray
+                        )
+                    }
+                    SyncStatus.NOT_LOADED -> {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_sync),
+                            colorFilter = ColorFilter.tint(Color(249, 214, 37, 255)),
+                            contentDescription = "Sync"
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Необходимо загрузить с сервера",
+                            color = Color.DarkGray
+                        )
+                    }
+                    else -> {}
+                }
+            }
+            Row(
+                modifier = Modifier.padding(start = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.ic_storage),
+                    tint = Color.LightGray,
+                    contentDescription = ""
                 )
                 Text(
-                    modifier = Modifier.fillMaxWidth().padding(start = 5.dp),
-                    text = progressText,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 5.dp, top = 5.dp),
+                    text = "Занимаемое место: 0 МБ",
                     color = Color.DarkGray
                 )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(progress.toFloat() / 7)
-                        .height(5.dp)
-                        .background(Color(253, 216, 53, 255))
-                )
             }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp, start = 5.dp),
+                text = progressText,
+                color = Color.DarkGray
+            )
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = progress.toFloat() / 7
+            )
+        }
     }
 }
 
@@ -113,9 +197,7 @@ fun CheckRow(@DrawableRes icon: Int, description: String, text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(32.dp)
-            .padding(start = 10.dp, end = 10.dp, bottom = 5.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp),
     ) {
         Image(
             modifier = Modifier.padding(end = 5.dp),
@@ -141,7 +223,9 @@ fun CheckItemPreview() {
             "mainwisdom@gmail.com"
         ),
         onClick = {},
-        progress = 0,
-        onInfoClicked = {}
+        progress = 5,
+        onInfoClicked = {},
+        onSyncClicked = {},
+        syncStatus = SyncStatus.NOT_LOADED
     )
 }

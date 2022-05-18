@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/checks"
+            android:icon="@drawable/ic_paste"
+            android:title="Проверки" />
+
+        <item
+            android:id="@+id/catalog"
+            android:icon="@drawable/ic_menu_book"
+            android:title="Документы" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Выйти" />
+    </group>
+
+</menu>

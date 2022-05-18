@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="file"
+            type="com.example.energo_monitoring.checks.data.ProjectFile" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/file_layout"
+        android:layout_width="@dimen/project_photo_height"
+        android:layout_height="@dimen/project_photo_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/file_preview"
+            android:layout_width="@dimen/project_photo_height"
+            android:layout_height="@dimen/project_photo_height"
+            android:contentDescription="@string/project_photo"
+            android:filePath="@{file.path}"
+            tools:src="@drawable/energomonitoring_logo" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#E6F3F1F1">
+
+            <TextView
+                android:id="@+id/file_title"
+                android:layout_width="@dimen/project_photo_height"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingHorizontal="3dp"
+                android:text="@{file.title}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9ssp"
+                tools:text="Фото_проекта123123.jpg" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/left_divider"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/solid_gray_color"
+            android:layout_gravity="end"/>
+
+        <View
+            android:id="@+id/right_divider"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/solid_gray_color"/>
+    </FrameLayout>
+</layout>

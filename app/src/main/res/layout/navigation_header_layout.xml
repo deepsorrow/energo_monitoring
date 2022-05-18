@@ -1,27 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:layout_marginTop="48dp"
+        android:paddingBottom="15dp"
         android:src="@drawable/client_logo" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="top"
         android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_person"
+            app:tint="#8E8E8E" />
         <TextView
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:drawableStart="@drawable/ic_person"
-            android:text="Василий Пупкин"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
-    </LinearLayout> />
+            android:textSize="24sp"
+            android:paddingStart="25dp"
+            android:text="Пушкин А. А." />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#57A6A6A6"/>
 
 </LinearLayout>

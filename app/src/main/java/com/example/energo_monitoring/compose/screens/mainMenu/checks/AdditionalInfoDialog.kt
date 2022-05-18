@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.energo_monitoring.R
-import com.example.energo_monitoring.data.api.ClientInfo
+import com.example.energo_monitoring.checks.data.api.ClientInfo
 
 @Composable
 fun AdditionalInfoDialog(isOpen: Boolean, onDismiss: () -> Unit, clientInfo: ClientInfo){
