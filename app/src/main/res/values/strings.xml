@@ -34,4 +34,6 @@
     <string name="project_photo">Фото проекта</string>
     <string name="pick_from_gallery">Выбрать из галереи</string>
     <string name="choose_file">Выбрать файл</string>
+    <string name="last_date_check">Дата окончания поверки</string>
+    <string name="reference_info">Справочная\nинформация</string>
 </resources>

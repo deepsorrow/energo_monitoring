@@ -13,7 +13,7 @@ public class ServerService {
     private static ServerApi api;
 
     public static ServerApi getService(){
-        if(api == null){
+        if (api == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://" + Settings.server_ip + ":" + Settings.server_port + "/")
                     .addConverterFactory(GsonConverterFactory.create())

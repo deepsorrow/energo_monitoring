@@ -1,7 +1,9 @@
 package com.example.energo_monitoring.checks.data.api;
 
 import com.example.energo_monitoring.checks.data.db.ResultData;
+import com.example.energo_monitoring.compose.data.api.RefDoc;
 
+import java.sql.Ref;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,4 +28,10 @@ public interface ServerApi {
 
     @GET("/api/v1/getAllAgreements")
     Call<List<ClientInfo>> getAllAgreements();
+
+    @GET("api/v1/refDocById")
+    Call<RefDoc> getRefDocById(@Query("id") int id);
+
+    @GET("api/v1/refDocsWithoutData")
+    Call<List<RefDoc>> getAllRefDocsWithoutData();
 }

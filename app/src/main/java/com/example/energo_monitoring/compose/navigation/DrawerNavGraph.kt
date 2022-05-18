@@ -4,15 +4,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.energo_monitoring.compose.DrawerScreens
+import com.example.energo_monitoring.compose.screens.referenceInfo.DocumentsScreen
 import com.example.energo_monitoring.compose.screens.mainMenu.checks.ChecksScreen
-import com.example.energo_monitoring.compose.screens.syncScreen.SyncScreen
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
-import com.example.energo_monitoring.compose.viewmodels.SyncViewModel
+import com.example.energo_monitoring.compose.viewmodels.RefDocsVM
 import kotlinx.coroutines.Job
 
 fun NavGraphBuilder.drawerNavGraph(
     checksViewModel: ChecksViewModel,
-    syncViewModel: SyncViewModel,
+    refDocsVM: RefDocsVM,
     openDrawer: () -> Job,
     navController: NavController
 ){
@@ -21,7 +21,7 @@ fun NavGraphBuilder.drawerNavGraph(
         ChecksScreen(viewModel = checksViewModel, openDrawer = openDrawer, openCreateNewScreen)
     }
 
-    composable(DrawerScreens.Sync.route) {
-        SyncScreen(viewModel = syncViewModel, openDrawer = openDrawer)
+    composable(DrawerScreens.ReferenceInfo.route) {
+        DocumentsScreen(openDrawer = openDrawer)
     }
 }

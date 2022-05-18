@@ -1,27 +1,30 @@
 package com.example.energo_monitoring.compose
 
+import android.app.Application
+import android.content.Context
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.energo_monitoring.checks.data.api.ServerApi
+import com.example.energo_monitoring.checks.data.api.ServerService
 import com.example.energo_monitoring.compose.navigation.createNewNavGraph
 import com.example.energo_monitoring.compose.navigation.drawerNavGraph
 import com.example.energo_monitoring.compose.screens.drawer.Drawer
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
 import com.example.energo_monitoring.compose.viewmodels.SharedViewModel
-import com.example.energo_monitoring.compose.viewmodels.SyncViewModel
+import com.example.energo_monitoring.compose.viewmodels.RefDocsVM
 import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 @Composable
 fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
                     sharedViewModel: SharedViewModel,
-                    syncViewModel: SyncViewModel,
+                    refDocsVM: RefDocsVM,
                     checksViewModel: ChecksViewModel){
 
 
@@ -57,7 +60,7 @@ fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
         ) {
             drawerNavGraph(
                 checksViewModel = checksViewModel,
-                syncViewModel = syncViewModel,
+                refDocsVM = refDocsVM,
                 openDrawer = openDrawer,
                 navController = navController
             )
@@ -73,5 +76,10 @@ fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
 @Composable
 @Preview
 private fun MainMenuPreview(){
-    SetupNavigation(ClientInfoViewModel(), SharedViewModel(), SyncViewModel(), ChecksViewModel())
+    SetupNavigation(
+        ClientInfoViewModel(),
+        SharedViewModel(),
+        RefDocsVM(Application().applicationContext, ServerService.getService()),
+        ChecksViewModel()
+    )
 }

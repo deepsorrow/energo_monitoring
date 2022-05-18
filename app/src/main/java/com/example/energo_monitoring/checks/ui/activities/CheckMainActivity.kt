@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -96,7 +95,7 @@ class CheckMainActivity : AppCompatActivity(), HasAndroidInjector {
             if (itemId == R.id.checks) {
                 startActivity(intent)
             } else if (itemId == R.id.catalog) {
-                intent.putExtra("route", DrawerScreens.Sync.route)
+                intent.putExtra("route", DrawerScreens.ReferenceInfo.route)
                 startActivity(intent)
             }
             false
