@@ -91,12 +91,14 @@ fun CheckItem(
                     )
                 }
 
-                OutlinedButton(onClick = {}) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_info_24),
-                        tint = Color(106, 27, 154, 255),
-                        contentDescription = ""
-                    )
+                Column(modifier = Modifier.fillMaxWidth().padding(end = 5.dp), horizontalAlignment = Alignment.End) {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_more_vert_24),
+                            tint = Color(158, 158, 158, 255),
+                            contentDescription = ""
+                        )
+                    }
                 }
             }
 
