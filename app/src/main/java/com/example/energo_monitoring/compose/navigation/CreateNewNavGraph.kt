@@ -9,7 +9,7 @@ import com.example.energo_monitoring.compose.screens.creatingNew1.CreatingNew1Sc
 import com.example.energo_monitoring.compose.screens.creatingNew3.CreatingNew3Screen
 import com.example.energo_monitoring.compose.screens.creatingNew3.CreatingNewDeviceScreen
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
-import com.example.energo_monitoring.data.api.ServerService
+import com.example.energo_monitoring.checks.data.api.ServerService
 import kotlinx.coroutines.Job
 
 fun NavGraphBuilder.createNewNavGraph(

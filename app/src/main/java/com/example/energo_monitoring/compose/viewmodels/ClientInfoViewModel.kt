@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.energo_monitoring.compose.ContractInfo
 import com.example.energo_monitoring.compose.screens.creatingNew1.ServingOrganization
 import com.example.energo_monitoring.compose.screens.creatingNew3.*
-import com.example.energo_monitoring.data.api.ClientInfo
-import com.example.energo_monitoring.data.api.ProjectDescription
-import com.example.energo_monitoring.data.db.ResultData
+import com.example.energo_monitoring.checks.data.api.ClientInfo
+import com.example.energo_monitoring.checks.data.api.ProjectDescription
+import com.example.energo_monitoring.checks.data.db.ResultData
 
 class ClientInfoViewModel : ViewModel() {
     val agreementNumber: MutableState<ContractInfo?> = mutableStateOf(null)

@@ -3,7 +3,7 @@ package com.example.energo_monitoring.compose
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.energo_monitoring.compose.screens.creatingNew1.IListEntry
-import com.example.energo_monitoring.data.api.ClientInfo
+import com.example.energo_monitoring.checks.data.api.ClientInfo
 
 @Entity
 data class ContractInfo(

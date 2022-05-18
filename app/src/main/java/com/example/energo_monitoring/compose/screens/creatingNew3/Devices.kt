@@ -12,11 +12,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.compose.screens.creatingNew1.CreatingTextField
 import com.example.energo_monitoring.compose.screens.creatingNew1.IListEntry
-import com.example.energo_monitoring.data.api.DeviceInfo
-import com.example.energo_monitoring.data.devices.DeviceCounter
-import com.example.energo_monitoring.data.devices.DeviceFlowTransducer
-import com.example.energo_monitoring.data.devices.DevicePressureTransducer
-import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer
+import com.example.energo_monitoring.checks.data.api.DeviceInfo
+import com.example.energo_monitoring.checks.data.devices.DeviceCounter
+import com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer
+import com.example.energo_monitoring.checks.data.devices.DevicePressureTransducer
+import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureTransducer
 import java.math.BigDecimal
 
 interface IDeviceInfo<T : AbstractDevice<*>> : IListEntry {
