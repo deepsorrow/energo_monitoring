@@ -12,9 +12,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.compose.screens.creatingNew1.CreatingTextField
 import com.example.energo_monitoring.compose.screens.creatingNew1.IListEntry
+import com.example.energo_monitoring.data.api.DeviceInfo
+import com.example.energo_monitoring.data.devices.DeviceCounter
+import com.example.energo_monitoring.data.devices.DeviceFlowTransducer
+import com.example.energo_monitoring.data.devices.DevicePressureTransducer
+import com.example.energo_monitoring.data.devices.DeviceTemperatureTransducer
 import java.math.BigDecimal
 
-interface IDeviceInfo<T : AbstractDevice> : IListEntry {
+interface IDeviceInfo<T : AbstractDevice<*>> : IListEntry {
     val nominative: String
     val genitive: String
 
@@ -43,10 +48,10 @@ private fun NumberField(placeholder: String, value: String, onValueChanged: (Str
 }
 
 @Composable
-private fun ComposeCommonFields(device: AbstractDevice) {
+private fun ComposeCommonFields(device: AbstractDevice<*>) {
     with (device) {
-        CreatingTextField(placeholder = "Номер свидетельства", certificateNum?.toString() ?: "") {
-            certificateNum = it.toIntOrNull()
+        CreatingTextField(placeholder = "Номер свидетельства", deviceNumber?.toString() ?: "") {
+            deviceNumber = it.toIntOrNull()
         }
 
         Button(
@@ -58,40 +63,56 @@ private fun ComposeCommonFields(device: AbstractDevice) {
             Text(text = "Проверить")
         }
 
-        CreatingTextField(placeholder = "Модель прибора", model) {
-            model = it
+        CreatingTextField(placeholder = "Модель прибора", deviceName) {
+            deviceName = it
+        }
+
+        NumberField(placeholder = "Номер прибора", installationPlace?.toString() ?: "") {
+            installationPlace = it.toIntOrNull()
         }
     }
 }
 
-sealed class AbstractDevice {
-    var certificateNum: Int? by mutableStateOf(null)
-    var model by mutableStateOf("")
+sealed class AbstractDevice<D : DeviceInfo> {
+    var deviceNumber: Int? by mutableStateOf(null)
+    var deviceName by mutableStateOf("")
+    var installationPlace: Int? by mutableStateOf(null)
 
     open val isValid: Boolean
-        get() = certificateNum != null && certificateNum!! > 0
+        get() = deviceNumber != null && deviceNumber!! > 0 && installationPlace != null && installationPlace!! > 0
 
     @Composable
     abstract fun compose()
+
+    abstract fun toDataDevice(): D
+    abstract fun fromDataDevice(device: D)
 }
 
-class HeatCalculator : AbstractDevice() {
-    var numberOfDevice: Int? by mutableStateOf(null)
-
+class HeatCalculator : AbstractDevice<DeviceTemperatureTransducer>() {
     override val isValid: Boolean
-        get() = super.isValid && numberOfDevice != null && numberOfDevice!! > 0
+        get() = super.isValid && installationPlace != null && installationPlace!! > 0
 
     override fun toString(): String {
-        return "$nominative: $model, $numberOfDevice"
+        return "$nominative: $deviceName, $installationPlace"
     }
 
     @Composable
     override fun compose() {
         ComposeCommonFields(this)
+    }
 
-        NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
-            numberOfDevice = it.toIntOrNull()
+    override fun toDataDevice(): DeviceTemperatureTransducer {
+        return DeviceTemperatureTransducer().also {
+            it.deviceNumber = deviceNumber?.toString() ?: "0"
+            it.deviceName = deviceName
+            it.installationPlace = installationPlace?.toString() ?: "0"
         }
+    }
+
+    override fun fromDataDevice(device: DeviceTemperatureTransducer) {
+        deviceNumber = device.deviceNumber.toIntOrNull()
+        deviceName = device.deviceName
+        installationPlace = device.installationPlace.toIntOrNull()
     }
 
     companion object : IDeviceInfo<HeatCalculator> {
@@ -104,31 +125,52 @@ class HeatCalculator : AbstractDevice() {
     }
 }
 
-class FlowConverter : AbstractDevice() {
-    var numberOfDevice: Int? by mutableStateOf(null)
+class FlowConverter : AbstractDevice<DeviceFlowTransducer>() {
     var diameter: BigDecimal? by mutableStateOf(null)
     var weight: BigDecimal? by mutableStateOf(null)
 
     override val isValid: Boolean
         get() = super.isValid &&
-            numberOfDevice != null &&
             diameter != null &&
             weight != null &&
-            numberOfDevice!! > 0 &&
             diameter!! > BigDecimal.ZERO &&
             weight!! > BigDecimal.ZERO
 
     override fun toString(): String {
-        return "$nominative: $model, $numberOfDevice, $diameter, $weight"
+        return "$nominative: $deviceName, $installationPlace, $diameter, $weight"
+    }
+
+    override fun toDataDevice(): DeviceFlowTransducer {
+        return DeviceFlowTransducer().also {
+            it.deviceNumber = deviceNumber?.toString() ?: "0"
+            it.deviceName = deviceName
+            it.installationPlace = installationPlace?.toString() ?: "0"
+            it.diameter = diameter?.toString()
+            it.impulseWeight = weight?.toString()
+        }
+    }
+
+    override fun fromDataDevice(device: DeviceFlowTransducer) {
+        deviceNumber = device.deviceNumber.toIntOrNull()
+        deviceName = device.deviceName
+        installationPlace = device.installationPlace.toIntOrNull()
+
+        try {
+            diameter = BigDecimal(device.diameter.trim())
+        } catch(_: Throwable) {
+
+        }
+
+        try {
+            weight = BigDecimal(device.impulseWeight.trim())
+        } catch(_: Throwable) {
+
+        }
     }
 
     @Composable
     override fun compose() {
         ComposeCommonFields(this)
-
-        NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
-            numberOfDevice = it.toIntOrNull()
-        }
 
         NumberField(placeholder = "Диаметр", diameter?.toString() ?: "") {
             diameter = try {
@@ -157,28 +199,42 @@ class FlowConverter : AbstractDevice() {
     }
 }
 
-class TemperatureConverter : AbstractDevice() {
-    var numberOfSensor: Int? by mutableStateOf(null)
+class TemperatureConverter : AbstractDevice<DeviceTemperatureTransducer>() {
     var length: BigDecimal? by mutableStateOf(null)
 
     override val isValid: Boolean
         get() = super.isValid &&
-            numberOfSensor != null &&
             length != null &&
-            numberOfSensor!! > 0 &&
             length!! > BigDecimal.ZERO
 
     override fun toString(): String {
-        return "$nominative: $model, $numberOfSensor, $length"
+        return "$nominative: $deviceName, $installationPlace, $length"
+    }
+
+    override fun toDataDevice(): DeviceTemperatureTransducer {
+        return DeviceTemperatureTransducer().also {
+            it.deviceNumber = deviceNumber?.toString() ?: "0"
+            it.deviceName = deviceName
+            it.installationPlace = installationPlace?.toString() ?: "0"
+            it.length = length?.toString() ?: "0"
+        }
+    }
+
+    override fun fromDataDevice(device: DeviceTemperatureTransducer) {
+        deviceNumber = device.deviceNumber.toIntOrNull()
+        deviceName = device.deviceName
+        installationPlace = device.installationPlace.toIntOrNull()
+
+        try {
+            length = BigDecimal(device.length.trim())
+        } catch(_: Throwable) {
+
+        }
     }
 
     @Composable
     override fun compose() {
         ComposeCommonFields(this)
-
-        NumberField(placeholder = "Номер датчика", numberOfSensor?.toString() ?: "") {
-            numberOfSensor = it.toIntOrNull()
-        }
 
         NumberField(placeholder = "Диаметр", length?.toString() ?: "") {
             length = try {
@@ -199,31 +255,51 @@ class TemperatureConverter : AbstractDevice() {
     }
 }
 
-class PressureConverter : AbstractDevice() {
-    var numberOfDevice: Int? by mutableStateOf(null)
+class PressureConverter : AbstractDevice<DevicePressureTransducer>() {
     var min: BigDecimal? by mutableStateOf(null)
     var max: BigDecimal? by mutableStateOf(null)
 
     override val isValid: Boolean
         get() = super.isValid &&
-            numberOfDevice != null &&
             min != null &&
             max != null &&
-            numberOfDevice!! > 0 &&
             min!! > BigDecimal.ZERO &&
             max!! >= min!!
 
     override fun toString(): String {
-        return "$nominative: $model, $min-$max"
+        return "$nominative: $deviceName, $min-$max"
+    }
+
+    override fun toDataDevice(): DevicePressureTransducer {
+        return DevicePressureTransducer().also {
+            it.deviceNumber = deviceNumber?.toString() ?: "0"
+            it.deviceName = deviceName
+            it.installationPlace = installationPlace?.toString() ?: "0"
+            it.sensorRange = "${min?.toString() ?: "0"}-${max?.toString() ?: "0"}"
+        }
+    }
+
+    override fun fromDataDevice(device: DevicePressureTransducer) {
+        deviceNumber = device.deviceNumber.toIntOrNull()
+        deviceName = device.deviceName
+        installationPlace = device.installationPlace.toIntOrNull()
+
+        try {
+            val split = device.sensorRange.split('-')
+
+            if (split.size != 2)
+                return
+
+            min = BigDecimal(split[0].trim())
+            max = BigDecimal(split[1].trim())
+        } catch(_: Throwable) {
+
+        }
     }
 
     @Composable
     override fun compose() {
         ComposeCommonFields(this)
-
-        NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
-            numberOfDevice = it.toIntOrNull()
-        }
 
         NumberField(placeholder = "Минимальное давление", min?.toString() ?: "") {
             min = try {
@@ -252,31 +328,51 @@ class PressureConverter : AbstractDevice() {
     }
 }
 
-class Counter : AbstractDevice() {
-    var numberOfDevice: Int? by mutableStateOf(null)
+class Counter : AbstractDevice<DeviceCounter>() {
     var diameter: BigDecimal? by mutableStateOf(null)
     var weight: BigDecimal? by mutableStateOf(null)
 
     override val isValid: Boolean
         get() = super.isValid &&
-            numberOfDevice != null &&
             diameter != null &&
             weight != null &&
-            numberOfDevice!! > 0 &&
             diameter!! > BigDecimal.ZERO &&
             weight!! > BigDecimal.ZERO
 
     override fun toString(): String {
-        return "$nominative: $model, $numberOfDevice, $diameter, $weight"
+        return "$nominative: $deviceName, $installationPlace, $diameter, $weight"
+    }
+
+    override fun toDataDevice(): DeviceCounter {
+        return DeviceCounter().also {
+            it.deviceNumber = deviceNumber?.toString() ?: "0"
+            it.deviceName = deviceName
+            it.diameter = diameter?.toString() ?: "0"
+            it.impulseWeight = weight?.toString() ?: "0"
+        }
+    }
+
+    override fun fromDataDevice(device: DeviceCounter) {
+        deviceNumber = device.deviceNumber.toIntOrNull()
+        deviceName = device.deviceName
+        // numberOfDevice = device.installationPlace.toIntOrNull()
+
+        try {
+            diameter = BigDecimal(device.diameter.trim())
+        } catch(_: Throwable) {
+
+        }
+
+        try {
+            weight = BigDecimal(device.impulseWeight.trim())
+        } catch(_: Throwable) {
+
+        }
     }
 
     @Composable
     override fun compose() {
         ComposeCommonFields(this)
-
-        NumberField(placeholder = "Номер прибора", numberOfDevice?.toString() ?: "") {
-            numberOfDevice = it.toIntOrNull()
-        }
 
         NumberField(placeholder = "Диаметр", diameter?.toString() ?: "") {
             diameter = try {

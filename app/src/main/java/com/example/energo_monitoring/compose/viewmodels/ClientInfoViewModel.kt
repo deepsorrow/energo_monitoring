@@ -5,8 +5,10 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.example.energo_monitoring.compose.ContractInfo
 import com.example.energo_monitoring.compose.screens.creatingNew1.ServingOrganization
-import com.example.energo_monitoring.compose.screens.creatingNew3.AbstractDevice
-import com.example.energo_monitoring.compose.screens.creatingNew3.IDeviceInfo
+import com.example.energo_monitoring.compose.screens.creatingNew3.*
+import com.example.energo_monitoring.data.api.ClientInfo
+import com.example.energo_monitoring.data.api.ProjectDescription
+import com.example.energo_monitoring.data.db.ResultData
 
 class ClientInfoViewModel : ViewModel() {
     val agreementNumber: MutableState<ContractInfo?> = mutableStateOf(null)
@@ -16,15 +18,15 @@ class ClientInfoViewModel : ViewModel() {
     val phoneNumber: MutableState<String> = mutableStateOf("")
     val email: MutableState<String> = mutableStateOf("")
     val servingOrganization: MutableState<ServingOrganization?> = mutableStateOf(null)
-    val boolean: MutableState<Boolean> = mutableStateOf(false)
+    val hasDebt: MutableState<Boolean> = mutableStateOf(false)
 
     val commentary: MutableState<String> = mutableStateOf("")
     val matchesConditions: MutableState<Boolean> = mutableStateOf(true)
 
     // val devices: MutableList<AbstractDevice> = mutableListOf()
-    val devices: MutableSet<AbstractDevice> = HashSet()
+    val devices: MutableSet<AbstractDevice<*>> = HashSet()
 
-    var deviceInQuestion: AbstractDevice? by mutableStateOf(null)
+    var deviceInQuestion: AbstractDevice<*>? by mutableStateOf(null)
     var deviceInfoInQuestion: IDeviceInfo<*>? by mutableStateOf(null)
     var deviceShouldBeAdded = false
 
@@ -45,4 +47,28 @@ class ClientInfoViewModel : ViewModel() {
         ServingOrganization(1, "ООО УК \"Апельсин\"", "Сергей Александрович Иванов", "8 (38456) 349-68"),
         ServingOrganization(2, "ООО \"Таштагольская управляющая компания\"", "Шторк Игорь Александрович", "8(999)430-69-94"),
     )
+
+    fun assembleData(): ResultData {
+        return ResultData().also {
+            //it.clientInfo = agreementNumber.value!!.assemble()
+            it.clientInfo = ClientInfo().also {
+                it.name = name.value
+                it.addressUUTE = addressUUTE.value
+                it.representativeName = representativeName.value
+                it.phoneNumber = phoneNumber.value
+                it.email = email.value
+                // it.servingOrganization = servingOrganization.value
+                it.hasDebt = hasDebt.value
+            }
+
+            it.project = ProjectDescription().also {
+                it.photoPath = photos.firstOrNull()?.encodedPath // TODO: как?
+            }
+
+            it.deviceFlowTransducers = devices.filterIsInstance<FlowConverter>().map { it.toDataDevice() }
+            it.deviceTemperatureTransducers = devices.filterIsInstance<TemperatureConverter>().map { it.toDataDevice() }
+            it.devicePressureTransducers = devices.filterIsInstance<PressureConverter>().map { it.toDataDevice() }
+            it.deviceCounters = devices.filterIsInstance<Counter>().map { it.toDataDevice() }
+        }
+    }
 }
