@@ -14,12 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.checks.data.api.ClientDataBundle
@@ -32,7 +37,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ChecksContent(
-    viewModel: ChecksViewModel,
+    viewModel: ChecksViewModel = hiltViewModel(),
     openCreateNewScreen: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -48,8 +53,6 @@ fun ChecksContent(
     LaunchedEffect(key1 = true) {
         requestClientsInfo()
     }
-
-    val clients by viewModel.clients.collectAsState()
 
     val loadInfo =
         { dataId: Int, clientName: String, needToOpenCheck: Boolean, onComplete: (ClientDataBundle) -> Unit ->
@@ -98,19 +101,10 @@ fun ChecksContent(
             loadInfo(dataId, clientName, true) {}
         }
     }
-    var isOpen by remember { mutableStateOf(false) }
-    var currentClientInfo by remember { mutableStateOf(ClientInfo()) }
 
-    AdditionalInfoDialog(
-        isOpen = isOpen,
-        onDismiss = { isOpen = !isOpen },
-        clientInfo = currentClientInfo
-    )
-
-    val isRefreshing by viewModel.isRefreshing
     SwipeRefresh(
         modifier = Modifier.fillMaxSize(),
-        state = rememberSwipeRefreshState(isRefreshing),
+        state = rememberSwipeRefreshState(viewModel.isRefreshing),
         onRefresh = { viewModel.refresh(context) },
     ) {
         Column {
@@ -134,7 +128,7 @@ fun ChecksContent(
             }
             Scaffold(
                 content = {
-                    if (clients.isEmpty()) {
+                    if (viewModel.clients.isEmpty()) {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -156,7 +150,7 @@ fun ChecksContent(
                         }
                     } else {
                         LazyColumn {
-                            items(items = clients) { item ->
+                            items(items = viewModel.clients) { item ->
                                 CheckItem(
                                     clientInfo = item.clientInfo,
                                     onClick = {
@@ -165,15 +159,10 @@ fun ChecksContent(
                                             item.clientInfo.name
                                         )
                                     },
+                                    onActionClick = { selectedAction: DropDownClientActions, clientInfo: ClientInfo ->
+                                        viewModel.onActionClicked(selectedAction, clientInfo) },
                                     progress = item.progress,
-                                    onInfoClicked = {
-                                        isOpen = true
-                                        currentClientInfo = item.clientInfo
-                                    },
-                                    onSyncClicked = {
-                                        syncInfo(item.clientInfo.dataId, item.clientInfo.name)
-                                    },
-                                    syncStatus = item.synced
+                                    syncStatus = item.synced,
                                 )
                             }
                         }
@@ -203,7 +192,5 @@ fun ChecksContent(
 @Preview
 @Composable
 fun ChecksContentPreview() {
-    ChecksContent(
-        ChecksViewModel()
-    ) {}
+    ChecksContent {}
 }

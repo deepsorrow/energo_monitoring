@@ -6,7 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.widget.Toast
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.energo_monitoring.checks.data.api.*
 import com.example.energo_monitoring.checks.data.db.OtherInfo
@@ -17,6 +19,8 @@ import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
 import com.example.energo_monitoring.checks.ui.presenters.utilities.SharedPreferencesManager
 import com.example.energo_monitoring.compose.data.ClientInfoWithProgress
 import com.example.energo_monitoring.compose.data.SyncStatus
+import com.example.energo_monitoring.compose.screens.mainMenu.checks.DropDownClientActions
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,15 +29,17 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
+@HiltViewModel
+class ChecksViewModel @Inject constructor(
+    private val serverApi: ServerApi
+) : ViewModel() {
 
-class ChecksViewModel : ViewModel(){
-
-    val clients = MutableStateFlow<List<ClientInfoWithProgress>>(emptyList())
-    val isRefreshing = mutableStateOf(false)
+    var clients by mutableStateOf<List<ClientInfoWithProgress>>(emptyList())
+    var isRefreshing by mutableStateOf(false)
 
     fun requestClientsInfo(context: Context, onComplete: () -> Unit) {
         val userId = SharedPreferencesManager.getUserId(context)
-        ServerService.getService().getAvailableClientInfo(userId).enqueue(object : Callback<List<ClientInfo>> {
+        serverApi.getAvailableClientInfo(userId).enqueue(object : Callback<List<ClientInfo>> {
             override fun onResponse(call: Call<List<ClientInfo>>, response: Response<List<ClientInfo>>) {
                 val clientsWithProgress = mutableListOf<ClientInfoWithProgress>()
                 response.body()?.forEach {
@@ -41,22 +47,22 @@ class ChecksViewModel : ViewModel(){
                     clientsWithProgress.add(ClientInfoWithProgress(it, progress, syncStatus))
                 }
                 clientsWithProgress.sortByDescending { it.progress }
-                clients.value = clientsWithProgress
-                isRefreshing.value = false
+                clients = clientsWithProgress
+                isRefreshing = false
                 onComplete()
             }
 
             override fun onFailure(call: Call<List<ClientInfo>>, t: Throwable) {
                 Toast.makeText(context, "Не удалось получить данные! Ошибка: "
                         + t.message, Toast.LENGTH_LONG).show()
-                isRefreshing.value = false
+                isRefreshing = false
                 onComplete()
             }
         })
     }
 
     fun loadInfo(dataId: Int, onComplete: (ClientDataBundle?) -> Unit, onError: (String) -> Unit) {
-        ServerService.getService().getDetailedClientBundle(dataId)
+        serverApi.getDetailedClientBundle(dataId)
             .enqueue(object : Callback<ClientDataBundle> {
                 override fun onResponse(call: Call<ClientDataBundle>, response: Response<ClientDataBundle>) {
                     onComplete(response.body())
@@ -142,7 +148,7 @@ class ChecksViewModel : ViewModel(){
     }
 
     fun refresh(context: Context){
-        isRefreshing.value = true
+        isRefreshing = true
         requestClientsInfo(context) {}
     }
 
@@ -162,5 +168,19 @@ class ChecksViewModel : ViewModel(){
             status = if (data.otherInfo.cloudVersion == data.otherInfo.localVersion) SyncStatus.SYNCED else SyncStatus.NOT_SYNCED
         }
         return status
+    }
+
+    fun onActionClicked(action: DropDownClientActions, clientInfo: ClientInfo) {
+        when(action) {
+            DropDownClientActions.SYNC -> {
+
+            }
+            DropDownClientActions.REMOVE_LOCALLY -> {
+
+            }
+            DropDownClientActions.REMOVE_GLOBALLY -> {
+
+            }
+        }
     }
 }

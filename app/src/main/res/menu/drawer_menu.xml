@@ -10,7 +10,7 @@
         <item
             android:id="@+id/catalog"
             android:icon="@drawable/ic_menu_book"
-            android:title="@string/reference_info" />
+            android:title="Документы" />
 
         <item
             android:id="@+id/logout"

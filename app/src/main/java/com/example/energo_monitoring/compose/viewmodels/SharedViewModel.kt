@@ -9,11 +9,12 @@ import androidx.navigation.navOptions
 import com.example.energo_monitoring.compose.DrawerScreens
 
 class SharedViewModel : ViewModel() {
-    var destination by mutableStateOf(DrawerScreens.Checks.route)
+    var currentRoute by mutableStateOf(DrawerScreens.Checks.route)
         private set
 
     val changeDestination: (String, NavOptionsBuilder.() -> Unit) -> Unit = { route: String, doBefore: NavOptionsBuilder.() -> Unit ->
         navOptions(doBefore)
-        destination = route
+        currentRoute = "" // быстрофикс чтобы сменить state, почему-то не переключается иногда
+        currentRoute = route
     }
 }

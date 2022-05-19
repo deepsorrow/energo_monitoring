@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.R
 
 @Composable
-fun TopBar(title: String, onNavigationIconClicked: () -> Unit){
+fun TopBar(title: String, onMoreButtonClicked: (() -> Unit)? = null, onNavigationIconClicked: () -> Unit){
     TopAppBar(
         title = {
             Image(
@@ -38,6 +38,17 @@ fun TopBar(title: String, onNavigationIconClicked: () -> Unit){
                 )
             }
         },
+        actions = {
+            if (onMoreButtonClicked != null) {
+                IconButton(onClick = onMoreButtonClicked) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_more_vert_24),
+                        tint = MaterialTheme.colors.onPrimary,
+                        contentDescription = "Действия"
+                    )
+                }
+            }
+        },
         backgroundColor = MaterialTheme.colors.primary,
     )
 }
@@ -45,5 +56,5 @@ fun TopBar(title: String, onNavigationIconClicked: () -> Unit){
 @Preview
 @Composable
 fun PreviewTopBar(){
-    TopBar("Энергомониторинг") {}
+    TopBar("Энергомониторинг", onNavigationIconClicked = {}, onMoreButtonClicked = {})
 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.Job
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job, openCreateNewScreen: () -> Unit){
+fun ChecksScreen(openDrawer: () -> Job, openCreateNewScreen: () -> Unit){
     Scaffold(
         topBar = {
             TopBar(
@@ -20,7 +20,6 @@ fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job, openCreateNe
         },
         content = {
             ChecksContent(
-                viewModel = viewModel,
                 openCreateNewScreen = openCreateNewScreen
             )
         }
@@ -30,5 +29,5 @@ fun ChecksScreen(viewModel: ChecksViewModel, openDrawer: () -> Job, openCreateNe
 @Preview
 @Composable
 fun PreviewChecksScreen(){
-    ChecksScreen(viewModel = ChecksViewModel(), { Job(null) }, {})
+    ChecksScreen({ Job(null) }, {})
 }
