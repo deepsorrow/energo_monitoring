@@ -30,6 +30,7 @@ import com.example.energo_monitoring.compose.viewmodels.ChecksViewModel
 import com.example.energo_monitoring.checks.data.api.ClientDataBundle
 import com.example.energo_monitoring.checks.data.api.ClientInfo
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase
+import com.example.energo_monitoring.compose.LoadingIndicator
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -108,24 +109,7 @@ fun ChecksContent(
         onRefresh = { viewModel.refresh(context) },
     ) {
         Column {
-            AnimatedVisibility(
-                visible = showProgressBar,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator()
-                    Text(
-                        modifier = Modifier.padding(top = 5.dp),
-                        text = "Загрузка данных с облака...",
-                        fontSize = 18.sp
-                    )
-                }
-            }
+            LoadingIndicator(isVisible = showProgressBar)
             Scaffold(
                 content = {
                     if (viewModel.clients.isEmpty()) {

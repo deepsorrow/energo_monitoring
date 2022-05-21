@@ -6,14 +6,14 @@ import androidx.room.PrimaryKey
 @Entity
 class RefDoc() {
     @PrimaryKey
-    val id: Int = 0
-    val isFolder: Boolean = false
-    val parentFolder: String = ""
+    var id: Int = 0
+    var isFolder: Boolean = false
+    var parentFolder: String = ""
     var title: String = ""
-    val size: String = ""
+    var size: String = ""
 
-    val localFilePath: String = ""
-    val data: ByteArray = byteArrayOf()
+    var localFilePath: String = ""
+    var data: ByteArray = byteArrayOf()
 
     constructor(title: String) : this() {
         this.title = title

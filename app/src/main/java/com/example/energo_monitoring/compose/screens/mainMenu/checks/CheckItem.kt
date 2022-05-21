@@ -209,7 +209,7 @@ fun CheckItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 5.dp, top = 5.dp),
-                        text = "Занимаемое место: 0 МБ",
+                        text = "Занимаемое место: 11 МБ",
                         color = Color.DarkGray
                     )
                 }

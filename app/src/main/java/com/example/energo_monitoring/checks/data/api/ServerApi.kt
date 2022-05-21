@@ -1,37 +1,32 @@
-package com.example.energo_monitoring.checks.data.api;
+package com.example.energo_monitoring.checks.data.api
 
-import com.example.energo_monitoring.checks.data.db.ResultData;
-import com.example.energo_monitoring.compose.data.api.RefDoc;
+import retrofit2.http.GET
+import retrofit2.http.POST
+import com.example.energo_monitoring.checks.data.db.ResultData
+import com.example.energo_monitoring.compose.data.api.RefDoc
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.Query
 
-import java.sql.Ref;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-
-public interface ServerApi {
-
+interface ServerApi {
     @GET("/api/v1/getAvailableClientInfo")
-    Call<List<ClientInfo>> getAvailableClientInfo(@Query("userId") int userId);
+    fun getAvailableClientInfo(@Query("userId") userId: Int): Call<List<ClientInfo>>
 
     @GET("/api/v1/getDetailedClientBundle")
-    Call<ClientDataBundle> getDetailedClientBundle(@Query("id") int id);
+    fun getDetailedClientBundle(@Query("id") id: Int): Call<ClientDataBundle>
 
     @POST("/api/v1/authorize")
-    Call<AuthorizeResponse> authorize(@Body AuthorizeBody body);
+    fun authorize(@Body body: AuthorizeBody): Call<AuthorizeResponse>
 
     @POST("/api/v1/sendResults")
-    Call<Boolean> sendResults(@Body ResultData resultData);
+    fun sendResults(@Body resultData: ResultData): Call<Boolean>
 
     @GET("/api/v1/getAllAgreements")
-    Call<List<ClientInfo>> getAllAgreements();
+    fun allAgreements(): Call<List<ClientInfo>?>
 
     @GET("api/v1/refDocById")
-    Call<RefDoc> getRefDocById(@Query("id") int id);
+    fun getRefDocById(@Query("id") id: Int): Call<List<Byte>>
 
     @GET("api/v1/refDocsWithoutData")
-    Call<List<RefDoc>> getAllRefDocsWithoutData();
+    fun allRefDocsWithoutData(): Call<List<RefDoc>?>
 }

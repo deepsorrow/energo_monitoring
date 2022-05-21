@@ -76,7 +76,7 @@ class Step7_FinalPhotosFragment : Fragment() {
                     result.photosBase64 = LoadImageManager.getBase64FromPath(context, result.photosString)
                 if (resultData.project.photoPath != null && resultData.project.photoPath.isNotEmpty())
                     resultData.project.photoBase64 = LoadImageManager.getBase64FromPath(context, resultData.project.photoPath)
-                ServerService.getService().sendResults(resultData)
+                ServerService.service!!.sendResults(resultData)
                     .enqueue(object : Callback<Boolean?> {
                         override fun onResponse(
                             call: Call<Boolean?>,

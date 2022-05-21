@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:drawableLeft="@drawable/ic_baseline_add_a_photo_24"
+        android:drawableLeft="@drawable/ic_photo_camera"
         android:drawablePadding="@dimen/_5sdp"
         android:text="@string/take_photo"
         android:textColor="#424141" />

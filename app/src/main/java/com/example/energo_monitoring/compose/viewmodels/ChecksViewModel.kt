@@ -21,7 +21,6 @@ import com.example.energo_monitoring.compose.data.ClientInfoWithProgress
 import com.example.energo_monitoring.compose.data.SyncStatus
 import com.example.energo_monitoring.compose.screens.mainMenu.checks.DropDownClientActions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

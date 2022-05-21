@@ -46,7 +46,7 @@ fun NavGraphBuilder.createNewNavGraph(
                 openDrawer = openDrawer,
                 navController = navController,
                 goToNextScreen = {
-                    ServerService.getService().sendResults(clientInfoViewModel.assembleData())
+                    ServerService.service.sendResults(clientInfoViewModel.assembleData())
                 }
             )
         }

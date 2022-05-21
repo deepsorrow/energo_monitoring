@@ -1,42 +1,28 @@
-package com.example.energo_monitoring.checks.data.api;
+package com.example.energo_monitoring.checks.data.api
 
-import com.example.energo_monitoring.checks.ui.presenters.utilities.Settings;
+import com.example.energo_monitoring.checks.ui.presenters.utilities.Settings
+import com.google.gson.GsonBuilder
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+object ServerService {
+    private var api: ServerApi? = null
+    @JvmStatic
+    val service: ServerApi
+        get() {
+            if (api == null) {
+                val gson = GsonBuilder()
+                    .setLenient() // для работы byteArray
+                    .create()
 
-public class ServerService {
-    private static ServerApi api;
-
-    public static ServerApi getService(){
-        if (api == null) {
-            Retrofit retrofit = new Retrofit.Builder()
+                val retrofit = Retrofit.Builder()
                     .baseUrl("http://" + Settings.server_ip + ":" + Settings.server_port + "/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(getOkHttpClient())
-                    .build();
-
-            api = retrofit.create(ServerApi.class);
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build()
+                api = retrofit.create(ServerApi::class.java)
+            }
+            return api!!
         }
 
-        return api;
-    }
-
-    private static OkHttpClient getOkHttpClient() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                //.addInterceptor(logging)
-                .build();
-
-        return httpClient;
-    }
 }
