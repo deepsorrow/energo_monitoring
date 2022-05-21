@@ -3,21 +3,24 @@
 
 package com.example.energo_monitoring.compose.screens.creatingNew3
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.energo_monitoring.R
 import com.example.energo_monitoring.compose.screens.creatingNew1.ChooseFromListDialog
 import com.example.energo_monitoring.compose.viewmodels.ClientInfoViewModel
+import java.math.BigDecimal
 
 private val deviceTypes: List<IDeviceInfo<*>> = listOf(
     HeatCalculator.Companion,
@@ -57,17 +60,33 @@ fun CreatingNew3Content(
                 // .fillMaxSize()
                 // TODO: высота этого элемента
                 .height(300.dp)
-                .padding(top = 20.dp)
+                .padding(top = 20.dp, start = 15.dp, end = 15.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             for (device in viewModel.devices) {
-                // TODO: кликабельные пункты
-                // логика для редактирования существующих устройств уже есть
-                Text(
-                    fontSize = 17.sp,
-                    text = device.toString(),
-                    modifier = Modifier.padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(top = 15.dp)
+                        .clickable {
+                            viewModel.deviceShouldBeAdded = false
+                            viewModel.deviceInQuestion = device
+                            viewModel.deviceInfoInQuestion = device.info
+
+                            navController?.navigate("create_new_3_device")
+                        }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_device_hub_24),
+                        contentDescription = device.info.nominative)
+
+                    Text(
+                        fontSize = 17.sp,
+                        text = device.toString(),
+                        modifier = Modifier
+                            .padding(start = 10.dp),
+                    )
+                }
             }
         }
 
@@ -117,5 +136,32 @@ fun CreatingNew3Content(
 @Composable
 @Preview
 fun CreatingNew3ContentPreview() {
-    CreatingNew3Content(ClientInfoViewModel())
+    CreatingNew3Content(ClientInfoViewModel().also {
+        it.devices.add(HeatCalculator().also {
+            it.deviceName = "Имя"
+            it.deviceNumber = 15
+            it.installationPlace = 188
+        })
+
+        it.devices.add(FlowConverter().also {
+            it.deviceName = "Имя"
+            it.deviceNumber = 15
+            it.diameter = BigDecimal("0.4")
+            it.weight = BigDecimal("200")
+        })
+
+        it.devices.add(FlowConverter().also {
+            it.deviceName = "Имя"
+            it.deviceNumber = 15
+            it.diameter = BigDecimal("0.4")
+            it.weight = BigDecimal("200")
+        })
+
+        it.devices.add(FlowConverter().also {
+            it.deviceName = "Имя"
+            it.deviceNumber = 15
+            it.diameter = BigDecimal("0.4")
+            it.weight = BigDecimal("200")
+        })
+    })
 }
