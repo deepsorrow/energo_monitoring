@@ -61,10 +61,6 @@ fun CreatingNew3Content(
             fontSize = 17.sp
         )
 
-        val swipeStates = remember {
-            mutableStateListOf<Pair<WeakReference<AbstractDevice<*>>, SwipeableState<Int>>>()
-        }
-
         Column(
             modifier = Modifier
                 // .fillMaxSize()
@@ -73,6 +69,10 @@ fun CreatingNew3Content(
                 .padding(top = 20.dp, start = 15.dp, end = 15.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+            val swipeStates = remember {
+                mutableStateListOf<Pair<WeakReference<AbstractDevice<*>>, SwipeableState<Int>>>()
+            }
+
             val sizePx = with(LocalDensity.current) { (-500).dp.toPx() }
             val anchors = mapOf(sizePx to 1, 0f to 0)
             var change by remember {
