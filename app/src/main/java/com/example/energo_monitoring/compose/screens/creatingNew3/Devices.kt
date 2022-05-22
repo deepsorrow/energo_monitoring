@@ -86,6 +86,8 @@ sealed class AbstractDevice<D : DeviceInfo> {
 
     abstract fun toDataDevice(): D
     abstract fun fromDataDevice(device: D)
+
+    abstract val info: IDeviceInfo<*>
 }
 
 class HeatCalculator : AbstractDevice<DeviceTemperatureTransducer>() {
@@ -114,6 +116,9 @@ class HeatCalculator : AbstractDevice<DeviceTemperatureTransducer>() {
         deviceName = device.deviceName
         installationPlace = device.installationPlace.toIntOrNull()
     }
+
+    override val info: IDeviceInfo<*>
+        get() = Companion
 
     companion object : IDeviceInfo<HeatCalculator> {
         override val nominative: String
@@ -189,6 +194,9 @@ class FlowConverter : AbstractDevice<DeviceFlowTransducer>() {
         }
     }
 
+    override val info: IDeviceInfo<*>
+        get() = Companion
+
     companion object : IDeviceInfo<FlowConverter> {
         override val nominative: String
             get() = "Преобразователь расхода"
@@ -244,6 +252,9 @@ class TemperatureConverter : AbstractDevice<DeviceTemperatureTransducer>() {
             }
         }
     }
+
+    override val info: IDeviceInfo<*>
+        get() = Companion
 
     companion object : IDeviceInfo<TemperatureConverter> {
         override val nominative: String
@@ -318,6 +329,9 @@ class PressureConverter : AbstractDevice<DevicePressureTransducer>() {
         }
     }
 
+    override val info: IDeviceInfo<*>
+        get() = Companion
+
     companion object : IDeviceInfo<PressureConverter> {
         override val nominative: String
             get() = "Преобразователь давления"
@@ -390,6 +404,9 @@ class Counter : AbstractDevice<DeviceCounter>() {
             }
         }
     }
+
+    override val info: IDeviceInfo<*>
+        get() = Companion
 
     companion object : IDeviceInfo<Counter> {
         override val nominative: String
