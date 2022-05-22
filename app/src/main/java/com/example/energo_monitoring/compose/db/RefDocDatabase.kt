@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.energo_monitoring.compose.data.api.RefDoc
 import com.example.energo_monitoring.compose.data.api.RefDocDao
 
-@Database(entities = [RefDoc::class], version = 1)
+@Database(entities = [RefDoc::class], version = 5)
 abstract class RefDocDatabase : RoomDatabase() {
     abstract fun dao(): RefDocDao
 

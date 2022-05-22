@@ -7,16 +7,19 @@ import androidx.room.PrimaryKey
 class RefDoc() {
     @PrimaryKey
     var id: Int = 0
+    var parentId: Int = 0
     var isFolder: Boolean = false
-    var parentFolder: String = ""
+    var parentFolderName: String = ""
     var title: String = ""
     var size: String = ""
 
-    var localFilePath: String = ""
+    var localFilePath: String? = ""
     var data: ByteArray = byteArrayOf()
+    var dataString: String? = ""
 
-    constructor(title: String) : this() {
+    constructor(title: String, isFolder: Boolean = false) : this() {
         this.title = title
+        this.isFolder = isFolder
     }
 
     override fun toString(): String {

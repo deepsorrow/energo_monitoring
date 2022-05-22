@@ -126,7 +126,7 @@ fun ChecksContent(
                                 tint = Color.Gray
                             )
                             Text(
-                                text = "Созданных проверок пока нет.\nСоздайте новую или попробуйте обновить потянув сверху.",
+                                text = "Созданных проверок пока нет\nСоздайте новую или попробуйте обновить потянув сверху.",
                                 color = Color.Gray,
                                 textAlign = TextAlign.Center,
                                 fontSize = 20.sp

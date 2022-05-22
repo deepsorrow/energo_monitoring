@@ -25,7 +25,7 @@ interface ServerApi {
     fun allAgreements(): Call<List<ClientInfo>?>
 
     @GET("api/v1/refDocById")
-    fun getRefDocById(@Query("id") id: Int): Call<List<Byte>>
+    fun getRefDocById(@Query("id") id: Int): Call<RefDoc>
 
     @GET("api/v1/refDocsWithoutData")
     fun allRefDocsWithoutData(): Call<List<RefDoc>?>

@@ -15,4 +15,10 @@ abstract class RefDocDao {
 
     @Query("SELECT * FROM RefDoc WHERE id = :id")
     abstract fun getRefDoc(id: Int): RefDoc?
+
+    @Query("SELECT * FROM RefDoc WHERE id = :parentId")
+    abstract fun getParent(parentId: Int): RefDoc?
+
+    @Query("SELECT * FROM RefDoc")
+    abstract fun getAllRefDocs(): List<RefDoc>?
 }

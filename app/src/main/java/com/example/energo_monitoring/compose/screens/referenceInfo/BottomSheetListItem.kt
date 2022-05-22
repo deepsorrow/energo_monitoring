@@ -17,23 +17,23 @@ import androidx.compose.ui.unit.dp
 import com.example.energo_monitoring.R
 
 @Composable
-fun BottomSheetListItem(icon: Int, title: String, onItemClick: (String) -> Unit) {
+fun BottomSheetListItem(item: BottomSheetActions, onItemClick: (BottomSheetActions) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { onItemClick(title) })
+            .clickable(onClick = { onItemClick(item) })
             .height(55.dp)
             .background(color = Color(247, 247, 247, 206))
             .padding(start = 15.dp), verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(painter = painterResource(id = icon), contentDescription = "Share", tint = Color.Black)
+        Icon(painter = painterResource(id = item.icon), contentDescription = "Share", tint = Color.Black)
         Spacer(modifier = Modifier.width(20.dp))
-        Text(text = title, color = Color.Black)
+        Text(text = item.title, color = Color.Black)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun BottomSheetListItemPreview() {
-    BottomSheetListItem(icon = R.drawable.ic_add_green, title = "Share", onItemClick = { })
+    BottomSheetListItem(item = BottomSheetActions.ADD_FILE, onItemClick = { })
 }

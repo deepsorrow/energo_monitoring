@@ -3,13 +3,13 @@ package com.example.energo_monitoring.compose.viewmodels
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.energo_monitoring.checks.data.api.ServerApi
@@ -34,7 +34,7 @@ class RefDocsVM @Inject constructor(
  ) : ViewModel() {
     var isLoading by mutableStateOf(false)
     var refDocs = mutableStateListOf<RefDoc>()
-    var currentFile by mutableStateOf(RefDoc())
+    var currentFolder by mutableStateOf(RefDoc())
     var currentChildFiles = mutableStateListOf<RefDoc>()
 
     fun getRefDocs() = viewModelScope.launch(Dispatchers.IO) {
@@ -44,10 +44,7 @@ class RefDocsVM @Inject constructor(
             if (response.isSuccessful) {
                 refDocs.clear()
                 response.body()?.forEach { refDocs.add(it) }
-                val topLevelFiles = refDocs
-                    .filter { it.isFolder || it.parentFolder == "" }
-                    .sortedBy { it.title }
-                currentChildFiles.addAll(topLevelFiles)
+                updateChildFiles(getTopLevelFiles())
                 isLoading = false
             }
         } catch (t: Throwable) {
@@ -55,44 +52,64 @@ class RefDocsVM @Inject constructor(
         }
     }
 
-    fun getAndOpenFile(refDoc: RefDoc) = viewModelScope.launch(Dispatchers.IO) {
+    fun getCurrentDocuments() {
+        val downloadedRefDocs = repository.getAllRefDocs()
+        if (downloadedRefDocs != null) {
+            refDocs.clear()
+            refDocs.addAll(downloadedRefDocs)
+            updateChildFiles(getTopLevelFiles())
+        }
+    }
+
+    fun downloadFile(refDoc: RefDoc) = viewModelScope.launch {
         Log.d("TAG", "Execution thread: "+Thread.currentThread().name)
-        val fileToOpen = async {
+        val resultFile = async(Dispatchers.IO) {
             try {
                 Log.d("TAG", "Execution thread1: "+Thread.currentThread().name)
                 isLoading = true
                 val response = serverApi.getRefDocById(refDoc.id).awaitResponse()
                 if (response.isSuccessful) {
                     val result = response.body()
-                    if (result != null) {
-//                        val extension = refDoc.title.substringAfterLast(".").lowercase()
-//                        val file = File.createTempFile("refDoc", ".$extension", context.filesDir)
-//                        val os = FileOutputStream(file)
-//                        os.write(result)
-//                        os.close()
-//
-//                        refDoc.localFilePath = file.canonicalPath
-//                        repository.insertRefDoc(refDoc)
+                    if (result?.dataString != null) {
+                        val extension = refDoc.title.substringAfterLast(".").lowercase()
+                        val file = File.createTempFile("refDoc", ".$extension", context.filesDir)
+                        val os = FileOutputStream(file)
+                        os.write(result.dataString!!.toByteArray())
+                        os.close()
 
-                        return@async refDoc
+                        refDoc.localFilePath = file.canonicalPath
+                        repository.insertRefDoc(refDoc)
+
+                        // Пока не в корне, добавляем папки
+                        var newFolder: RefDoc? = refDoc
+                        while (newFolder != null && newFolder.parentId != 0) {
+                            newFolder = refDocs.find { newFolder!!.parentId == it.id }
+                            if (newFolder != null && repository.getRefDoc(newFolder.id) == null) {
+                                repository.insertRefDoc(newFolder)
+                            }
+                        }
+
+                        return@async Result.success(refDoc)
                     }
                 }
-                return@async null
+                return@async Result.failure(UnknownError("Не удалось получить файл. Код ошибки 817."))
 
             } catch (t: Throwable) {
-                return@async null
+                return@async Result.failure(UnknownError("Не удалось получить файл. Код ошибки 818. $t"))
+            } finally {
+                isLoading = false
             }
         }.await()
 
-        if (fileToOpen != null) {
-            openFile(fileToOpen)
+        if (resultFile.isFailure) {
+            Toast.makeText(context, resultFile.exceptionOrNull().toString(), Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun openFile(refDoc: RefDoc) {
-        val file = File(refDoc.localFilePath)
+    fun openFile(refDoc: RefDoc) {
+        val file = File(refDoc.localFilePath.orEmpty())
         if (file.exists()) {
-            val uri: Uri = Uri.fromFile(file)
+            val uri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", file)
             val intent = Intent(Intent.ACTION_VIEW)
 
             val extension = refDoc.title.substringAfterLast(".").lowercase()
@@ -106,6 +123,7 @@ class RefDocsVM @Inject constructor(
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             context.startActivity(intent)
         } else {
             Toast.makeText(context, "Не удалось открыть файл! Код ошибки: 181.", Toast.LENGTH_LONG).show()
@@ -113,7 +131,7 @@ class RefDocsVM @Inject constructor(
     }
 
     fun getFilesInsideText(folder: RefDoc): String {
-        val filesCount = refDocs.filter { it.parentFolder == folder.title }.count()
+        val filesCount = refDocs.filter { it.parentId == folder.id }.count()
         return when (filesCount % 10) {
             1 -> "$filesCount файл"
             2, 3, 4 -> "$filesCount файла"
@@ -122,35 +140,38 @@ class RefDocsVM @Inject constructor(
     }
 
     fun getCurrentFilesForFile(file: RefDoc) {
-        updateChildFiles(refDocs.filter { it.parentFolder == file.title }.sortedBy { it.title })
-        currentFile = file
+        updateChildFiles(refDocs.filter { it.parentId == file.id }.sortedBy { it.title })
+        currentFolder = file
     }
 
-    private fun getTopLevelFiles() = refDocs
-            .filter { it.isFolder || it.parentFolder == "" }
-            .sortedBy { it.title }
-
     fun navigateBack(): Boolean {
-        if (currentFile.isEmpty())
+        if (currentFolder.isEmpty())
             return false
 
-        if (currentFile.parentFolder == "") {
+        if (currentFolder.parentId == 0) {
             updateChildFiles(getTopLevelFiles())
-            currentFile = RefDoc()
+            currentFolder = RefDoc()
             return true
         }
 
-        val parent = refDocs.firstOrNull { it.isFolder && it.title == currentFile.parentFolder }
+        val parent = refDocs.firstOrNull { it.isFolder && it.id == currentFolder.parentId }
         if (parent != null) {
-            updateChildFiles(refDocs.filter { it.parentFolder == parent.title }.sortedBy { it.title })
-            currentFile = parent
+            updateChildFiles(refDocs.filter { it.parentFolderName == parent.title }.sortedBy { it.title })
+            currentFolder = parent
         } else {
             Toast.makeText(context,
-                "Не удалось найти родителя ${currentFile.parentFolder} у файла" +
-                        " ${currentFile.title}", Toast.LENGTH_LONG).show()
+                "Не удалось найти родителя ${currentFolder.parentFolderName} у файла" +
+                        " ${currentFolder.title}", Toast.LENGTH_LONG).show()
         }
         return true
     }
+
+    fun createNewFolder(folderName: String) {
+        repository.insertRefDoc(RefDoc(folderName, true))
+        getCurrentDocuments()
+    }
+
+    private fun getTopLevelFiles() = refDocs.filter { it.parentId == 0 }.sortedBy { it.title }
 
     private fun updateChildFiles(newFiles: List<RefDoc>) {
         currentChildFiles.clear()
