@@ -1,7 +1,6 @@
 package com.example.energo_monitoring.checks.ui.fragments.screens
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -35,11 +34,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Named
-
 
 class Step3_GeneralInspectionFragment : DaggerFragment() {
     @Inject

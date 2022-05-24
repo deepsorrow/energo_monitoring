@@ -10,7 +10,6 @@ import com.example.energo_monitoring.databinding.FragmentCounterBinding
 import com.example.energo_monitoring.checks.ui.fragments.screens.Step6_TempMetricsFragment
 import com.example.energo_monitoring.checks.ui.adapters.TemperatureCounterValuesMainListAdapter
 
-
 class CounterFragment : Fragment() {
 
     private var deviceId: Int = 0

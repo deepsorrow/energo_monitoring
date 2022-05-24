@@ -1,86 +1,30 @@
-package com.example.energo_monitoring.checks.data.devices;
+package com.example.energo_monitoring.checks.data.devices
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-import com.example.energo_monitoring.checks.data.api.DeviceInfo;
+import androidx.room.Entity
+import com.example.energo_monitoring.checks.data.api.DeviceInfo
+import androidx.room.PrimaryKey
 
 @Entity
-public class DevicePressureTransducer extends DeviceInfo {
+class DevicePressureTransducer : DeviceInfo(Field(""), 0) {
+    @JvmField
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    public int dataId;
+    var id = 0
+    @JvmField
+    var dataId = 0
+    var installationPlace = Field("")
+    var manufacturer = Field("")
+    var values = Field("")
+    var sensorRange = Field("")
+    var comment = Field("")
 
-    private String installationPlace;
-    private String manufacturer;
-    private String values;
-    private String sensorRange;
-    private String comment;
-
-    public DevicePressureTransducer() {
-        super("", 0);
-    }
-
-    public DevicePressureTransducer(String name, int typeId, String installationPlace, String manufacturer, String values) {
-        super(name, typeId);
-        this.installationPlace = installationPlace;
-        this.manufacturer = manufacturer;
-        this.values = values;
-    }
-
-    public String getInstallationPlace() {
-        return installationPlace;
-    }
-
-    public void setInstallationPlace(String installationPlace) {
-        this.installationPlace = installationPlace;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public String getValues() {
-        return values;
-    }
-
-    public void setValues(String values) {
-        this.values = values;
-    }
-
-    public String getSensorRange() {
-        return sensorRange;
-    }
-
-    public void setSensorRange(String sensorRange) {
-        this.sensorRange = sensorRange;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    @Override
-    public int getFilledState() {
-        if(!(installationPlace == null || installationPlace.isEmpty())
-                && !(manufacturer == null || manufacturer.isEmpty())
-                && !(sensorRange == null || sensorRange.isEmpty())
-                && !(values == null || values.isEmpty()))
-            return 2;
-        else if(!(installationPlace == null || installationPlace.isEmpty())
-                || !(manufacturer == null || manufacturer.isEmpty())
-                || !(sensorRange == null || sensorRange.isEmpty())
-                || !(values == null || values.isEmpty()))
-            return 1;
-        else
-            return 0;
-    }
+//    val filledState: Int
+//        get() = if (!(installationPlace == null || installationPlace!!.isEmpty())
+//            && !(manufacturer == null || manufacturer!!.isEmpty())
+//            && !(sensorRange == null || sensorRange!!.isEmpty())
+//            && !(values == null || values!!.isEmpty())
+//        ) 2 else if (!(installationPlace == null || installationPlace!!.isEmpty())
+//            || !(manufacturer == null || manufacturer!!.isEmpty())
+//            || !(sensorRange == null || sensorRange!!.isEmpty())
+//            || !(values == null || values!!.isEmpty())
+//        ) 1 else 0
 }

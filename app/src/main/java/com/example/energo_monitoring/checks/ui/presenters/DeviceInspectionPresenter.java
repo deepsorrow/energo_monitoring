@@ -24,7 +24,6 @@ import io.reactivex.schedulers.Schedulers;
 public class DeviceInspectionPresenter {
     public Step4_DeviceInspectionFragment fragment;
     public List<DeviceInfo> devices;
-    public InspectionDeviceViewModel model;
 
     public DeviceInspectionPresenter(Step4_DeviceInspectionFragment fragment, List<DeviceInfo> devices) {
         this.fragment = fragment;
@@ -34,78 +33,6 @@ public class DeviceInspectionPresenter {
     public Context getContext() {
         return fragment.requireContext();
     }
-
-    public TextWatcher getLastCheckDateTextWatcher(EditText date, DeviceInfo device){
-        return new TextWatcher() {
-            String current = "";
-            String ddmmyyyy = "DDMMYYYY";
-            Calendar cal = Calendar.getInstance();
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().equals(current)) {
-                    String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
-                    String cleanC = current.replaceAll("[^\\d.]|\\.", "");
-
-                    int cl = clean.length();
-                    int sel = cl;
-                    for (int i = 2; i <= cl && i < 6; i += 2) {
-                        sel++;
-                    }
-                    //Fix for pressing delete next to a forward slash
-                    if (clean.equals(cleanC)) sel--;
-
-                    if (clean.length() < 8){
-                        clean = clean + ddmmyyyy.substring(clean.length());
-                    }else{
-                        //This part makes sure that when we finish entering numbers
-                        //the date is correct, fixing it otherwise
-                        int day  = Integer.parseInt(clean.substring(0,2));
-                        int mon  = Integer.parseInt(clean.substring(2,4));
-                        int year = Integer.parseInt(clean.substring(4,8));
-
-                        mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
-                        cal.set(Calendar.MONTH, mon-1);
-                        year = (year<1900)?1900:(year>2100)?2100:year;
-                        cal.set(Calendar.YEAR, year);
-                        // ^ first set year for the line below to work correctly
-                        //with leap years - otherwise, date e.g. 29.02.2012
-                        //would be automatically corrected to 28.02.2012
-
-                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
-                        clean = String.format("%02d%02d%02d",day, mon, year);
-                    }
-
-                    clean = String.format("%s.%s.%s", clean.substring(0, 2),
-                            clean.substring(2, 4),
-                            clean.substring(4, 8));
-
-                    sel = sel < 0 ? 0 : sel;
-                    current = clean;
-                    date.setText(current);
-                    date.setSelection(sel < current.length() ? sel : current.length());
-                    device.setLastCheckDate(current);
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {}
-        };
-    }
-
-//    public void replaceCurrentFragment() {
-//        int currentId = model.getCurrentDeviceId().getValue();
-//
-//        int actionId = 0;
-//        switch (devices.get(currentId).getTypeId()){
-//            case 1: actionId = R.id.flowTransducer;
-//            case 2: actionId = R.id.deviceTemperature;
-//        }
-//        Navigation
-//                .findNavController(fragment.getView())
-//                .navigate(actionId);
-//    }
 
     public void insertDataToDb(int dataId){
         List<DeviceTemperatureCounter> deviceTemperatureCounters = new ArrayList<>();

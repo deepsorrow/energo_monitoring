@@ -35,5 +35,13 @@
     <string name="pick_from_gallery">Выбрать из галереи</string>
     <string name="choose_file">Выбрать файл</string>
     <string name="last_date_check">Дата окончания поверки</string>
-    <string name="reference_info"></string>
+    <string name="add_device">Добавить устройство</string>
+    <string name="pressure_transducer">Преобразователь давления</string>
+    <string name="device_name">Наименование модели</string>
+    <string name="device_number">Номер модели</string>
+    <string name="installation_place">Место установки</string>
+    <string name="manufacturer">Производитель</string>
+    <string name="sensor_range">Диапазон датчика</string>
+    <string name="device_values">Показания на момент допуска</string>
+    <string name="additional_comment">Примечания</string>
 </resources>

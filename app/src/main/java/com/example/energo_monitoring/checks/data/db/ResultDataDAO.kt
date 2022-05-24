@@ -79,19 +79,19 @@ abstract class ResultDataDAO {
     abstract fun getProjectDescription(dataId: Int): ProjectDescription?
 
     @Query("SELECT * FROM DeviceCounter WHERE dataId = :dataId")
-    abstract fun getDeviceCounters(dataId: Int): List<DeviceCounter?>?
+    abstract fun getDeviceCounters(dataId: Int): List<DeviceCounter>?
 
     @Query("SELECT * FROM DeviceTemperatureCounter WHERE dataId = :dataId")
-    abstract fun getDeviceTemperatureCounter(dataId: Int): List<DeviceTemperatureCounter?>?
+    abstract fun getDeviceTemperatureCounter(dataId: Int): List<DeviceTemperatureCounter>?
 
     @Query("SELECT * FROM DeviceFlowTransducer WHERE dataId = :dataId")
-    abstract fun getDeviceFlowTransducers(dataId: Int): List<DeviceFlowTransducer?>?
+    abstract fun getDeviceFlowTransducers(dataId: Int): List<DeviceFlowTransducer>?
 
     @Query("SELECT * FROM DeviceTemperatureTransducer WHERE dataId = :dataId")
-    abstract fun getDeviceTemperatureTransducers(dataId: Int): List<DeviceTemperatureTransducer?>?
+    abstract fun getDeviceTemperatureTransducers(dataId: Int): List<DeviceTemperatureTransducer>?
 
     @Query("SELECT * FROM DevicePressureTransducer WHERE dataId = :dataId")
-    abstract fun getDevicePressureTransducers(dataId: Int): List<DevicePressureTransducer?>?
+    abstract fun getDevicePressureTransducers(dataId: Int): List<DevicePressureTransducer>?
 
     @Query("SELECT * FROM OrganizationInfo WHERE dataId = :dataId")
     abstract fun getOrganizationInfo(dataId: Int): OrganizationInfo?

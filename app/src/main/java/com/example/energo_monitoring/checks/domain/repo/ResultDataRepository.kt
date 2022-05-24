@@ -1,5 +1,6 @@
 package com.example.energo_monitoring.checks.domain.repo
 
+import androidx.room.Query
 import com.example.energo_monitoring.checks.data.FlowTransducerLength
 import com.example.energo_monitoring.checks.data.ProjectFile
 import com.example.energo_monitoring.checks.data.api.ClientInfo
@@ -43,6 +44,16 @@ class ResultDataRepository @Inject constructor(
         incrementVersionOrGetError(results[0].dataId, isInit) {
             dao.insertFlowTransducerCheckLengthResults(results)
         }
+
+    fun getDeviceCounters(dataId: Int): List<DeviceCounter>? = dao.getDeviceCounters(dataId)
+
+    fun getDeviceTemperatureCounter(dataId: Int): List<DeviceTemperatureCounter>? = dao.getDeviceTemperatureCounter(dataId)
+
+    fun getDeviceFlowTransducers(dataId: Int): List<DeviceFlowTransducer>? = dao.getDeviceFlowTransducers(dataId)
+
+    fun getDeviceTemperatureTransducers(dataId: Int): List<DeviceTemperatureTransducer>? = dao.getDeviceTemperatureTransducers(dataId)
+
+    fun getDevicePressureTransducers(dataId: Int): List<DevicePressureTransducer>? = dao.getDevicePressureTransducers(dataId)
 
     fun insertProjectDescription(
         projectDescription: ProjectDescription,

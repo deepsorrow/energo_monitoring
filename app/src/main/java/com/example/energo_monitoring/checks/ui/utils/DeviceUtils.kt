@@ -5,20 +5,23 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.databinding.Observable
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.checks.data.api.DeviceInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 
 object DeviceUtils {
-    fun setMatchListener(
-        textInputField: TextInputEditText,
-        layout: TextInputLayout,
-        correctValue: String?
-    ) {
-        val match = textInputField.text.toString() == correctValue
-        if (!match && correctValue != null && correctValue.isNotEmpty())
-            layout.error = "По проекту должно быть $correctValue!" else layout.isErrorEnabled = false
+    fun setMatchListener(layout: TextInputLayout, currentValue: String, correctValue: String) {
+        val match = currentValue == correctValue
+        if (!match && correctValue != null && correctValue.isNotEmpty()) {
+            layout.error = "По проекту должно быть $correctValue!"
+        } else {
+            layout.isErrorEnabled = false
+        }
     }
 
     fun initSpinner(view: View?, values: List<String>, spinnerId: Int) {
@@ -52,5 +55,17 @@ object DeviceUtils {
                 setMatchListener(deviceNumber, deviceNumberLayout, correctDeviceNumber)
             }
         })
+    }
+
+    fun <T: Observable> T.addOnPropertyChanged(callback: (T) -> Unit) =
+        object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(observable: Observable?, i: Int) =
+                callback(observable as T)
+        }.also { addOnPropertyChangedCallback(it) }.let {
+            Disposables.fromAction {removeOnPropertyChangedCallback(it)}
+        }
+
+    fun Disposable.addTo(disposables: CompositeDisposable) {
+        disposables.add(this)
     }
 }
