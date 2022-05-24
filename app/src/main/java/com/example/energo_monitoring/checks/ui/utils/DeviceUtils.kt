@@ -35,12 +35,9 @@ object DeviceUtils {
     fun setDeviceNameNumberMatchListener(deviceView: View, device: DeviceInfo) {
         val deviceName: TextInputEditText = deviceView.findViewById(R.id.deviceName)
         val deviceNameLayout: TextInputLayout = deviceView.findViewById(R.id.deviceNameLayout)
-        val correctName = device.deviceName
-        deviceName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        val correctName = device.deviceName.correctValue
+        deviceName.addTextChangedListener(object : AfterTextChangedListener {
             override fun afterTextChanged(s: Editable) {
-                device.deviceName = s.toString()
                 setMatchListener(deviceName, deviceNameLayout, correctName)
             }
         })

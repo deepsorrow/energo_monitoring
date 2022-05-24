@@ -50,34 +50,10 @@ class PressureTransducerFragment : BaseDeviceFragment() {
             setMatchListener(binding.sensorRangeLayout, value, correctValue)
         }.addTo(disposables)
 
-        binding.installationPlaceSpinner.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.installationPlace = s.toString()
-            }
-        })
-
-        binding.manufacturerSpinner.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.manufacturer = s.toString()
-            }
-        })
-
-        binding.values.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.values = s.toString()
-            }
-        })
-
-        binding.comment.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.comment = s.toString()
-            }
-        })
-
         initSpinner(view, listOf("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner)
         initSpinner(view, listOf("НПК ВИП", "Тепловодохран"), R.id.manufacturerSpinner)
 
-        DeviceUtils.setDeviceNameNumberMatchListener(view, device)
+        DeviceUtils.setDeviceNameNumberMatchListener(viewModel, device)
 
         val listener = parentViewModel.getLastCheckDateTextWatcher(binding.lastCheckDate, device)
         binding.lastCheckDate.addTextChangedListener(listener)
