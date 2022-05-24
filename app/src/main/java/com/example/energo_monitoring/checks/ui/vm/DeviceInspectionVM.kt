@@ -1,11 +1,11 @@
-package com.example.energo_monitoring.checks.ui.viewmodel
+package com.example.energo_monitoring.checks.ui.vm
 
 import android.app.Application
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import com.example.energo_monitoring.checks.data.api.DeviceInfo
-import com.example.energo_monitoring.checks.ui.viewmodel.base.BaseScreenVM
+import com.example.energo_monitoring.checks.ui.vm.base.BaseScreenVM
 import java.util.*
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class DeviceInspectionVM @Inject constructor(
         repository.getDevicePressureTransducers(dataId)?.let { devices.addAll(it) }
     }
 
-    fun getLastCheckDateTextWatcher(date: EditText, device: DeviceInfo): TextWatcher {
+    fun lastCheckDateTextWatcher(date: EditText, device: DeviceInfo): TextWatcher {
         return object : TextWatcher {
             var current = ""
             var ddmmyyyy = "DDMMYYYY"
@@ -66,7 +66,7 @@ class DeviceInspectionVM @Inject constructor(
                     current = clean
                     date.setText(current)
                     date.setSelection(if (sel < current.length) sel else current.length)
-                    device.lastCheckDate = current
+                    device.lastCheckDate.value = current
                 }
             }
             override fun afterTextChanged(s: Editable) {}

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.example.energo_monitoring.databinding.FragmentStep4DeviceInspectionBinding
 import com.example.energo_monitoring.checks.di.modules.VM_DEVICE_INSPECTION_VM
 import com.example.energo_monitoring.checks.ui.adapters.DevicesStateAdapter
-import com.example.energo_monitoring.checks.ui.viewmodel.DeviceInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.DeviceInspectionVM
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -34,7 +34,10 @@ class Step4_DeviceInspectionFragment : DaggerFragment() {
 
         binding.devicesPager.adapter = adapter
         TabLayoutMediator(binding.devicesTabs, binding.devicesPager) { tab, position ->
-            tab.text = viewModel.devices[position].deviceName
+            if (viewModel.devices[position].deviceName.value.isNotEmpty())
+                tab.text = viewModel.devices[position].deviceName.value
+            else
+                tab.text = viewModel.devices[position].deviceName.initialValue
         }.attach()
 
         return binding.root

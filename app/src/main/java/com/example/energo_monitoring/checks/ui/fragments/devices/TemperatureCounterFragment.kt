@@ -1,30 +1,24 @@
 package com.example.energo_monitoring.checks.ui.fragments.devices
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.energo_monitoring.R
-import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureCounter
-import com.example.energo_monitoring.checks.di.modules.VM_DEVICE_INSPECTION_VM
+import com.example.energo_monitoring.checks.di.modules.VM_TEMPERATURE_COUNTER_VM
+import com.example.energo_monitoring.checks.ui.fragments.devices.base.BaseDeviceFragment
 import com.example.energo_monitoring.databinding.FragmentTemperatureCounterBinding
-import com.example.energo_monitoring.checks.ui.fragments.screens.Step4_DeviceInspectionFragment
-import com.example.energo_monitoring.checks.ui.utils.AfterTextChangedListener
 import com.example.energo_monitoring.checks.ui.utils.DeviceUtils
 import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.initSpinner
-import com.example.energo_monitoring.checks.ui.viewmodel.DeviceInspectionVM
-import dagger.android.support.DaggerFragment
+import com.example.energo_monitoring.checks.ui.vm.devices.TemperatureCounterVM
 import javax.inject.Inject
 import javax.inject.Named
 
-class TemperatureCounterFragment : DaggerFragment() {
+class TemperatureCounterFragment : BaseDeviceFragment() {
 
     @Inject
-    @Named(VM_DEVICE_INSPECTION_VM)
-    lateinit var viewModel: DeviceInspectionVM
+    @Named(VM_TEMPERATURE_COUNTER_VM)
+    lateinit var viewModel: TemperatureCounterVM
 
     private lateinit var binding: FragmentTemperatureCounterBinding
 
@@ -32,6 +26,7 @@ class TemperatureCounterFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentTemperatureCounterBinding.inflate(layoutInflater)
 
         return binding.root
@@ -40,41 +35,15 @@ class TemperatureCounterFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val deviceId = arguments?.getInt("deviceId") ?: 0
-        val device = viewModel.devices[deviceId] as DeviceTemperatureCounter
-
-        binding.device = device
+        binding.viewModel = viewModel
+        viewModel.initialize(deviceId)
 
         initSpinner(view, listOf("Отопление", "ГВС", "Пар", "Вентиляция"), R.id.unitSystemSpinner)
 
-        binding.unitSystemSpinner.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.unitSystem = s.toString()
-            }
-        }
-        )
-        binding.modification.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.modification = s.toString()
-            }
-        }
-        )
-        binding.interval.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.interval = s.toString()
-            }
-        }
-        )
-        binding.comment.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.comment = s.toString()
-            }
-        })
+        DeviceUtils.setDeviceNameNumberMatchListener(view, viewModel.device.deviceName, viewModel.device.deviceNumber)
 
-        DeviceUtils.setDeviceNameNumberMatchListener(view, device)
-
-        val listener = viewModel.getLastCheckDateTextWatcher(binding.lastCheckDate, device)
-        binding.lastCheckDate.addTextChangedListener(listener)
+        //val listener = viewModel.lastCheckDateTextWatcher(binding.lastCheckDate, device)
+        //binding.lastCheckDate.addTextChangedListener(listener)
     }
 
     companion object {

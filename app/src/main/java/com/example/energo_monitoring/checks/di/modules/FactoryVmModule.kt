@@ -2,12 +2,14 @@ package com.example.energo_monitoring.checks.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.energo_monitoring.application.di.PerActivity
 import com.example.energo_monitoring.application.di.vm.ViewModelFactory
 import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
-import com.example.energo_monitoring.checks.ui.viewmodel.DeviceInspectionVM
-import com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM
-import com.example.energo_monitoring.checks.ui.viewmodel.devices.PressureTransducerVM
+import com.example.energo_monitoring.checks.ui.vm.DeviceInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.devices.FlowTransducerVM
+import com.example.energo_monitoring.checks.ui.vm.devices.PressureTransducerVM
+import com.example.energo_monitoring.checks.ui.vm.devices.TemperatureCounterVM
+import com.example.energo_monitoring.checks.ui.vm.devices.TemperatureTransducerVM
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -18,6 +20,9 @@ import javax.inject.Named
 internal const val VM_GENERAL_INSPECTION_VM = "GeneralInspectionVM"
 internal const val VM_DEVICE_INSPECTION_VM = "DeviceInspectionVM"
 
+internal const val VM_TEMPERATURE_COUNTER_VM = "TemperatureCounterVM"
+internal const val VM_TEMPERATURE_TRANSDUCER_VM = "TemperatureTransducerVM"
+internal const val VM_FLOW_TRANSDUCER_VM = "FlowTransducerVM"
 internal const val VM_PRESSURE_TRANSDUCER_VM = "PressureTransducerVM"
 
 @Module
@@ -38,6 +43,30 @@ class FactoryVmModule {
         viewModelFactory: ViewModelFactory
     ): DeviceInspectionVM =
         ViewModelProvider(activity, viewModelFactory)[DeviceInspectionVM::class.java]
+
+    @Provides
+    @Named(VM_TEMPERATURE_COUNTER_VM)
+    fun provideTemperatureCounterVM(
+        activity: CheckMainActivity,
+        viewModelFactory: ViewModelFactory
+    ): TemperatureCounterVM =
+        ViewModelProvider(activity, viewModelFactory)[TemperatureCounterVM::class.java]
+
+    @Provides
+    @Named(VM_TEMPERATURE_TRANSDUCER_VM)
+    fun provideTemperatureTransducerVM(
+        activity: CheckMainActivity,
+        viewModelFactory: ViewModelFactory
+    ): TemperatureTransducerVM =
+        ViewModelProvider(activity, viewModelFactory)[TemperatureTransducerVM::class.java]
+
+    @Provides
+    @Named(VM_FLOW_TRANSDUCER_VM)
+    fun provideFlowTransducerVM(
+        activity: CheckMainActivity,
+        viewModelFactory: ViewModelFactory
+    ): FlowTransducerVM =
+        ViewModelProvider(activity, viewModelFactory)[FlowTransducerVM::class.java]
 
     @Provides
     @Named(VM_PRESSURE_TRANSDUCER_VM)

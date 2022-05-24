@@ -9,11 +9,9 @@ import com.example.energo_monitoring.checks.ui.adapters.FlowTransducerPhotoAdapt
 import android.graphics.Bitmap
 import androidx.activity.result.ActivityResultLauncher
 import android.content.Intent
-import com.example.energo_monitoring.checks.ui.viewmodel.CheckLengthViewModel
-import com.example.energo_monitoring.checks.ui.presenters.utilities.LoadImageManager
+import com.example.energo_monitoring.checks.ui.vm.CheckLengthViewModel
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase
 import io.reactivex.schedulers.Schedulers
-import androidx.activity.result.ActivityResultCallback
 import android.app.Activity
 import android.content.Context
 import android.net.Uri

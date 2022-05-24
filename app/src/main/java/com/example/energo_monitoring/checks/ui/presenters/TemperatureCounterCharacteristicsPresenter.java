@@ -6,7 +6,7 @@ import com.example.energo_monitoring.checks.data.devices.DeviceCounter;
 import com.example.energo_monitoring.checks.data.TempParameter;
 import com.example.energo_monitoring.checks.data.db.OtherInfo;
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase;
-import com.example.energo_monitoring.checks.ui.viewmodel.TemperatureCounterViewModel;
+import com.example.energo_monitoring.checks.ui.vm.TemperatureCounterViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

@@ -27,7 +27,7 @@ import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
 import com.example.energo_monitoring.checks.ui.adapters.ProjectPhotoAdapter
 import com.example.energo_monitoring.checks.ui.fragments.dialogs.ProjectPhotoPreviewDialog
 import com.example.energo_monitoring.checks.ui.presenters.utilities.LoadImageManager
-import com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM
 import com.example.energo_monitoring.databinding.FragmentStep3GeneralInspectionBinding
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.CoroutineScope

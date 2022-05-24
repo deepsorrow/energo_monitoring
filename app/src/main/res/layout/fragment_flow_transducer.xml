@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
-            name="device"
-            type="com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer" />
+            name="viewModel"
+            type="com.example.energo_monitoring.checks.ui.vm.devices.FlowTransducerVM" />
     </data>
+
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_margin="@dimen/_1sdp">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fadeScrollbars="false">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,21 +28,21 @@
                     android:id="@+id/deviceType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Преобразователь расхода"
-                    android:textSize="@dimen/_15ssp"
-                    android:textAlignment="center"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/flow_transducer"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/deviceNameLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Наименование модели"
                     android:layout_marginTop="@dimen/_15sdp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/device_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/deviceType">
 
@@ -47,17 +50,17 @@
                         android:id="@+id/deviceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{device.deviceName}"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"
+                        android:text="@={viewModel.deviceName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/deviceNumberLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Номер модели"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/device_number"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/deviceNameLayout">
 
@@ -65,40 +68,18 @@
                         android:id="@+id/deviceNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{device.deviceNumber}"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onDeviceNumberChanged()}"
+                        android:text="@={viewModel.deviceNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <!--        <View-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="2dp"-->
-                <!--            android:background="#000"-->
-                <!--            android:layout_marginTop="@dimen/_3sdp"-->
-                <!--            app:layout_constraintStart_toStartOf="@id/deviceNumberLayout"-->
-                <!--            app:layout_constraintEnd_toEndOf="@id/deviceNumberLayout"-->
-                <!--            app:layout_constraintTop_toBottomOf="@id/deviceNumberLayout"/>-->
-
-                <!--        <ToggleButton-->
-                <!--            android:id="@+id/deviceModelNumberMatch"-->
-                <!--            android:layout_width="0dp"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:background="@drawable/devicenumber_and_model_match_background"-->
-                <!--            android:textColor="@color/white"-->
-                <!--            android:textOff="Номер и модель не соответствуют"-->
-                <!--            android:textOn="Номер и модель соответствуют"-->
-                <!--            android:layout_marginTop="@dimen/_5sdp"-->
-                <!--            app:layout_constraintEnd_toEndOf="@+id/deviceName"-->
-                <!--            app:layout_constraintStart_toStartOf="parent"-->
-                <!--            app:layout_constraintTop_toBottomOf="@id/deviceType" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/installationPlace"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Место установки"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:hint="@string/installation_place"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/deviceNumberLayout">
 
@@ -106,16 +87,18 @@
                         android:id="@+id/installationPlaceSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onInstallationPlaceChanged()}"
                         android:focusable="false"
-                        android:inputType="textNoSuggestions" />
+                        android:inputType="textNoSuggestions"
+                        android:text="@={viewModel.installationPlace}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/manufacturer"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Производитель"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:hint="@string/manufacturer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/installationPlace">
 
@@ -123,18 +106,19 @@
                         android:id="@+id/manufacturerSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onManufacturerChanged()}"
                         android:focusable="false"
                         android:inputType="textNoSuggestions"
-                        />
+                        android:text="@={viewModel.manufacturer}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/diameterLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Диаметр"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/diameter"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/manufacturer">
 
@@ -142,16 +126,17 @@
                         android:id="@+id/diameter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onDiameterChanged()}"
+                        android:text="@={viewModel.diameter}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/impulseWeightLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Вес импульса"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/impulse_weight"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/diameterLayout">
 
@@ -159,16 +144,17 @@
                         android:id="@+id/impulseWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onImpulseWeightChanged()}"
+                        android:text="@={viewModel.impulseWeight}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/lastCheckDateLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/last_date_check"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/impulseWeightLayout">
 
@@ -176,17 +162,18 @@
                         android:id="@+id/lastCheckDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onLastCheckDateChanged()}"
                         android:inputType="number"
-                        />
+                        android:text="@={viewModel.lastCheckDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/valuesLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Показания на момент допуска"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/device_values"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lastCheckDateLayout">
 
@@ -194,16 +181,17 @@
                         android:id="@+id/values"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onValuesChanged()}"
+                        android:text="@={viewModel.values}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/commentLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Примечания"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/additional_comment"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/valuesLayout">
 
@@ -211,7 +199,8 @@
                         android:id="@+id/comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onCommentChanged()}"
+                        android:text="@={viewModel.comment}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

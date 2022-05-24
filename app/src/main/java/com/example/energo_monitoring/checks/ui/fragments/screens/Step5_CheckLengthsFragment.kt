@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.energo_monitoring.R
 import com.example.energo_monitoring.databinding.FragmentStep5CheckLengthsBinding
 import com.example.energo_monitoring.checks.ui.utils.Utils
 import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase
 import com.example.energo_monitoring.checks.ui.adapters.LengthsStateAdapter
 import com.example.energo_monitoring.checks.ui.presenters.CheckLengthOfStraightLinesPresenter
-import com.example.energo_monitoring.checks.ui.viewmodel.CheckLengthViewModel
+import com.example.energo_monitoring.checks.ui.vm.CheckLengthViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 class Step5_CheckLengthsFragment : Fragment() {

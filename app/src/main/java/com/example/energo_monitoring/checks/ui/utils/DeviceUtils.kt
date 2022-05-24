@@ -1,13 +1,12 @@
 package com.example.energo_monitoring.checks.ui.utils
 
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.Observable
 import com.example.energo_monitoring.R
-import com.example.energo_monitoring.checks.data.api.DeviceInfo
+import com.example.energo_monitoring.checks.data.devices.Field
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import io.reactivex.disposables.CompositeDisposable
@@ -17,7 +16,7 @@ import io.reactivex.disposables.Disposables
 object DeviceUtils {
     fun setMatchListener(layout: TextInputLayout, currentValue: String, correctValue: String) {
         val match = currentValue == correctValue
-        if (!match && correctValue != null && correctValue.isNotEmpty()) {
+        if (!match && correctValue.isNotEmpty()) {
             layout.error = "По проекту должно быть $correctValue!"
         } else {
             layout.isErrorEnabled = false
@@ -32,24 +31,22 @@ object DeviceUtils {
         }
     }
 
-    fun setDeviceNameNumberMatchListener(deviceView: View, device: DeviceInfo) {
-        val deviceName: TextInputEditText = deviceView.findViewById(R.id.deviceName)
-        val deviceNameLayout: TextInputLayout = deviceView.findViewById(R.id.deviceNameLayout)
-        val correctName = device.deviceName.correctValue
-        deviceName.addTextChangedListener(object : AfterTextChangedListener {
+    fun setDeviceNameNumberMatchListener(deviceView: View, deviceName: Field, deviceNumber: Field) {
+        val nameView = deviceView.findViewById<TextInputEditText>(R.id.deviceName)
+        val nameLayout = deviceView.findViewById<TextInputLayout>(R.id.deviceNameLayout)
+        val correctName = deviceName.initialValue
+        nameView.addTextChangedListener(object : AfterTextChangedListener {
             override fun afterTextChanged(s: Editable) {
-                setMatchListener(deviceName, deviceNameLayout, correctName)
+                setMatchListener(nameLayout, deviceName.value, correctName)
             }
         })
-        val deviceNumber: TextInputEditText = deviceView.findViewById(R.id.deviceNumber)
-        val deviceNumberLayout: TextInputLayout = deviceView.findViewById(R.id.deviceNumberLayout)
-        val correctDeviceNumber = device.deviceNumber
-        deviceNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+        val numberView = deviceView.findViewById<TextInputEditText>(R.id.deviceNumber)
+        val numberLayout = deviceView.findViewById<TextInputLayout>(R.id.deviceNumberLayout)
+        val correctNumber = deviceNumber.initialValue
+        numberView.addTextChangedListener(object : AfterTextChangedListener {
             override fun afterTextChanged(s: Editable) {
-                device.deviceNumber = s.toString()
-                setMatchListener(deviceNumber, deviceNumberLayout, correctDeviceNumber)
+                setMatchListener(numberLayout, deviceNumber.value, correctNumber)
             }
         })
     }

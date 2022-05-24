@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
-            name="device"
-            type="com.example.energo_monitoring.checks.data.devices.DeviceTemperatureCounter" />
+            name="viewModel"
+            type="com.example.energo_monitoring.checks.ui.vm.devices.TemperatureCounterVM" />
     </data>
+
     <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_1sdp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_margin="@dimen/_1sdp">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fadeScrollbars="false">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,21 +28,21 @@
                     android:id="@+id/deviceType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Тепловычислитель"
-                    android:textSize="@dimen/_15ssp"
-                    android:textAlignment="center"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/temperature_counter"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/deviceNameLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Наименование модели"
                     android:layout_marginTop="@dimen/_15sdp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/device_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/deviceType">
 
@@ -47,17 +50,17 @@
                         android:id="@+id/deviceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{device.deviceName}"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"
+                        android:text="@={viewModel.deviceName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/deviceNumberLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Номер модели"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/device_number"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/deviceNameLayout">
 
@@ -65,8 +68,8 @@
                         android:id="@+id/deviceNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{device.deviceNumber}"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onDeviceNumberChanged()}"
+                        android:text="@={viewModel.deviceNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,8 +78,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Система измерения"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:hint="@string/unit_system"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/deviceNumberLayout">
 
@@ -84,16 +87,18 @@
                         android:id="@+id/unitSystemSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onUnitSystemChanged()}"
+                        android:focusable="false"
                         android:inputType="textNoSuggestions"
-                        android:focusable="false"/>
+                        android:text="@={viewModel.unitSystem}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/modificationLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Модификация"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/modification"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/unitSystem">
 
@@ -101,16 +106,17 @@
                         android:id="@+id/modification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onModificationChanged()}"
+                        android:text="@={viewModel.modification}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/lastCheckDateLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/last_date_check"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/modificationLayout">
 
@@ -118,17 +124,18 @@
                         android:id="@+id/lastCheckDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onLastDateChanged()}"
                         android:inputType="number"
-                        />
+                        android:text="@={viewModel.lastCheckDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/intervalLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Межповерочный интервал"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/interval"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lastCheckDateLayout">
 
@@ -136,16 +143,17 @@
                         android:id="@+id/interval"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onIntervalChanged()}"
+                        android:text="@={viewModel.interval}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/commentLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Примечания"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/additional_comment"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/intervalLayout">
 
@@ -153,7 +161,8 @@
                         android:id="@+id/comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:afterTextChanged="@{() -> viewModel.onCommentChanged()}"
+                        android:text="@={viewModel.comment}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

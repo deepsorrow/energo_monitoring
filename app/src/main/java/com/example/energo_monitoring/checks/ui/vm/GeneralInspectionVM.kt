@@ -1,4 +1,4 @@
-package com.example.energo_monitoring.checks.ui.viewmodel
+package com.example.energo_monitoring.checks.ui.vm
 
 import android.app.Activity
 import android.app.Application
@@ -10,7 +10,7 @@ import com.example.energo_monitoring.checks.data.ProjectFile
 import com.example.energo_monitoring.checks.data.api.ClientInfo
 import com.example.energo_monitoring.checks.data.db.OtherInfo
 import com.example.energo_monitoring.checks.ui.adapters.ProjectPhotoAdapter
-import com.example.energo_monitoring.checks.ui.viewmodel.base.BaseScreenVM
+import com.example.energo_monitoring.checks.ui.vm.base.BaseScreenVM
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.random.Random

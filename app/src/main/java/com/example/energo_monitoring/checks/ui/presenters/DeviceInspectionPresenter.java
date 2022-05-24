@@ -1,9 +1,6 @@
 package com.example.energo_monitoring.checks.ui.presenters;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 
 import com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer;
 import com.example.energo_monitoring.checks.data.devices.DevicePressureTransducer;
@@ -12,10 +9,8 @@ import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureTransd
 import com.example.energo_monitoring.checks.data.api.DeviceInfo;
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase;
 import com.example.energo_monitoring.checks.ui.fragments.screens.Step4_DeviceInspectionFragment;
-import com.example.energo_monitoring.checks.ui.viewmodel.InspectionDeviceViewModel;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;

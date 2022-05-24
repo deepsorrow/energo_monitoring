@@ -1,10 +1,10 @@
-package com.example.energo_monitoring.checks.ui.viewmodel;
-
+package com.example.energo_monitoring.checks.ui.vm;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class InspectionDeviceViewModel extends ViewModel {
+public class CheckLengthViewModel extends ViewModel {
+
     private MutableLiveData<Integer> currentDeviceId;
 
     public MutableLiveData<Integer> getCurrentDeviceId() {

@@ -1,6 +1,5 @@
 package com.example.energo_monitoring.checks.domain.repo
 
-import androidx.room.Query
 import com.example.energo_monitoring.checks.data.FlowTransducerLength
 import com.example.energo_monitoring.checks.data.ProjectFile
 import com.example.energo_monitoring.checks.data.api.ClientInfo
@@ -16,33 +15,45 @@ class ResultDataRepository @Inject constructor(
     private val dao: ResultDataDAO
 ) {
     fun insertDeviceTemperatureCounters(devices: List<DeviceTemperatureCounter>, isInit: Boolean = false) =
-        incrementVersionOrGetError(devices[0].dataId, isInit) {
-            dao.insertDeviceTemperatureCounters(devices)
+        checkNotEmpty(devices) {
+            incrementVersionOrGetError(devices[0].dataId, isInit) {
+                dao.insertDeviceTemperatureCounters(devices)
+            }
         }
 
     fun insertDeviceFlowTransducers(devices: List<DeviceFlowTransducer>, isInit: Boolean = false) =
-        incrementVersionOrGetError(devices[0].dataId, isInit) {
-            dao.insertDeviceFlowTransducers(devices)
+        checkNotEmpty(devices) {
+            incrementVersionOrGetError(devices[0].dataId, isInit) {
+                dao.insertDeviceFlowTransducers(devices)
+            }
         }
 
     fun insertDeviceTemperatureTransducers(devices: List<DeviceTemperatureTransducer>, isInit: Boolean = false) =
-        incrementVersionOrGetError(devices[0].dataId, isInit) {
-            dao.insertDeviceTemperatureTransducers(devices)
+        checkNotEmpty(devices) {
+            incrementVersionOrGetError(devices[0].dataId, isInit) {
+                dao.insertDeviceTemperatureTransducers(devices)
+            }
         }
 
     fun insertDevicePressureTransducers(devices: List<DevicePressureTransducer>, isInit: Boolean = false) =
-        incrementVersionOrGetError(devices[0].dataId, isInit) {
-            dao.insertDevicePressureTransducers(devices)
+        checkNotEmpty(devices) {
+            incrementVersionOrGetError(devices[0].dataId, isInit) {
+                dao.insertDevicePressureTransducers(devices)
+            }
         }
 
     fun insertDeviceCounters(devices: List<DeviceCounter>, isInit: Boolean = false) =
-        incrementVersionOrGetError(devices[0].dataId, isInit) {
-            dao.insertDeviceCounters(devices)
+        checkNotEmpty(devices) {
+            incrementVersionOrGetError(devices[0].dataId, isInit) {
+                dao.insertDeviceCounters(devices)
+            }
         }
 
     fun insertFlowTransducerCheckLengthResults(results: List<FlowTransducerLength>, isInit: Boolean = false) =
-        incrementVersionOrGetError(results[0].dataId, isInit) {
-            dao.insertFlowTransducerCheckLengthResults(results)
+        checkNotEmpty(results) {
+            incrementVersionOrGetError(results[0].dataId, isInit) {
+                dao.insertFlowTransducerCheckLengthResults(results)
+            }
         }
 
     fun getDeviceCounters(dataId: Int): List<DeviceCounter>? = dao.getDeviceCounters(dataId)
@@ -106,6 +117,13 @@ class ResultDataRepository @Inject constructor(
         }
         return project
     }
+
+    private fun checkNotEmpty(list: List<Any>, action: () -> Result<String>) =
+        if (list.isNotEmpty()) {
+            action()
+        } else {
+            Result.failure(IllegalArgumentException("Список устройств пустой!"))
+        }
 
     private fun incrementVersionOrGetError(dataId: Int, isInit: Boolean, action: () -> Unit): Result<String> {
         if (isInit) {

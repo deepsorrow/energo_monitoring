@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.energo_monitoring.checks.di.modules.VM_GENERAL_INSPECTION_VM
-import com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM
 import com.example.energo_monitoring.databinding.ProjectFileListItemBinding
 import javax.inject.Inject
 import javax.inject.Named

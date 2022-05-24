@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.viewmodel.devices.PressureTransducerVM" />
+            type="com.example.energo_monitoring.checks.ui.vm.devices.PressureTransducerVM" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,8 +50,8 @@
                         android:id="@+id/deviceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewModel.deviceName}"
-                        android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"/>
+                        android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"
+                        android:text="@={viewModel.deviceName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,8 +68,8 @@
                         android:id="@+id/deviceNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewModel.deviceNumber}"
-                        android:afterTextChanged="@{() -> viewModel.onDeviceNumberChanged()}"/>
+                        android:afterTextChanged="@{() -> viewModel.onDeviceNumberChanged()}"
+                        android:text="@={viewModel.deviceNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,10 +87,10 @@
                         android:id="@+id/installationPlaceSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onInstallationPlaceChanged()}"
                         android:focusable="false"
                         android:inputType="textNoSuggestions"
-                        android:text="@={viewModel.installationPlace}"
-                        android:afterTextChanged="@{() -> viewModel.onInstallationPlaceChanged()}"/>
+                        android:text="@={viewModel.installationPlace}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -106,10 +106,10 @@
                         android:id="@+id/manufacturerSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onManufacturerChanged()}"
                         android:focusable="false"
                         android:inputType="textNoSuggestions"
-                        android:text="@={viewModel.manufacturer}"
-                        android:afterTextChanged="@{() -> viewModel.onManufacturerChanged()}"/>
+                        android:text="@={viewModel.manufacturer}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -125,9 +125,9 @@
                         android:id="@+id/sensorRange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onSensorRangeChanged()}"
                         android:inputType="number"
-                        android:text="@={viewModel.sensorRange}"
-                        android:afterTextChanged="@{() -> viewModel.onSensorRangeChanged()}"/>
+                        android:text="@={viewModel.sensorRange}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,9 +144,9 @@
                         android:id="@+id/lastCheckDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{() -> viewModel.onLastDateChanged()}"
                         android:inputType="number"
-                        android:text="@={viewModel.lastCheckDate}"
-                        android:afterTextChanged="@{() -> viewModel.onLastDateChanged()}"/>
+                        android:text="@={viewModel.lastCheckDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,8 +163,8 @@
                         android:id="@+id/values"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewModel.values}"
-                        android:afterTextChanged="@{() -> viewModel.onValuesChanged()}"/>
+                        android:afterTextChanged="@{() -> viewModel.onValuesChanged()}"
+                        android:text="@={viewModel.values}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,8 +181,8 @@
                         android:id="@+id/comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewModel.comment}"
-                        android:afterTextChanged="@{() -> viewModel.onCommentChanged()}"/>
+                        android:afterTextChanged="@{() -> viewModel.onCommentChanged()}"
+                        android:text="@={viewModel.comment}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

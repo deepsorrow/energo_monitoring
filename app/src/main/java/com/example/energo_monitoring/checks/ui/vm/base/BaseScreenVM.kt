@@ -1,4 +1,4 @@
-package com.example.energo_monitoring.checks.ui.viewmodel.base
+package com.example.energo_monitoring.checks.ui.vm.base
 
 import android.app.Application
 import android.content.Context

@@ -1,31 +1,27 @@
 package com.example.energo_monitoring.checks.ui.fragments.devices
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.checks.ui.utils.DeviceUtils
-import com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer
-import com.example.energo_monitoring.checks.di.modules.VM_DEVICE_INSPECTION_VM
+import com.example.energo_monitoring.checks.di.modules.VM_FLOW_TRANSDUCER_VM
+import com.example.energo_monitoring.checks.ui.fragments.devices.base.BaseDeviceFragment
 import com.example.energo_monitoring.databinding.FragmentFlowTransducerBinding
-import com.example.energo_monitoring.checks.ui.fragments.screens.Step4_DeviceInspectionFragment
-import com.example.energo_monitoring.checks.ui.utils.AfterTextChangedListener
+import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.addOnPropertyChanged
+import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.addTo
 import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.initSpinner
 import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.setMatchListener
-import com.example.energo_monitoring.checks.ui.viewmodel.DeviceInspectionVM
-import dagger.android.support.DaggerFragment
+import com.example.energo_monitoring.checks.ui.vm.devices.FlowTransducerVM
 import javax.inject.Inject
 import javax.inject.Named
 
-class FlowTransducerFragment @Inject constructor() : DaggerFragment() {
+class FlowTransducerFragment @Inject constructor() : BaseDeviceFragment() {
 
     @Inject
-    @Named(VM_DEVICE_INSPECTION_VM)
-    lateinit var viewModel: DeviceInspectionVM
+    @Named(VM_FLOW_TRANSDUCER_VM)
+    lateinit var viewModel: FlowTransducerVM
 
     private lateinit var binding: FragmentFlowTransducerBinding
 
@@ -33,6 +29,7 @@ class FlowTransducerFragment @Inject constructor() : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentFlowTransducerBinding.inflate(layoutInflater)
 
         return binding.root
@@ -41,58 +38,24 @@ class FlowTransducerFragment @Inject constructor() : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val deviceId = arguments?.getInt("deviceId") ?: 0
-        val device = viewModel.devices[deviceId] as DeviceFlowTransducer
+        binding.viewModel = viewModel
+        viewModel.initialize(deviceId)
 
-        binding.device = device
+        viewModel.diameter.addOnPropertyChanged {
+            setMatchListener(binding.diameterLayout, viewModel.device.diameter.value, viewModel.device.diameter.initialValue)
+        }.addTo(disposables)
 
-        val correctDiameter = device.diameter
-        binding.diameter.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.diameter = s.toString()
-                setMatchListener(binding.diameter, binding.diameterLayout, correctDiameter)
-            }
-        })
-
-        val correctImpulseWeight = device.impulseWeight
-        binding.impulseWeight.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.impulseWeight = s.toString()
-                setMatchListener(binding.impulseWeight, binding.impulseWeightLayout, correctImpulseWeight)
-            }
-        })
+        viewModel.impulseWeight.addOnPropertyChanged {
+            setMatchListener(binding.diameterLayout, viewModel.device.impulseWeight.value, viewModel.device.impulseWeight.initialValue)
+        }.addTo(disposables)
 
         initSpinner(view, listOf("Подающий трубопровод", "Обратный трубопровод"), R.id.installationPlaceSpinner)
         initSpinner(view, listOf("Взлет", "Теплоком", "Термотроник"), R.id.manufacturerSpinner)
 
-        binding.installationPlaceSpinner.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.installationPlace = s.toString()
-            }
-        })
+        DeviceUtils.setDeviceNameNumberMatchListener(view, viewModel.device.deviceName, viewModel.device.deviceNumber)
 
-        binding.manufacturerSpinner.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.manufacturer = s.toString()
-            }
-        })
-
-        binding.values.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.values = s.toString()
-            }
-        })
-
-        binding.comment.addTextChangedListener(object : AfterTextChangedListener {
-            override fun afterTextChanged(s: Editable) {
-                device.comment = s.toString()
-            }
-        })
-
-        DeviceUtils.setDeviceNameNumberMatchListener(view, device)
-
-        val listener = viewModel.getLastCheckDateTextWatcher(binding.lastCheckDate, device)
-        binding.lastCheckDate.addTextChangedListener(listener)
+        //val listener = viewModel.lastCheckDateTextWatcher(binding.lastCheckDate, device)
+        //binding.lastCheckDate.addTextChangedListener(listener)
     }
 
     companion object {

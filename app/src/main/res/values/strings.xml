@@ -44,4 +44,13 @@
     <string name="sensor_range">Диапазон датчика</string>
     <string name="device_values">Показания на момент допуска</string>
     <string name="additional_comment">Примечания</string>
+    <string name="flow_transducer">Преобразователь расхода</string>
+    <string name="diameter">Диаметр</string>
+    <string name="impulse_weight">Вес импульса</string>
+    <string name="temperature_transducer">Преобразователь температуры</string>
+    <string name="length">Длина</string>
+    <string name="unit_system">Система измерения</string>
+    <string name="modification">Модификация</string>
+    <string name="interval">Межповерочный интервал</string>
+    <string name="temperature_counter">Тепловычислитель</string>
 </resources>

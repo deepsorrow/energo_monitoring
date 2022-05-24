@@ -8,8 +8,7 @@ import com.example.energo_monitoring.checks.ui.fragments.devices.FlowTransducerF
 import com.example.energo_monitoring.checks.ui.fragments.devices.PressureTransducerFragment
 import com.example.energo_monitoring.checks.ui.fragments.devices.TemperatureCounterFragment
 import com.example.energo_monitoring.checks.ui.fragments.devices.TemperatureTransducerFragment
-import com.example.energo_monitoring.checks.ui.viewmodel.DeviceInspectionVM
-import com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.DeviceInspectionVM
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Named

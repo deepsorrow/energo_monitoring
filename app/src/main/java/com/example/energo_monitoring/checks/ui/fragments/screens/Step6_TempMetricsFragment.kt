@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.energo_monitoring.R
 import com.example.energo_monitoring.checks.data.TempParameter
 import com.example.energo_monitoring.checks.data.api.DeviceInfo
 import com.example.energo_monitoring.databinding.FragmentStep6TempMetricsBinding
@@ -14,7 +13,7 @@ import com.example.energo_monitoring.checks.ui.utils.Utils
 import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
 import com.example.energo_monitoring.checks.ui.adapters.CountersStateAdapter
 import com.example.energo_monitoring.checks.ui.presenters.TemperatureCounterCharacteristicsPresenter
-import com.example.energo_monitoring.checks.ui.viewmodel.TemperatureCounterViewModel
+import com.example.energo_monitoring.checks.ui.vm.TemperatureCounterViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.ArrayList
 
@@ -46,7 +45,7 @@ class Step6_TempMetricsFragment : Fragment() {
         val adapter = CountersStateAdapter(this)
         binding.metricsPager.adapter = adapter
         TabLayoutMediator(binding.metricsTabs, binding.metricsPager) { tab, position ->
-            tab.text = presenter.devices[position].deviceName
+            tab.text = presenter.devices[position].deviceName.value
         }.attach()
 
         return binding.root

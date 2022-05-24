@@ -106,16 +106,16 @@ class HeatCalculator : AbstractDevice<DeviceTemperatureTransducer>() {
 
     override fun toDataDevice(): DeviceTemperatureTransducer {
         return DeviceTemperatureTransducer().also {
-            it.deviceNumber = deviceNumber?.toString() ?: "0"
-            it.deviceName = deviceName
-            it.installationPlace = installationPlace?.toString() ?: "0"
+            it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
+            it.deviceName.initialValue = deviceName
+            it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
         }
     }
 
     override fun fromDataDevice(device: DeviceTemperatureTransducer) {
-        deviceNumber = device.deviceNumber.toIntOrNull()
-        deviceName = device.deviceName
-        installationPlace = device.installationPlace.toIntOrNull()
+        deviceNumber = device.deviceNumber.initialValue.toIntOrNull()
+        deviceName = device.deviceName.initialValue
+        installationPlace = device.installationPlace.initialValue.toIntOrNull()
     }
 
     override val info: IDeviceInfo<*>
@@ -148,27 +148,27 @@ class FlowConverter : AbstractDevice<DeviceFlowTransducer>() {
 
     override fun toDataDevice(): DeviceFlowTransducer {
         return DeviceFlowTransducer().also {
-            it.deviceNumber = deviceNumber?.toString() ?: "0"
-            it.deviceName = deviceName
-            it.installationPlace = installationPlace?.toString() ?: "0"
-            it.diameter = diameter?.toString()
-            it.impulseWeight = weight?.toString()
+            it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
+            it.deviceName.initialValue = deviceName
+            it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
+            it.diameter.initialValue = diameter?.toString().orEmpty()
+            it.impulseWeight.initialValue = weight?.toString().orEmpty()
         }
     }
 
     override fun fromDataDevice(device: DeviceFlowTransducer) {
-        deviceNumber = device.deviceNumber.toIntOrNull()
-        deviceName = device.deviceName
-        installationPlace = device.installationPlace.toIntOrNull()
+        deviceNumber = device.deviceNumber.initialValue.toIntOrNull()
+        deviceName = device.deviceName.initialValue
+        installationPlace = device.installationPlace.initialValue.toIntOrNull()
 
         try {
-            diameter = BigDecimal(device.diameter.trim())
+            diameter = BigDecimal(device.diameter.initialValue.trim())
         } catch(_: Throwable) {
 
         }
 
         try {
-            weight = BigDecimal(device.impulseWeight.trim())
+            weight = BigDecimal(device.impulseWeight.initialValue.trim())
         } catch(_: Throwable) {
 
         }
@@ -222,20 +222,20 @@ class TemperatureConverter : AbstractDevice<DeviceTemperatureTransducer>() {
 
     override fun toDataDevice(): DeviceTemperatureTransducer {
         return DeviceTemperatureTransducer().also {
-            it.deviceNumber = deviceNumber?.toString() ?: "0"
-            it.deviceName = deviceName
-            it.installationPlace = installationPlace?.toString() ?: "0"
-            it.length = length?.toString() ?: "0"
+            it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
+            it.deviceName.initialValue = deviceName
+            it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
+            it.length.initialValue = length?.toString() ?: "0"
         }
     }
 
     override fun fromDataDevice(device: DeviceTemperatureTransducer) {
-        deviceNumber = device.deviceNumber.toIntOrNull()
-        deviceName = device.deviceName
-        installationPlace = device.installationPlace.toIntOrNull()
+        deviceNumber = device.deviceNumber.initialValue.toIntOrNull()
+        deviceName = device.deviceName.initialValue
+        installationPlace = device.installationPlace.initialValue.toIntOrNull()
 
         try {
-            length = BigDecimal(device.length.trim())
+            length = BigDecimal(device.length.initialValue.trim())
         } catch(_: Throwable) {
 
         }
@@ -284,20 +284,20 @@ class PressureConverter : AbstractDevice<DevicePressureTransducer>() {
 
     override fun toDataDevice(): DevicePressureTransducer {
         return DevicePressureTransducer().also {
-            it.deviceNumber = deviceNumber?.toString() ?: "0"
-            it.deviceName = deviceName
-            it.installationPlace = installationPlace?.toString() ?: "0"
-            it.sensorRange = "${min?.toString() ?: "0"}-${max?.toString() ?: "0"}"
+            it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
+            it.deviceName.initialValue = deviceName
+            it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
+            it.sensorRange.initialValue = "${min?.toString() ?: "0"}-${max?.toString() ?: "0"}"
         }
     }
 
     override fun fromDataDevice(device: DevicePressureTransducer) {
-        deviceNumber = device.deviceNumber.toIntOrNull()
-        deviceName = device.deviceName
-        installationPlace = device.installationPlace.toIntOrNull()
+        deviceNumber = device.deviceNumber.initialValue.toIntOrNull()
+        deviceName = device.deviceName.initialValue
+        installationPlace = device.installationPlace.initialValue.toIntOrNull()
 
         try {
-            val split = device.sensorRange.split('-')
+            val split = device.sensorRange.initialValue.split('-')
 
             if (split.size != 2)
                 return
@@ -360,26 +360,26 @@ class Counter : AbstractDevice<DeviceCounter>() {
 
     override fun toDataDevice(): DeviceCounter {
         return DeviceCounter().also {
-            it.deviceNumber = deviceNumber?.toString() ?: "0"
-            it.deviceName = deviceName
-            it.diameter = diameter?.toString() ?: "0"
-            it.impulseWeight = weight?.toString() ?: "0"
+            it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
+            it.deviceName.initialValue = deviceName
+            it.diameter.initialValue = diameter?.toString() ?: "0"
+            it.impulseWeight.initialValue = weight?.toString() ?: "0"
         }
     }
 
     override fun fromDataDevice(device: DeviceCounter) {
-        deviceNumber = device.deviceNumber.toIntOrNull()
-        deviceName = device.deviceName
+        deviceNumber = device.deviceNumber.initialValue.toIntOrNull()
+        deviceName = device.deviceName.initialValue
         // numberOfDevice = device.installationPlace.toIntOrNull()
 
         try {
-            diameter = BigDecimal(device.diameter.trim())
+            diameter = BigDecimal(device.diameter.initialValue.trim())
         } catch(_: Throwable) {
 
         }
 
         try {
-            weight = BigDecimal(device.impulseWeight.trim())
+            weight = BigDecimal(device.impulseWeight.initialValue.trim())
         } catch(_: Throwable) {
 
         }

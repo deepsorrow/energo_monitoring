@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.viewmodel.GeneralInspectionVM" />
+            type="com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM" />
     </data>
 
     <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
