@@ -2,7 +2,9 @@ package com.example.energo_monitoring.checks.data.api
 
 import com.example.energo_monitoring.checks.data.devices.Field
 
-open class DeviceInfo(var name: Field<String>, var typeId: Int) {
-    var deviceNumber: Field<String>? = null
-    var lastCheckDate: Field<String>? = null
+open class DeviceInfo() {
+    var deviceName = Field("")
+    var deviceNumber = Field("")
+    var typeId = 0
+    var lastCheckDate = Field("")
 }

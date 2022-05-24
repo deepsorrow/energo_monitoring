@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-class DeviceFlowTransducer : DeviceInfo, Serializable {
+class DeviceFlowTransducer : DeviceInfo(), Serializable {
     @JvmField
     @PrimaryKey(autoGenerate = true)
     var id = 0
@@ -18,9 +18,6 @@ class DeviceFlowTransducer : DeviceInfo, Serializable {
     var impulseWeight = Field("")
     var values = Field("")
     var comment = Field("")
-
-    constructor() : super( Field(""), 0) {}
-    constructor(name: Field<String>, typeId: Int) : super(name, typeId) {}
 
 //    val filledState: Int
 //        get() = if (!(installationPlace == null || installationPlace.isEmpty())

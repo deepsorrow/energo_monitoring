@@ -81,6 +81,6 @@ public class FlowTransducerLength {
     }
 
     public String getDeviceName() {
-        return device.getName();
+        return device.getDeviceName();
     }
 }

@@ -21,14 +21,14 @@ class PressureTransducerVM : ViewModel() {
     fun initialize(device: DevicePressureTransducer) {
         this.device = device
 
-        deviceName.set(device.deviceName)
-        deviceNumber.set(device.deviceNumber)
-        installationPlace.set(device.installationPlace)
-        manufacturer.set(device.manufacturer)
-        sensorRange.set(device.sensorRange)
-        lastCheckDate.set(device.lastCheckDate)
-        values.set(device.values)
-        comment.set(device.comment)
+        deviceName.set(device.deviceName.value)
+        deviceNumber.set(device.deviceNumber.value)
+        installationPlace.set(device.installationPlace.value)
+        manufacturer.set(device.manufacturer.value)
+        sensorRange.set(device.sensorRange.value)
+        lastCheckDate.set(device.lastCheckDate.value)
+        values.set(device.values.value)
+        comment.set(device.comment.value)
     }
 
     fun onDeviceNameChanged() {

@@ -4,9 +4,11 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Field<T : Parcelable>(
-    val value: T,
-    val correctValue: T
+data class Field(
+    val value: String,
+    val correctValue: String
 ) : Parcelable {
-    constructor(value: T) : this(value, value)
+    constructor(value: String) : this(value, value)
+
+
 }

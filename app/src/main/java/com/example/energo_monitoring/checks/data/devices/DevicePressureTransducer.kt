@@ -5,7 +5,7 @@ import com.example.energo_monitoring.checks.data.api.DeviceInfo
 import androidx.room.PrimaryKey
 
 @Entity
-class DevicePressureTransducer : DeviceInfo(Field(""), 0) {
+class DevicePressureTransducer : DeviceInfo() {
     @JvmField
     @PrimaryKey(autoGenerate = true)
     var id = 0

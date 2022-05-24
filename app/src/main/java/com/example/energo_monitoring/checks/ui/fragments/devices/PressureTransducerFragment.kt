@@ -44,10 +44,9 @@ class PressureTransducerFragment : BaseDeviceFragment() {
         val device = parentViewModel.devices[deviceId] as DevicePressureTransducer
         binding.viewModel = viewModel
 
-        val correctValue = device.sensorRange
         viewModel.sensorRange.addOnPropertyChanged {
-            val value = viewModel.sensorRange.get().orEmpty()
-            val correctValue = viewModel.device.
+            val value = viewModel.device.sensorRange.value
+            val correctValue = viewModel.device.sensorRange.correctValue
             setMatchListener(binding.sensorRangeLayout, value, correctValue)
         }.addTo(disposables)
 
