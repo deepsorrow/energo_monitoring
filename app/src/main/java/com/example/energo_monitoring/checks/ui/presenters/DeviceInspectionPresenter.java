@@ -8,7 +8,7 @@ import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureCounte
 import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureTransducer;
 import com.example.energo_monitoring.checks.data.api.DeviceInfo;
 import com.example.energo_monitoring.checks.data.db.ResultDataDatabase;
-import com.example.energo_monitoring.checks.ui.fragments.screens.Step4_DeviceInspectionFragment;
+import com.example.energo_monitoring.checks.ui.fragments.screens.DeviceInspectionFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 public class DeviceInspectionPresenter {
-    public Step4_DeviceInspectionFragment fragment;
+    public DeviceInspectionFragment fragment;
     public List<DeviceInfo> devices;
 
-    public DeviceInspectionPresenter(Step4_DeviceInspectionFragment fragment, List<DeviceInfo> devices) {
+    public DeviceInspectionPresenter(DeviceInspectionFragment fragment, List<DeviceInfo> devices) {
         this.fragment = fragment;
         this.devices = devices;
     }

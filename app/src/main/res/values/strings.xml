@@ -53,4 +53,11 @@
     <string name="modification">Модификация</string>
     <string name="interval">Межповерочный интервал</string>
     <string name="temperature_counter">Тепловычислитель</string>
+    <string name="length_before_flow_transducer">Длина до расходомера</string>
+    <string name="length_after_flow_transducer">Длина после расходомера</string>
+    <string name="check_length_take_photo">Приложите линейку и сфотографируйте</string>
+    <string name="flow_transducer_photo_description">Фото длины расходомера</string>
+    <string name="device_type">Тип прибора</string>
+    <string name="creating_new_device">Создание нового прибора</string>
+    <string name="confirm">Завершить</string>
 </resources>

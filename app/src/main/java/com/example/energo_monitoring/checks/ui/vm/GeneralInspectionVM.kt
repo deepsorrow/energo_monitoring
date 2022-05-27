@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.example.energo_monitoring.checks.data.ProjectFile
+import com.example.energo_monitoring.checks.data.files.ProjectFile
 import com.example.energo_monitoring.checks.data.api.ClientInfo
 import com.example.energo_monitoring.checks.data.db.OtherInfo
 import com.example.energo_monitoring.checks.ui.adapters.ProjectPhotoAdapter
@@ -151,7 +151,7 @@ class GeneralInspectionVM @Inject constructor(
 
     fun onCommentChanged() {
         val saveAction = { otherInfo: OtherInfo ->
-            otherInfo.generalInspectionComment = comment.get()
+            otherInfo.generalInspectionComment = comment.get().orEmpty()
             otherInfo
         }
         saveOtherInfoField(saveAction, "Нет данных! Код ошибки: 817")

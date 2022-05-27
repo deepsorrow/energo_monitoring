@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import com.example.energo_monitoring.checks.data.api.DeviceInfo
+import com.example.energo_monitoring.checks.ui.fragments.dialogs.AddNewDeviceDialog
 import com.example.energo_monitoring.checks.ui.vm.base.BaseScreenVM
 import java.util.*
 import javax.inject.Inject
@@ -12,6 +13,8 @@ import javax.inject.Inject
 class DeviceInspectionVM @Inject constructor(
     application: Application
 ) : BaseScreenVM(4, application) {
+
+    var addNewDevice: (() -> Unit)? = null
 
     var devices = mutableListOf<DeviceInfo>()
 
@@ -72,4 +75,6 @@ class DeviceInspectionVM @Inject constructor(
             override fun afterTextChanged(s: Editable) {}
         }
     }
+
+    fun addNewDevice() = addNewDevice?.let { it() }
 }

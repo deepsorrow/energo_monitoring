@@ -49,7 +49,7 @@ fun DocumentsLibraryContent(
         }
     } else {
         Column(
-            modifier = Modifier.fillMaxSize().padding(top = 10.dp, bottom = 10.dp)
+            modifier = Modifier.fillMaxSize().padding(top = 5.dp, bottom = 10.dp)
         ) {
             DocumentsNavigatorContent(
                 onFolderClick = onFolderClick,

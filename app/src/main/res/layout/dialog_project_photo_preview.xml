@@ -7,7 +7,7 @@
 
         <variable
             name="file"
-            type="com.example.energo_monitoring.checks.data.ProjectFile" />
+            type="com.example.energo_monitoring.checks.data.files.base.BaseFile" />
     </data>
 
     <LinearLayout
@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:maxHeight="@dimen/_500sdp"
             android:filePath="@{file.path}"
-            android:background="@drawable/border"
             android:padding="@dimen/_1sdp"
             tools:src="@drawable/energomonitoring_logo"
             app:layout_constraintStart_toStartOf="parent"

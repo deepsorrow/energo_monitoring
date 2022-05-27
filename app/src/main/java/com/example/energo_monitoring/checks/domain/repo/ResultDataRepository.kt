@@ -1,13 +1,14 @@
 package com.example.energo_monitoring.checks.domain.repo
 
-import com.example.energo_monitoring.checks.data.FlowTransducerLength
-import com.example.energo_monitoring.checks.data.ProjectFile
+import com.example.energo_monitoring.checks.data.CheckLengthResult
+import com.example.energo_monitoring.checks.data.files.ProjectFile
 import com.example.energo_monitoring.checks.data.api.ClientInfo
 import com.example.energo_monitoring.checks.data.api.OrganizationInfo
 import com.example.energo_monitoring.checks.data.api.ProjectDescription
 import com.example.energo_monitoring.checks.data.db.OtherInfo
 import com.example.energo_monitoring.checks.data.db.ResultDataDAO
 import com.example.energo_monitoring.checks.data.devices.*
+import com.example.energo_monitoring.checks.data.files.CheckLengthPhotoFile
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -49,11 +50,16 @@ class ResultDataRepository @Inject constructor(
             }
         }
 
-    fun insertFlowTransducerCheckLengthResults(results: List<FlowTransducerLength>, isInit: Boolean = false) =
+    fun insertFlowTransducerCheckLengthResults(results: List<CheckLengthResult>, isInit: Boolean = false) =
         checkNotEmpty(results) {
             incrementVersionOrGetError(results[0].dataId, isInit) {
                 dao.insertFlowTransducerCheckLengthResults(results)
             }
+        }
+
+    fun insertCheckLengthPhotoFile(file: CheckLengthPhotoFile, isInit: Boolean = false) =
+        incrementVersionOrGetError(file.dataId, isInit) {
+            dao.insertCheckLengthPhotoFile(file)
         }
 
     fun getDeviceCounters(dataId: Int): List<DeviceCounter>? = dao.getDeviceCounters(dataId)
@@ -66,10 +72,17 @@ class ResultDataRepository @Inject constructor(
 
     fun getDevicePressureTransducers(dataId: Int): List<DevicePressureTransducer>? = dao.getDevicePressureTransducers(dataId)
 
-    fun insertProjectDescription(
-        projectDescription: ProjectDescription,
-        isInit: Boolean = false
-    ): Result<String> =
+    fun getFlowTransducerLengths(dataId: Int): List<CheckLengthResult>? {
+        val lengthResults = dao.getFlowTransducerLengths(dataId)
+        lengthResults?.forEach {
+            it.photoFiles = dao.getCheckLengthPhotoFiles(dataId, it.id)?.toMutableList() ?: mutableListOf()
+        }
+        return lengthResults
+    }
+
+    fun getDeviceCounters(dataId: Int, parentId: Int): List<CheckLengthPhotoFile>? = dao.getCheckLengthPhotoFiles(dataId, parentId)
+
+    fun insertProjectDescription(projectDescription: ProjectDescription, isInit: Boolean = false): Result<String> =
         incrementVersionOrGetError(projectDescription.dataId, isInit) {
             projectDescription.files.forEach {
                 it.dataId = projectDescription.dataId

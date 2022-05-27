@@ -7,44 +7,44 @@
 
     <fragment
         android:id="@+id/step3_GeneralInspectionFragment"
-        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.Step3_GeneralInspectionFragment"
+        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.GeneralInspectionFragment"
         android:label="Общая проверка"
         android:tag="GeneralInspection"
-        tools:layout="@layout/fragment_step3_general_inspection">
+        tools:layout="@layout/fragment_step1_general_inspection">
         <action
             android:id="@+id/action_step3_GeneralInspectionFragment_to_deviceInspectionFragment"
             app:destination="@id/step4_DeviceInspectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/step4_DeviceInspectionFragment"
-        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.Step4_DeviceInspectionFragment"
+        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.DeviceInspectionFragment"
         android:label="Проверка устройств"
-        tools:layout="@layout/fragment_step4_device_inspection" >
+        tools:layout="@layout/fragment_step2_device_inspection" >
         <action
             android:id="@+id/action_step4_DeviceInspectionFragment_to_step5_CheckLengthsFragment"
             app:destination="@id/step5_CheckLengthsFragment" />
     </fragment>
     <fragment
         android:id="@+id/step5_CheckLengthsFragment"
-        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.Step5_CheckLengthsFragment"
+        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.HostCheckLengthsFragment"
         android:label="Step5_CheckLengthsFragment"
-        tools:layout="@layout/fragment_step5_check_lengths">
+        tools:layout="@layout/fragment_step3_check_lengths">
         <action
             android:id="@+id/action_step5_CheckLengthsFragment_to_step6_TempMetricsFragment"
             app:destination="@id/step6_TempMetricsFragment" />
     </fragment>
     <fragment
         android:id="@+id/step6_TempMetricsFragment"
-        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.Step6_TempMetricsFragment"
+        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.TempMetricsFragment"
         android:label="Step6_TempMetricsFragment"
-        tools:layout="@layout/fragment_step6_temp_metrics">
+        tools:layout="@layout/fragment_step4_temp_metrics">
         <action
             android:id="@+id/action_step6_TempMetricsFragment_to_step7_FinalPhotosFragments"
             app:destination="@id/step7_FinalPhotosFragments" />
     </fragment>
     <fragment
         android:id="@+id/step7_FinalPhotosFragments"
-        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.Step7_FinalPhotosFragment"
+        android:name="com.example.energo_monitoring.checks.ui.fragments.screens.FinalPhotosFragment"
         android:label="Step7_FinalPhotosFragments"
-        tools:layout="@layout/fragment_step7_final_photos_fragments"/>
+        tools:layout="@layout/fragment_step5_final_photos_fragments"/>
 </navigation>

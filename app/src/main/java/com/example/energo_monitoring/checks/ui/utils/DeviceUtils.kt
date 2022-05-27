@@ -4,6 +4,7 @@ import android.text.Editable
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.annotation.IdRes
 import androidx.databinding.Observable
 import com.example.energo_monitoring.R
 import com.example.energo_monitoring.checks.data.devices.Field
@@ -23,7 +24,7 @@ object DeviceUtils {
         }
     }
 
-    fun initSpinner(view: View?, values: List<String>, spinnerId: Int) {
+    fun initSpinner(view: View?, values: List<String>, @IdRes spinnerId: Int) {
         if (view != null) {
             val adapter = ArrayAdapter(view.context, R.layout.list_item_spinner, values)
             val dropdownButton = view.findViewById<AutoCompleteTextView>(spinnerId)

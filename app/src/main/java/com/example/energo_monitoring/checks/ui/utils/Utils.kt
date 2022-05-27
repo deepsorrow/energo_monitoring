@@ -34,7 +34,7 @@ object Utils {
         db.resultDataDAO().insertOtherInfo(otherInfo)
     }
 
-    fun initPhotos(
+    private fun initPhotos(
         fragment: Fragment,
         recyclerId: Int,
         recyclerAdapter: PhotosRecyclerAdapter,
@@ -43,9 +43,8 @@ object Utils {
         val context = fragment.requireContext()
         val activity = fragment.requireActivity() as CheckMainActivity
         val recyclerView: RecyclerView = fragment.requireView().findViewById(recyclerId)
-        val launcher = fragment.registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result: ActivityResult ->
+        val launcher = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 try {
                     val photo = MediaStore.Images.Media.getBitmap(

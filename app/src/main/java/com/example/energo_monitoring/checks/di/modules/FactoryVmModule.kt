@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.energo_monitoring.application.di.vm.ViewModelFactory
 import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
+import com.example.energo_monitoring.checks.ui.fragments.screens.HostCheckLengthsFragment
+import com.example.energo_monitoring.checks.ui.vm.CheckLengthVM
 import com.example.energo_monitoring.checks.ui.vm.DeviceInspectionVM
 import com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.HostCheckLengthVM
 import com.example.energo_monitoring.checks.ui.vm.devices.FlowTransducerVM
 import com.example.energo_monitoring.checks.ui.vm.devices.PressureTransducerVM
 import com.example.energo_monitoring.checks.ui.vm.devices.TemperatureCounterVM
@@ -19,7 +22,9 @@ import javax.inject.Named
  */
 internal const val VM_GENERAL_INSPECTION_VM = "GeneralInspectionVM"
 internal const val VM_DEVICE_INSPECTION_VM = "DeviceInspectionVM"
+internal const val VM_HOST_CHECK_LENGTH_VM = "HostCheckLengthsVM"
 
+internal const val VM_CHECK_LENGTH_VM = "CheckLengthVM"
 internal const val VM_TEMPERATURE_COUNTER_VM = "TemperatureCounterVM"
 internal const val VM_TEMPERATURE_TRANSDUCER_VM = "TemperatureTransducerVM"
 internal const val VM_FLOW_TRANSDUCER_VM = "FlowTransducerVM"
@@ -76,4 +81,19 @@ class FactoryVmModule {
     ): PressureTransducerVM =
         ViewModelProvider(activity, viewModelFactory)[PressureTransducerVM::class.java]
 
+    @Provides
+    @Named(VM_HOST_CHECK_LENGTH_VM)
+    fun provideHostCheckLength(
+        hostCheckLengthsFragment: HostCheckLengthsFragment,
+        viewModelFactory: ViewModelFactory
+    ): HostCheckLengthVM =
+        ViewModelProvider(hostCheckLengthsFragment, viewModelFactory)[HostCheckLengthVM::class.java]
+
+    @Provides
+    @Named(VM_CHECK_LENGTH_VM)
+    fun provideCheckLength(
+        activity: CheckMainActivity,
+        viewModelFactory: ViewModelFactory
+    ): CheckLengthVM =
+        ViewModelProvider(activity, viewModelFactory)[CheckLengthVM::class.java]
 }

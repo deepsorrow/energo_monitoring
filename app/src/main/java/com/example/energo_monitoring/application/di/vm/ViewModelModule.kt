@@ -2,8 +2,10 @@ package com.example.energo_monitoring.application.di.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.energo_monitoring.checks.ui.vm.CheckLengthVM
 import com.example.energo_monitoring.checks.ui.vm.DeviceInspectionVM
 import com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM
+import com.example.energo_monitoring.checks.ui.vm.HostCheckLengthVM
 import com.example.energo_monitoring.checks.ui.vm.devices.FlowTransducerVM
 import com.example.energo_monitoring.checks.ui.vm.devices.PressureTransducerVM
 import com.example.energo_monitoring.checks.ui.vm.devices.TemperatureCounterVM
@@ -46,4 +48,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PressureTransducerVM::class)
     abstract fun providePressureTransducerVM(viewModel: PressureTransducerVM): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HostCheckLengthVM::class)
+    abstract fun provideHostCheckLengthVM(viewModel: HostCheckLengthVM): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CheckLengthVM::class)
+    abstract fun provideCheckLengthVM(viewModel: CheckLengthVM): ViewModel
 }

@@ -55,9 +55,7 @@ class PhotosRecyclerAdapter(var context: Context, var listItem: Int) :
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        //if(position != photos.size()){
         holder.loadImageFromBitmap(photos[position])
-        //}
     }
 
     override fun getItemCount(): Int {

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
-            name="checkLength"
-            type="com.example.energo_monitoring.checks.data.FlowTransducerLength" />
+            name="viewModel"
+            type="com.example.energo_monitoring.checks.ui.vm.CheckLengthVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Длина до расходомера"
+            android:hint="@string/length_before_flow_transducer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,8 +33,9 @@
                 android:id="@+id/lengthBefore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{() -> viewModel.lengthBeforeChanged()}"
                 android:inputType="number"
-                android:text="@{checkLength.lengthBefore}" />
+                android:text="@={viewModel.lengthBefore}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +44,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Длина после расходомера"
+            android:hint="@string/length_after_flow_transducer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/lengthBeforeLayout"
             app:layout_constraintTop_toBottomOf="@+id/lengthBeforeLayout">
@@ -53,8 +53,9 @@
                 android:id="@+id/lengthAfter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:afterTextChanged="@{() -> viewModel.lengthAfterChanged()}"
                 android:inputType="number"
-                android:text="@{checkLength.lengthAfter}" />
+                android:text="@={viewModel.lengthAfter}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="Приложите линейку и сфотографируйте:"
+            android:text="@string/check_length_take_photo"
             android:textAlignment="center"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,12 +77,30 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_30sdp"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/lengthAfterLayout"
             app:layout_constraintTop_toBottomOf="@+id/photoWithRulerText"
             app:spanCount="2"
             tools:listitem="@layout/list_item_flow_transducers_photo_card" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/comment"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/additional_comment"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:afterTextChanged="@{() -> viewModel.commentChanged()}"
+                android:text="@={viewModel.comment}"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

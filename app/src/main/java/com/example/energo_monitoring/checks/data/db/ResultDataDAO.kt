@@ -9,8 +9,9 @@ import com.example.energo_monitoring.checks.data.devices.DeviceFlowTransducer
 import com.example.energo_monitoring.checks.data.devices.DeviceTemperatureTransducer
 import com.example.energo_monitoring.checks.data.devices.DevicePressureTransducer
 import com.example.energo_monitoring.checks.data.devices.DeviceCounter
-import com.example.energo_monitoring.checks.data.FlowTransducerLength
-import com.example.energo_monitoring.checks.data.ProjectFile
+import com.example.energo_monitoring.checks.data.CheckLengthResult
+import com.example.energo_monitoring.checks.data.files.CheckLengthPhotoFile
+import com.example.energo_monitoring.checks.data.files.ProjectFile
 
 @Dao
 abstract class ResultDataDAO {
@@ -43,13 +44,16 @@ abstract class ResultDataDAO {
     abstract fun insertDeviceCounters(devices: List<DeviceCounter?>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertFlowTransducerCheckLengthResults(results: List<FlowTransducerLength?>)
+    abstract fun insertFlowTransducerCheckLengthResults(results: List<CheckLengthResult?>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertProjectFiles(files: List<ProjectFile?>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertProjectFile(file: ProjectFile)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertCheckLengthPhotoFile(file: CheckLengthPhotoFile)
 
     @Query("DELETE FROM OtherInfo WHERE dataId = :dataId")
     abstract fun deleteOtherInfo(dataId: Int)
@@ -103,7 +107,16 @@ abstract class ResultDataDAO {
     abstract fun getOtherInfo(dataId: Int): OtherInfo?
 
     @Query("SELECT * FROM ProjectFile WHERE dataId = :dataId")
-    abstract fun getProjectFiles(dataId: Int): List<ProjectFile?>?
+    abstract fun getProjectFiles(dataId: Int): List<ProjectFile>?
+
+    @Query("SELECT * FROM CheckLengthPhotoFile WHERE dataId = :dataId AND checkLengthParentId = :parentId")
+    abstract fun getCheckLengthPhotoFiles(dataId: Int, parentId: Int): List<CheckLengthPhotoFile>?
+
+    @Query("SELECT * FROM CheckLengthResult WHERE dataId = :dataId")
+    abstract fun getFlowTransducerLengths(dataId: Int): List<CheckLengthResult>?
+
+    @Query("SELECT * FROM CheckLengthResult WHERE dataId = :dataId")
+    abstract fun getFlowTransducerFiles(dataId: Int): List<CheckLengthResult>?
 
     @Transaction
     @Query("SELECT * FROM OtherInfo WHERE dataId = :id")

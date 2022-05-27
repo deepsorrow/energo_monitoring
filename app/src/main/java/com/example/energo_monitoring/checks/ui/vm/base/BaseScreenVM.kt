@@ -29,6 +29,8 @@ abstract class BaseScreenVM(
     val context: Context
         get() = getApplication()
 
+    var initialized: Boolean = false
+
     init {
         logProgress()
     }

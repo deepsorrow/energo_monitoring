@@ -27,9 +27,12 @@ import com.example.energo_monitoring.checks.ui.activities.CheckMainActivity
 import com.example.energo_monitoring.checks.ui.adapters.ProjectPhotoAdapter
 import com.example.energo_monitoring.checks.ui.fragments.dialogs.ProjectPhotoPreviewDialog
 import com.example.energo_monitoring.checks.ui.presenters.utilities.LoadImageManager
+import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.addOnPropertyChanged
+import com.example.energo_monitoring.checks.ui.utils.DeviceUtils.addTo
 import com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM
-import com.example.energo_monitoring.databinding.FragmentStep3GeneralInspectionBinding
+import com.example.energo_monitoring.databinding.FragmentStep1GeneralInspectionBinding
 import dagger.android.support.DaggerFragment
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,7 +41,7 @@ import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Named
 
-class Step3_GeneralInspectionFragment : DaggerFragment() {
+class GeneralInspectionFragment : DaggerFragment() {
     @Inject
     @Named(VM_GENERAL_INSPECTION_VM)
     lateinit var viewModel: GeneralInspectionVM
@@ -52,13 +55,15 @@ class Step3_GeneralInspectionFragment : DaggerFragment() {
     private lateinit var takePermissions: ActivityResultLauncher<Intent>
     private lateinit var loadImageManager: LoadImageManager
 
-    private lateinit var binding: FragmentStep3GeneralInspectionBinding
+    private lateinit var binding: FragmentStep1GeneralInspectionBinding
+
+    var disposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStep3GeneralInspectionBinding.inflate(layoutInflater)
+        binding = FragmentStep1GeneralInspectionBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         binding.projectPhotoList.adapter = adapter
         binding.projectPhotoList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -85,11 +90,9 @@ class Step3_GeneralInspectionFragment : DaggerFragment() {
             binding.sanPinYesButton.isChecked = (it != null) && it
         }
 
-        viewModel.organizationName.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                (requireActivity() as CheckMainActivity).setToolbarText(viewModel.organizationName.get().orEmpty())
-            }
-        })
+        viewModel.organizationName.addOnPropertyChanged {
+            (requireActivity() as CheckMainActivity).setToolbarText(viewModel.organizationName.get().orEmpty())
+        }.addTo(disposables)
 
         binding.addFileButton.setOnClickListener {
             val popupView = inflater.inflate(R.layout.list_add_project_file, null)
@@ -123,6 +126,11 @@ class Step3_GeneralInspectionFragment : DaggerFragment() {
         registerLaunchers()
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.dispose()
     }
 
     private fun addToggleGroupListener(){
