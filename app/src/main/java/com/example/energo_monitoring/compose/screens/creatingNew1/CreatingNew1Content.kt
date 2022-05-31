@@ -1,14 +1,16 @@
 package com.example.energo_monitoring.compose.screens.creatingNew1
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +35,49 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
             fontWeight = FontWeight.Bold
         )
 
+        var alertAutoUpdateFields by remember { mutableStateOf(false) }
+
+        if (alertAutoUpdateFields) {
+            AlertDialog(
+                text = {
+                    Text(text = "Поля были изменены вручную. Обновить их в соответствии с новым контрактом автоматически?")
+                },
+
+                onDismissRequest = { alertAutoUpdateFields = false },
+
+                confirmButton = {
+                    Text(
+                        color = Color(0xFF018786),
+                        text = "Да",
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .clickable {
+                                alertAutoUpdateFields = false
+                                viewModel.agreementNumber?.let(viewModel::autoUpdate)
+                            }
+                            .padding(10.dp)
+                    )
+                },
+
+                dismissButton = {
+                    Text(
+                        color = Color(0xFF018786),
+                        text = "Нет",
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .clickable {
+                                alertAutoUpdateFields = false
+                            }
+                            .padding(10.dp)
+                    )
+                },
+
+                title = {
+                    Text("Автоматическое обновление полей")
+                },
+            )
+        }
+
         AgreementNumTextField(
             placeholder = "Номер договора абонента",
             viewModel.agreementNumber,
@@ -40,23 +85,12 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
         ) {
             viewModel.agreementNumber = it
 
-            if (
-                !viewModel.modifiedByUserOnce ||
-                viewModel.name == "" &&
-                viewModel.addressUUTE == "" &&
-                viewModel.representativeName == "" &&
-                viewModel.phoneNumber == "" &&
-                viewModel.email == ""
-            ) {
+            if (viewModel.canAutoUpdate) {
                 // Ничего не было введено пользователем
                 // выставляем всё автоматически
-                viewModel.name = it.name
-                viewModel.addressUUTE = it.addressUUTE
-                viewModel.representativeName = it.representativeName
-                viewModel.phoneNumber = it.phoneNumber
-                viewModel.email = it.email
-
-                viewModel.modifiedByUserOnce = false
+                viewModel.autoUpdate(it)
+            } else {
+                alertAutoUpdateFields = true
             }
         }
 

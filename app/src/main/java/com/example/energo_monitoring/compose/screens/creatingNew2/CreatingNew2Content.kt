@@ -87,8 +87,9 @@ fun CreatingNew2Content(
 
                 confirmButton = {
                     Text(
-                        color = Color.Cyan,
+                        color = Color(0xFF018786),
                         text = "ОК",
+                        fontSize = 18.sp,
                         modifier = Modifier
                             .clickable {
                                 alertBrokenImage = false
@@ -169,6 +170,7 @@ fun CreatingNew2Content(
                     Text(
                         color = Color(0xFF018786),
                         text = "Убрать",
+                        fontSize = 18.sp,
                         modifier = Modifier
                             .clickable {
                                 bitmap.removeAt(removeImageIndex!!)
@@ -183,6 +185,7 @@ fun CreatingNew2Content(
                     Text(
                         color = Color(0xFF018786),
                         text = "Оставить",
+                        fontSize = 18.sp,
                         modifier = Modifier
                             .clickable {
                                 removeImageIndex = null

@@ -36,6 +36,24 @@ class ClientInfoViewModel : ViewModel() {
     var agreementFound = false
     var modifiedByUserOnce = false
 
+    val canAutoUpdate get() =
+        !modifiedByUserOnce ||
+        name == "" &&
+        addressUUTE == "" &&
+        representativeName == "" &&
+        phoneNumber == "" &&
+        email == ""
+
+    fun autoUpdate(it: ContractInfo) {
+        name = it.name
+        addressUUTE = it.addressUUTE
+        representativeName = it.representativeName
+        phoneNumber = it.phoneNumber
+        email = it.email
+
+        modifiedByUserOnce = false
+    }
+
     val availableClientsInfo: List<ContractInfo> = listOf(
         ContractInfo(0, 123120321, "Школа №13", "Адрес школы", "А", "1", "мыло 1", false),
         ContractInfo(1, 523131321, "Дет. сад №5", "Детский сад", "Б", "2", "мыло 2", false),
