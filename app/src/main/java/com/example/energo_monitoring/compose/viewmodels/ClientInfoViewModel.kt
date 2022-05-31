@@ -11,17 +11,17 @@ import com.example.energo_monitoring.checks.data.api.ProjectDescription
 import com.example.energo_monitoring.checks.data.db.ResultData
 
 class ClientInfoViewModel : ViewModel() {
-    val agreementNumber: MutableState<ContractInfo?> = mutableStateOf(null)
-    val name: MutableState<String> = mutableStateOf("")
-    val addressUUTE: MutableState<String> = mutableStateOf("")
-    val representativeName: MutableState<String> = mutableStateOf("")
-    val phoneNumber: MutableState<String> = mutableStateOf("")
-    val email: MutableState<String> = mutableStateOf("")
-    val servingOrganization: MutableState<ServingOrganization?> = mutableStateOf(null)
-    val hasDebt: MutableState<Boolean> = mutableStateOf(false)
+    var agreementNumber: ContractInfo? by mutableStateOf(null)
+    var name: String by mutableStateOf("")
+    var addressUUTE: String by mutableStateOf("")
+    var representativeName: String by mutableStateOf("")
+    var phoneNumber: String by mutableStateOf("")
+    var email: String by mutableStateOf("")
+    var servingOrganization: ServingOrganization? by mutableStateOf(null)
+    var hasDebt: Boolean by mutableStateOf(false)
 
-    val commentary: MutableState<String> = mutableStateOf("")
-    val matchesConditions: MutableState<Boolean> = mutableStateOf(true)
+    var commentary: String by mutableStateOf("")
+    var matchesConditions: Boolean by mutableStateOf(true)
 
     // val devices: MutableList<AbstractDevice> = mutableListOf()
     val devices: MutableSet<AbstractDevice<*>> = HashSet()
@@ -33,7 +33,7 @@ class ClientInfoViewModel : ViewModel() {
     // var photo: Uri? by mutableStateOf(null)
     val photos = mutableStateListOf<Uri>()
 
-    var agreementFound: Boolean = false
+    var agreementFound = false
     var modifiedByUserOnce = false
 
     val availableClientsInfo: List<ContractInfo> = listOf(
@@ -52,13 +52,13 @@ class ClientInfoViewModel : ViewModel() {
         return ResultData().also {
             //it.clientInfo = agreementNumber.value!!.assemble()
             it.clientInfo = ClientInfo().also {
-                it.name = name.value
-                it.addressUUTE = addressUUTE.value
-                it.representativeName = representativeName.value
-                it.phoneNumber = phoneNumber.value
-                it.email = email.value
-                // it.servingOrganization = servingOrganization.value
-                it.hasDebt = hasDebt.value
+                it.name = name
+                it.addressUUTE = addressUUTE
+                it.representativeName = representativeName
+                it.phoneNumber = phoneNumber
+                it.email = email
+                // it.servingOrganization = servingOrganization
+                it.hasDebt = hasDebt
             }
 
             it.project = ProjectDescription().also {
@@ -70,5 +70,29 @@ class ClientInfoViewModel : ViewModel() {
             it.devicePressureTransducers = devices.filterIsInstance<PressureConverter>().map { it.toDataDevice() }
             it.deviceCounters = devices.filterIsInstance<Counter>().map { it.toDataDevice() }
         }
+    }
+
+    fun clear() {
+        agreementNumber = null
+        name = ""
+        addressUUTE = ""
+        representativeName = ""
+        phoneNumber = ""
+        email = ""
+        servingOrganization = null
+        hasDebt = false
+
+        commentary = ""
+        matchesConditions = true
+
+        deviceInQuestion = null
+        deviceInfoInQuestion = null
+        deviceShouldBeAdded = false
+
+        agreementFound = false
+        modifiedByUserOnce = false
+
+        photos.clear()
+        devices.clear()
     }
 }

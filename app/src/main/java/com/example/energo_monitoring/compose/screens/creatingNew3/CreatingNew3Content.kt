@@ -45,85 +45,64 @@ fun CreatingNew3Content(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 20.dp),
+            .padding(top = 20.dp, start = 15.dp, end = 15.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
-            text = "Проверка поверочных документов",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold
-        )
+        val swipeStates = remember {
+            mutableStateListOf<Pair<WeakReference<AbstractDevice<*>>, SwipeableState<Int>>>()
+        }
 
-        Text(
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
-            text = "Список добавленных приборов",
-            fontSize = 17.sp
-        )
+        val sizePx = with(LocalDensity.current) { (-500).dp.toPx() }
+        val anchors = mapOf(sizePx to 1, 0f to 0)
+        var change by remember {
+            mutableStateOf(0)
+        }
 
-        Column(
-            modifier = Modifier
-                // .fillMaxSize()
-                // TODO: высота этого элемента
-                .height(300.dp)
-                .padding(top = 20.dp, start = 15.dp, end = 15.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            val swipeStates = remember {
-                mutableStateListOf<Pair<WeakReference<AbstractDevice<*>>, SwipeableState<Int>>>()
+        val iterator = viewModel.devices.iterator()
+
+        for (device in iterator) {
+            var findSwipe = swipeStates.firstOrNull { it.first.get() === device }?.second
+
+            if (findSwipe == null) {
+                findSwipe = rememberSwipeableState(initialValue = 0)
+                swipeStates.add(WeakReference(device) to findSwipe)
             }
 
-            val sizePx = with(LocalDensity.current) { (-500).dp.toPx() }
-            val anchors = mapOf(sizePx to 1, 0f to 0)
-            var change by remember {
-                mutableStateOf(0)
+            if (findSwipe.currentValue == 1) {
+                iterator.remove()
+                change++
+                continue
             }
 
-            val iterator = viewModel.devices.iterator()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(top = 15.dp)
+                    .width(IntrinsicSize.Max)
+                    .clickable {
+                        viewModel.deviceShouldBeAdded = false
+                        viewModel.deviceInQuestion = device
+                        viewModel.deviceInfoInQuestion = device.info
 
-            for (device in iterator) {
-                var findSwipe = swipeStates.firstOrNull { it.first.get() === device }?.second
-
-                if (findSwipe == null) {
-                    findSwipe = rememberSwipeableState(initialValue = 0)
-                    swipeStates.add(WeakReference(device) to findSwipe)
-                }
-
-                if (findSwipe.currentValue == 1) {
-                    iterator.remove()
-                    change++
-                    continue
-                }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .clickable {
-                            viewModel.deviceShouldBeAdded = false
-                            viewModel.deviceInQuestion = device
-                            viewModel.deviceInfoInQuestion = device.info
-
-                            navController?.navigate("create_new_3_device")
-                        }
-                        .swipeable(
-                            state = findSwipe,
-                            anchors = anchors,
-                            orientation = Orientation.Horizontal
-                        )
-                        .offset { IntOffset(findSwipe.offset.value.roundToInt(), 0) }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_device_hub_24),
-                        contentDescription = device.info.nominative)
-
-                    Text(
-                        fontSize = 17.sp,
-                        text = device.toString(),
-                        modifier = Modifier
-                            .padding(start = 10.dp),
+                        navController?.navigate("create_new_3_device")
+                    }
+                    .swipeable(
+                        state = findSwipe,
+                        anchors = anchors,
+                        orientation = Orientation.Horizontal
                     )
-                }
+                    .offset { IntOffset(findSwipe.offset.value.roundToInt(), 0) }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_device_hub_24),
+                    contentDescription = device.info.nominative)
+
+                Text(
+                    fontSize = 17.sp,
+                    text = device.toString(),
+                    modifier = Modifier
+                        .padding(start = 10.dp),
+                )
             }
         }
 

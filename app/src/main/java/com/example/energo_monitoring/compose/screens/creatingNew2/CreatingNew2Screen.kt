@@ -1,7 +1,11 @@
 package com.example.energo_monitoring.compose.screens.creatingNew2
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.energo_monitoring.compose.screens.CreatingNewNavBottom
@@ -27,7 +31,9 @@ fun CreatingNew2Screen(
                 CreatingNewNavBottom(navController)
         },
         content = {
-            CreatingNew2Content(viewModel = viewModel)
+            Box(modifier = Modifier.padding(it)) {
+                CreatingNew2Content(viewModel = viewModel)
+            }
         }
     )
 }

@@ -35,62 +35,81 @@ fun CreatingNew1Content(viewModel: ClientInfoViewModel) {
 
         AgreementNumTextField(
             placeholder = "Номер договора абонента",
-            viewModel.agreementNumber.value,
+            viewModel.agreementNumber,
             viewModel.availableClientsInfo
         ) {
-            viewModel.agreementNumber.value = it
+            viewModel.agreementNumber = it
 
             if (
                 !viewModel.modifiedByUserOnce ||
-                viewModel.name.value == "" &&
-                viewModel.addressUUTE.value == "" &&
-                viewModel.representativeName.value == "" &&
-                viewModel.phoneNumber.value == "" &&
-                viewModel.email.value == ""
+                viewModel.name == "" &&
+                viewModel.addressUUTE == "" &&
+                viewModel.representativeName == "" &&
+                viewModel.phoneNumber == "" &&
+                viewModel.email == ""
             ) {
                 // Ничего не было введено пользователем
                 // выставляем всё автоматически
-                viewModel.name.value = it.name
-                viewModel.addressUUTE.value = it.addressUUTE
-                viewModel.representativeName.value = it.representativeName
-                viewModel.phoneNumber.value = it.phoneNumber
-                viewModel.email.value = it.email
+                viewModel.name = it.name
+                viewModel.addressUUTE = it.addressUUTE
+                viewModel.representativeName = it.representativeName
+                viewModel.phoneNumber = it.phoneNumber
+                viewModel.email = it.email
 
                 viewModel.modifiedByUserOnce = false
             }
         }
 
-        CreatingTextField(placeholder = "Название контрагента", viewModel.name.value) {
-            viewModel.name.value = it
+        CreatingTextField(placeholder = "Название контрагента", viewModel.name) {
+            viewModel.name = it
             viewModel.modifiedByUserOnce = true
         }
 
-        CreatingTextField(placeholder = "Адрес УУТЭ контрагента", viewModel.addressUUTE.value) {
-            viewModel.addressUUTE.value = it
+        CreatingTextField(placeholder = "Адрес УУТЭ контрагента", viewModel.addressUUTE) {
+            viewModel.addressUUTE = it
             viewModel.modifiedByUserOnce = true
         }
 
-        CreatingTextField(placeholder = "Представитель абонента", viewModel.representativeName.value) {
-            viewModel.representativeName.value = it
+        CreatingTextField(placeholder = "Представитель абонента", viewModel.representativeName) {
+            viewModel.representativeName = it
             viewModel.modifiedByUserOnce = true
         }
 
-        CreatingTextField(placeholder = "Телефон представителя абонента", viewModel.phoneNumber.value) {
-            viewModel.phoneNumber.value = it
+        CreatingTextField(placeholder = "Телефон представителя абонента", viewModel.phoneNumber) {
+            viewModel.phoneNumber = it
             viewModel.modifiedByUserOnce = true
         }
 
-        CreatingTextField(placeholder = "Электронный адрес абонента", viewModel.email.value) {
-            viewModel.email.value = it
+        CreatingTextField(placeholder = "Электронный адрес абонента", viewModel.email) {
+            viewModel.email = it
             viewModel.modifiedByUserOnce = true
         }
 
         ServingOrganizationTextField(
             placeholder = "Обслуживающая организация",
-            viewModel.servingOrganization.value,
+            viewModel.servingOrganization,
             viewModel.availableServingOrganizations
         ) {
-            viewModel.servingOrganization.value = it
+            viewModel.servingOrganization = it
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 15.dp, start = 10.dp, top = 15.dp)
+        ) {
+            Checkbox(checked = viewModel.matchesConditions, onCheckedChange = {
+                viewModel.matchesConditions = it
+            })
+
+            Text(
+                text = "Соответствие проекта нормативным требованиям",
+                fontSize = 17.sp
+            )
+        }
+
+        CreatingLongTextField(placeholder = "Комментарий", viewModel.commentary) {
+            viewModel.commentary = it
         }
 
         if (viewModel.agreementFound) {

@@ -1,13 +1,11 @@
 package com.example.energo_monitoring.compose.screens.creatingNew1
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.energo_monitoring.compose.screens.CreatingNewNavBottom
 import com.example.energo_monitoring.compose.screens.ExitConfirmAlertDialog
@@ -36,10 +34,16 @@ fun CreatingNew1Screen(
         content = {
             ExitConfirmAlertDialog(
                 showAlertDialog = showAlertDialog,
-                onConfirm = { navController.navigate("checks") },
+                onConfirm = {
+                    navController.navigate("checks")
+                    viewModel.clear()
+                },
                 onDismiss = { showAlertDialog = false }
             )
-            CreatingNew1Content(viewModel = viewModel)
+
+            Box(modifier = Modifier.padding(it)) {
+                CreatingNew1Content(viewModel = viewModel)
+            }
         }
     )
 
