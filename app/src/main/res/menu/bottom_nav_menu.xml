@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/step3_GeneralInspectionFragment"
+        android:id="@+id/GeneralInspectionFragment"
         android:icon="@drawable/ic_assignment"
         android:title="Общее" />
     <item
-        android:id="@+id/step4_DeviceInspectionFragment"
+        android:id="@+id/DeviceInspectionFragment"
         android:icon="@drawable/ic_hardware"
         android:title="Устройства"/>
     <item
-        android:id="@+id/step5_CheckLengthsFragment"
+        android:id="@+id/CheckLengthsFragment"
         android:icon="@drawable/ic_design_services"
         android:title="Длины"/>
     <item
-        android:id="@+id/step6_TempMetricsFragment"
+        android:id="@+id/TempMetricsFragment"
         android:icon="@drawable/ic_calculate"
         android:title="Показания"/>
     <item
-        android:id="@+id/step7_FinalPhotosFragments"
+        android:id="@+id/FinalPhotosFragments"
         android:icon="@drawable/ic_photo_camera"
         android:title="Фото"/>
 </menu>

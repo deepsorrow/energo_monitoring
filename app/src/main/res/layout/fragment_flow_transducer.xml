@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.vm.devices.FlowTransducerVM" />
+            type="com.example.energy_monitoring.checks.ui.vm.devices.FlowTransducerVM" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.deviceName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -69,6 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onDeviceNumberChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.deviceNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -127,6 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onDiameterChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.diameter}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -145,6 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onImpulseWeightChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.impulseWeight}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -182,6 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onValuesChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.values}" />
 
                 </com.google.android.material.textfield.TextInputLayout>

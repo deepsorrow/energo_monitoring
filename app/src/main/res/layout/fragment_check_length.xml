@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.vm.CheckLengthVM" />
+            type="com.example.energy_monitoring.checks.ui.vm.CheckLengthVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.vm.devices.TemperatureCounterVM" />
+            type="com.example.energy_monitoring.checks.ui.vm.devices.TemperatureCounterVM" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -51,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.deviceName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -107,6 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onModificationChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.modification}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -144,6 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onIntervalChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.interval}" />
 
                 </com.google.android.material.textfield.TextInputLayout>

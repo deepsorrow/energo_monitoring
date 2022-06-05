@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.vm.GeneralInspectionVM" />
+            type="com.example.energy_monitoring.checks.ui.vm.GeneralInspectionVM" />
     </data>
 
     <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -310,7 +310,8 @@
                             android:id="@+id/sanPin_toggle_group"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center">
+                            android:layout_gravity="center"
+                            app:singleSelection="true">
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/sanPin_yes_button"

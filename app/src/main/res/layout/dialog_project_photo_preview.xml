@@ -7,7 +7,7 @@
 
         <variable
             name="file"
-            type="com.example.energo_monitoring.checks.data.files.base.BaseFile" />
+            type="com.example.energy_monitoring.checks.data.files.base.BaseFile" />
     </data>
 
     <LinearLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.energo_monitoring">
+    package="com.example.energy_monitoring">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,21 +16,20 @@
     </queries>
 
     <application
-        android:name=".EnergomonitoringApplication"
+        android:name="com.example.energy_monitoring.EnergomonitoringApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/energomonitoring_logo"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Energo_monitoring"
+        android:theme="@style/Theme.Energy_monitoring"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.example.energo_monitoring.checks.ui.activities.CheckMainActivity"
+            android:name="com.example.energy_monitoring.checks.ui.activities.CheckMainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.energo_monitoring.checks.ui.activities.SplashActivity"
+            android:name="com.example.energy_monitoring.checks.ui.activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,10 +49,10 @@
         </provider>
 
         <activity
-            android:name=".checks.ui.activities.LoginActivity"
+            android:name="com.example.energy_monitoring.checks.ui.activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".compose.activities.CreatingNew1Activity"
+            android:name="com.example.energy_monitoring.compose.activities.CreatingNew1Activity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
     </application>

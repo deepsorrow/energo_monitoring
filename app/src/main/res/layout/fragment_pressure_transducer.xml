@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.energo_monitoring.checks.ui.vm.devices.PressureTransducerVM" />
+            type="com.example.energy_monitoring.checks.ui.vm.devices.PressureTransducerVM" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onDeviceNameChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.deviceName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -69,6 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onDeviceNumberChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.deviceNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -164,6 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{() -> viewModel.onValuesChanged()}"
+                        android:inputType="textNoSuggestions"
                         android:text="@={viewModel.values}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
