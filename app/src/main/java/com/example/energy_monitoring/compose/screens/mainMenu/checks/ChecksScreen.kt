@@ -7,7 +7,6 @@ import com.example.energy_monitoring.compose.screens.TopBar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.Job
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ChecksScreen(openDrawer: () -> Job, openCreateNewScreen: () -> Unit){
     Scaffold(

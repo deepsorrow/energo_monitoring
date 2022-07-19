@@ -27,4 +27,21 @@ object SharedPreferencesManager {
         val mPrefs = context.getSharedPreferences("data", Context.MODE_PRIVATE)
         return mPrefs.getInt("userId", 0)
     }
+
+    fun hideDataId(context: Context, dataId: Int) {
+        val mPrefs = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+
+        val stringSet = mPrefs.getStringSet("hidedDataIds", HashSet())
+        val newStringSet = stringSet?.let { HashSet(it) }
+        newStringSet?.add(dataId.toString())
+
+        val prefsEditor = mPrefs.edit()
+        prefsEditor.putStringSet("hidedDataIds", newStringSet)
+        prefsEditor.commit()
+    }
+
+    fun getHidedDataIds(context: Context): List<Int> {
+        val mPrefs = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        return mPrefs.getStringSet("hidedDataIds", HashSet())!!.toList().map { it.toInt() }
+    }
 }

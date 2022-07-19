@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BottomSheetListItem(item: BottomSheetActions, onItemClick: (BottomSheetActions) -> Unit) {
+fun BottomSheetListItem(item: BottomSheetAction, onItemClick: (BottomSheetAction) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,5 +32,5 @@ fun BottomSheetListItem(item: BottomSheetActions, onItemClick: (BottomSheetActio
 @Preview(showBackground = true)
 @Composable
 fun BottomSheetListItemPreview() {
-    BottomSheetListItem(item = BottomSheetActions.ADD_FILE, onItemClick = { })
+    BottomSheetListItem(item = BottomSheetAction.ADD_FILE, onItemClick = { })
 }

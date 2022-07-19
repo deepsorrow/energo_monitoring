@@ -15,11 +15,15 @@ import com.example.energy_monitoring.compose.data.api.RefDoc
 import com.example.energy_monitoring.compose.viewmodels.RefDocsVM
 
 @Composable
-fun DocumentsListContent(viewModel: RefDocsVM = hiltViewModel(), onFolderClick: (item: RefDoc) -> Unit, onFileClick: (item: RefDoc) -> Unit) {
+fun DocumentsListContent(
+    viewModel: RefDocsVM,
+    onFolderClick: (item: RefDoc) -> Unit,
+    onFileClick: (item: RefDoc) -> Unit
+) {
     LazyColumn {
         itemsIndexed(items = viewModel.currentChildFiles) { index, it ->
             if (it.isFolder) {
-                DocumentFolder(folder = it, onClick = { onFolderClick(it) })
+                DocumentFolder(folder = it, onClick = { onFolderClick(it) }, viewModel)
             } else {
                 DocumentFile(file = it, onClick = { onFileClick(it) })
             }

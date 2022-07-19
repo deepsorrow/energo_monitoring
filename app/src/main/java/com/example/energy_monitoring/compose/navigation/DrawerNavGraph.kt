@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import com.example.energy_monitoring.compose.DrawerScreens
 import com.example.energy_monitoring.compose.screens.referenceInfo.DocumentsScreen
 import com.example.energy_monitoring.compose.screens.mainMenu.checks.ChecksScreen
+import com.example.energy_monitoring.compose.screens.settings.SettingsScreen
 import kotlinx.coroutines.Job
 
 fun NavGraphBuilder.drawerNavGraph(
@@ -19,5 +20,9 @@ fun NavGraphBuilder.drawerNavGraph(
 
     composable(DrawerScreens.ReferenceInfo.route) {
         DocumentsScreen(openDrawer = openDrawer)
+    }
+
+    composable(DrawerScreens.Settings.route) {
+        SettingsScreen(openDrawer = openDrawer)
     }
 }

@@ -31,6 +31,7 @@ fun Drawer(onDestinationClicked: (String) -> Unit) {
     val screens = listOf(
         DrawerScreens.Checks,
         DrawerScreens.ReferenceInfo,
+        DrawerScreens.Settings,
         DrawerScreens.Exit,
     )
 

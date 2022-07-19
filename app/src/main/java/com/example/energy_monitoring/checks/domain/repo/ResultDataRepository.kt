@@ -1,5 +1,6 @@
 package com.example.energy_monitoring.checks.domain.repo
 
+import androidx.room.Query
 import com.example.energy_monitoring.checks.data.CheckLengthResult
 import com.example.energy_monitoring.checks.data.files.ProjectFile
 import com.example.energy_monitoring.checks.data.api.ClientInfo
@@ -38,6 +39,7 @@ class ResultDataRepository @Inject constructor(
     fun getClientInfo(dataId: Int): ClientInfo? =
         dao.getClientInfo(dataId)
 
+    fun getClientInfos() = dao.getClientInfos()
 
     fun getOtherInfo(dataId: Int): OtherInfo? =
         dao.getOtherInfo(dataId)
@@ -145,6 +147,22 @@ class ResultDataRepository @Inject constructor(
     fun deleteCheckLengthPhotoFiles(dataId: Int) = dao.deleteCheckLengthPhotoFiles(dataId)
 
     fun deleteFinalPhotoFiles(dataId: Int) = dao.deleteFinalPhotoFiles(dataId)
+
+    fun deleteClientInfo(dataId: Int) = dao.deleteClientInfo(dataId)
+
+    fun deleteOtherInfo(dataId: Int) = dao.deleteOtherInfo(dataId)
+    
+    fun deleteProjectDescription(dataId: Int) = dao.deleteProjectDescription(dataId)
+    
+    fun deleteDeviceTemperatureCounter(dataId: Int) = dao.deleteDeviceTemperatureCounter(dataId)
+    
+    fun deleteDeviceFlowTransducers(dataId: Int) = dao.deleteDeviceFlowTransducers(dataId)
+    
+    fun deleteDeviceTemperatureTransducers(dataId: Int) = dao.deleteDeviceTemperatureTransducers(dataId)
+    
+    fun deleteDevicePressureTransducers(dataId: Int) = dao.deleteDevicePressureTransducers(dataId)
+    
+    fun deleteDeviceCounters(dataId: Int) = dao.deleteDeviceCounters(dataId)
 
     private fun checkNotEmpty(list: List<Any>, action: () -> Result<String>) =
         if (list.isNotEmpty()) {

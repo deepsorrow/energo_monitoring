@@ -47,7 +47,7 @@ fun CheckItem(
     val gradient = Brush.horizontalGradient(
         colors = listOf(
             Color.White,
-            Color(216, 201, 247, 37),
+            Color(230, 223, 247, 37),
             Color.White
         ),
         tileMode = TileMode.Repeated
@@ -57,11 +57,11 @@ fun CheckItem(
 
         Card(
             modifier = Modifier
-                .padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
             border = BorderStroke(1.dp, Color.LightGray),
             onClick = onClick,
-            elevation = 5.dp,
-            shape = RoundedCornerShape(6)
+            elevation = 4.dp,
+            shape = RoundedCornerShape(4)
         ) {
             Column(
                 modifier = Modifier
@@ -73,6 +73,7 @@ fun CheckItem(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .padding(top = 4.dp)
                                 .height(26.dp),
                             text = clientInfo.name + "\n",
                             textAlign = TextAlign.Center,

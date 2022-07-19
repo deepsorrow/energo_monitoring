@@ -24,7 +24,7 @@ import androidx.room.Room
         DeviceCounter::class, DeviceFlowTransducer::class, DevicePressureTransducer::class,
         DeviceTemperatureCounter::class, DeviceTemperatureTransducer::class, OtherInfo::class,
         CheckLengthResult::class, ProjectFile::class, CheckLengthPhotoFile::class, FinalPhotoFile::class],
-    version = 32
+    version = 33
 )
 abstract class ResultDataDatabase : RoomDatabase() {
     abstract fun resultDataDAO(): ResultDataDAO

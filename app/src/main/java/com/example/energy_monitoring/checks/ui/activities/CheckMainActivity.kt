@@ -111,6 +111,9 @@ class CheckMainActivity : AppCompatActivity(), HasAndroidInjector {
             } else if (itemId == R.id.catalog) {
                 intent.putExtra("route", DrawerScreens.ReferenceInfo.route)
                 startActivity(intent)
+            } else if (itemId == R.id.settings) {
+                intent.putExtra("route", DrawerScreens.Settings.route)
+                startActivity(intent)
             }
             finish()
             false

@@ -16,15 +16,15 @@ import com.example.energy_monitoring.R
 import com.example.energy_monitoring.compose.data.api.RefDoc
 import com.example.energy_monitoring.compose.viewmodels.RefDocsVM
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DocumentFolder(folder: RefDoc,
                    onClick: () -> Unit,
-                   viewModel: RefDocsVM = hiltViewModel()){
+                   viewModel: RefDocsVM){
     Row(modifier = Modifier.clickable { onClick() }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(60.dp)
                 .padding(start = 10.dp, end = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -48,5 +48,5 @@ fun DocumentFolder(folder: RefDoc,
 @Preview
 @Composable
 fun PreviewFolder(){
-    DocumentFolder(RefDoc("Водосчетчики"), {})
+    //DocumentFolder(RefDoc("Водосчетчики"), {}, RefDocsVM())
 }

@@ -15,7 +15,7 @@ fun DocumentsNavigatorContent(
     onFolderClick: (item: RefDoc) -> Unit,
     onFileClick: (item: RefDoc) -> Unit,
     changeTitle: (String) -> Unit,
-    viewModel: RefDocsVM = hiltViewModel()
+    viewModel: RefDocsVM
 ) {
     val scope = rememberCoroutineScope()
 
@@ -23,14 +23,15 @@ fun DocumentsNavigatorContent(
 
     DocumentsListContent(
         onFolderClick = { onFolderClick(it) },
-        onFileClick = { onFileClick(it) }
+        onFileClick = { onFileClick(it) },
+        viewModel = viewModel
     )
 
     BackHandler {
         scope.launch {
             delay(50)
             viewModel.navigateBack()
-            changeTitle("Документы")
+            changeTitle(viewModel.currentFolder.title.ifEmpty { "Документы" })
         }
     }
 }

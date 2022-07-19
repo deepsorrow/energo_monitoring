@@ -18,10 +18,10 @@ class ResultData {
     var otherInfo: OtherInfo? = null
 
     @Relation(entityColumn = "dataId", parentColumn = "dataId")
-    var clientInfo: ClientInfo? = null
+    var organizationInfo: OrganizationInfo? = null
 
     @Relation(entityColumn = "dataId", parentColumn = "dataId")
-    var organizationInfo: OrganizationInfo? = null
+    var clientInfo: ClientInfo? = null
 
     @Relation(entityColumn = "dataId", parentColumn = "dataId")
     var project: ProjectDescription? = null

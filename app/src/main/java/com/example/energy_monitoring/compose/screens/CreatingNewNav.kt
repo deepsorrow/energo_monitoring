@@ -10,10 +10,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.energy_monitoring.R
+import com.example.energy_monitoring.compose.DrawerScreens
 
 private sealed class CreatingNewNav(val label: String, val path: String, val drawable: Int) {
-    object Info : CreatingNewNav("Инфо", "create_new_1", R.drawable.ic_baseline_assignment_24)
-    object Photos : CreatingNewNav("Схемы", "create_new_2", R.drawable.ic_baseline_attach_file_24)
+    object Info : CreatingNewNav("Общее", "create_new_1", R.drawable.ic_baseline_assignment_24)
+    object Photos : CreatingNewNav("Файлы", "create_new_2", R.drawable.ic_baseline_attach_file_24)
     object Devices : CreatingNewNav("Устройства", "create_new_3", R.drawable.ic_baseline_device_hub_24)
 
     companion object {
@@ -27,13 +28,20 @@ fun CreatingNewNavBottom(
 ) {
     BottomNavigation {
         val navStack by navController.currentBackStackEntryAsState()
-        val route = navStack?.destination?.route
+        val currentRoute = navStack?.destination?.route
 
         for (dest in CreatingNewNav.listing) {
             BottomNavigationItem(
-                selected = route == dest.path,
+                selected = currentRoute == dest.path,
                 onClick = {
-                    navController.navigate(dest.path)
+                    if (currentRoute != dest.path) {
+                        navController.navigate(dest.path) {
+                            launchSingleTop = true
+                            popUpTo(DrawerScreens.Checks.route) {
+                                inclusive = false
+                            }
+                        }
+                    }
                 },
                 label = {
                     Text(
@@ -41,7 +49,10 @@ fun CreatingNewNavBottom(
                     )
                 },
                 icon = {
-                    Icon(painter = painterResource(id = dest.drawable), contentDescription = dest.label)
+                    Icon(
+                        painter = painterResource(id = dest.drawable),
+                        contentDescription = dest.label
+                    )
                 },
             )
         }

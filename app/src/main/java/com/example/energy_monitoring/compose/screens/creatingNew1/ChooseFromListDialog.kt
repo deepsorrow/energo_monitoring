@@ -14,7 +14,9 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,52 +27,56 @@ fun <T : IListEntry> ChooseFromListDialog(
     title: String,
     list: List<T>,
     openDialog: Boolean,
+    showSearch: Boolean,
     onCloseClicked: () -> Unit,
     onConfirmClicked: (T) -> Unit
 ) {
     if (openDialog) {
-        var searchQuery by remember {
-            mutableStateOf("")
-        }
+        var searchQuery by remember { mutableStateOf("") }
 
         AlertDialog(
             onDismissRequest = onCloseClicked,
-            title = { },
+            title = {
+                if (title.isNotEmpty()) {
+                    Text(modifier = Modifier.fillMaxWidth(),
+                        text = title,
+                        textAlign = TextAlign.Center,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Medium)
+                }
+            },
             text = {
                 Column {
-                    OutlinedTextField(
-                        modifier = Modifier.padding(bottom = 5.dp),
-                        value = searchQuery,
-                        placeholder = {
-                            Row {
-                                Icon(
-                                    imageVector = Icons.Filled.Search,
-                                    contentDescription = "Search"
-                                )
-                                Text(text = "Поиск")
-                            }
-                        },
-                        onValueChange = { searchQuery = it },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
-                    )
-                    LazyColumn(
-                        modifier = Modifier.border(
-                            width = 2.dp,
-                            color = Color.Gray,
-                            shape = RoundedCornerShape(10.dp)
+                    if (showSearch) {
+                        OutlinedTextField(
+                            modifier = Modifier.padding(bottom = 5.dp),
+                            value = searchQuery,
+                            placeholder = {
+                                Row {
+                                    Icon(
+                                        imageVector = Icons.Filled.Search,
+                                        contentDescription = "Search"
+                                    )
+                                    Text(text = "Поиск")
+                                }
+                            },
+                            onValueChange = { searchQuery = it },
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
                         )
-                    ) {
-                        items(items = list) { item ->
+                    }
+                    LazyColumn {
+                        items(items = list.filter { searchQuery.isEmpty() || it.listLabel.contains(searchQuery) }) { item ->
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .heightIn(min = 45.dp)
                                     .padding(bottom = if (item != list[list.size - 1]) 5.dp else 0.dp)
-                                    .clickable { onConfirmClicked(item) },
-                                border = BorderStroke(0.1.dp, Color.Gray)
+                                    .clickable { onConfirmClicked(item) }
+                                    .border(0.4.dp, Color.DarkGray)
                             ) {
                                 Text(
+                                    modifier = Modifier.fillMaxSize().padding(5.dp),
                                     text = item.listLabel,
-                                    modifier = Modifier.padding(5.dp),
                                     fontSize = 18.sp
                                 )
                             }
@@ -90,11 +96,12 @@ fun PreviewDialog() {
     ChooseFromListDialog(
         title = "Выберите договор абонента",
         list = listOf(
-            ContractInfo(0, 123120321, "Школа №3", "", "", "", "", false),
-            ContractInfo(1, 123131321, "Школа №551", "", "", "", "", false),
-            ContractInfo(2, 155120321, "Школа №321", "", "", "", "", false)
+            ContractInfo(0, "123120321", "Школа №3", "", "", "", "", false),
+            ContractInfo(1, "123131321", "Школа №551", "", "", "", "", false),
+            ContractInfo(2, "155120321", "Школа №321", "", "", "", "", false)
         ),
         openDialog = true,
+        false,
         onCloseClicked = {},
         onConfirmClicked = {}
     )

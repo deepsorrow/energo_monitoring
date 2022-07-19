@@ -7,9 +7,11 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import android.widget.Toast
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.energy_monitoring.checks.data.api.*
 import com.example.energy_monitoring.checks.data.db.OtherInfo
 import com.example.energy_monitoring.checks.data.db.ResultData
@@ -22,12 +24,14 @@ import com.example.energy_monitoring.compose.data.ClientInfoWithProgress
 import com.example.energy_monitoring.compose.data.SyncStatus
 import com.example.energy_monitoring.compose.screens.mainMenu.checks.DropDownClientActions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
-import java.nio.file.Files
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -37,12 +41,11 @@ class ChecksViewModel @Inject constructor(
     private val repository: ResultDataRepository
 ) : ViewModel() {
 
-    var clients by mutableStateOf<List<ClientInfoWithProgress>>(emptyList())
+    var clients = mutableStateListOf<ClientInfoWithProgress>()
     var isRefreshing by mutableStateOf(false)
 
-    fun requestClientsInfo(context: Context, onComplete: () -> Unit) {
-        val userId = SharedPreferencesManager.getUserId(context)
-        serverApi.getAvailableClientInfo(userId).enqueue(object : Callback<List<ClientInfo>> {
+    private fun requestClientsInfoOnline(context: Context, onComplete: (List<ClientInfoWithProgress>) -> Unit) {
+        serverApi.getAvailableClientInfo().enqueue(object : Callback<List<ClientInfo>> {
             override fun onResponse(call: Call<List<ClientInfo>>, response: Response<List<ClientInfo>>) {
                 val clientsWithProgress = mutableListOf<ClientInfoWithProgress>()
                 response.body()?.forEach {
@@ -50,18 +53,45 @@ class ChecksViewModel @Inject constructor(
                     clientsWithProgress.add(ClientInfoWithProgress(it, progress, syncStatus))
                 }
                 clientsWithProgress.sortByDescending { it.progress }
-                clients = clientsWithProgress
-                isRefreshing = false
-                onComplete()
+                onComplete(clientsWithProgress)
             }
 
             override fun onFailure(call: Call<List<ClientInfo>>, t: Throwable) {
-                Toast.makeText(context, "Не удалось получить данные! Ошибка: "
-                        + t.message, Toast.LENGTH_LONG).show()
-                isRefreshing = false
-                onComplete()
+                //Toast.makeText(context, "Не удалось получить данные! Ошибка: $t.message", Toast.LENGTH_LONG).show()
+                onComplete(listOf())
             }
         })
+    }
+
+    private fun requestSavedClientInfo(context: Context, onComplete: (List<ClientInfoWithProgress>) -> Unit) {
+        val clientsWithProgress = mutableListOf<ClientInfoWithProgress>()
+
+        repository.getClientInfos()?.forEach {
+            val (progress, syncStatus) = getScreenSyncStatus(context, it.dataId)
+            clientsWithProgress.add(ClientInfoWithProgress(it, progress, syncStatus))
+        }
+        clientsWithProgress.sortByDescending { it.progress }
+
+        onComplete(clientsWithProgress)
+    }
+
+    fun requestSavedAndOnlineInfo(context: Context, onComplete: () -> Unit) {
+        clients.clear()
+
+        requestSavedClientInfo(context) { listOffline ->
+            val offlineIds = listOffline.map { it.clientInfo.dataId }
+            requestClientsInfoOnline(context) { listOnline ->
+                val ignoredDataId = SharedPreferencesManager.getHidedDataIds(context)
+                val filteredOnlineList = listOnline.filter { !offlineIds.contains(it.clientInfo.dataId) && !ignoredDataId.contains(it.clientInfo.dataId)  }.toMutableList()
+
+                clients.addAll(filteredOnlineList)
+            }
+
+            clients.addAll(listOffline)
+            isRefreshing = false
+            onComplete()
+        }
+
     }
 
     fun loadInfo(dataId: Int, onComplete: (ClientDataBundle?) -> Unit, onError: (String) -> Unit) {
@@ -170,7 +200,8 @@ class ChecksViewModel @Inject constructor(
 
     fun refresh(context: Context){
         isRefreshing = true
-        requestClientsInfo(context) {}
+        requestSavedAndOnlineInfo(context) {}
+        //requestClientsInfoOnline(context) {}
     }
 
     fun getScreenSyncStatus(context: Context, id: Int): Pair<Int, SyncStatus> {
@@ -201,13 +232,13 @@ class ChecksViewModel @Inject constructor(
     }
 
     fun onActionClicked(action: DropDownClientActions, context: Context, clientInfo: ClientInfo) {
+        val dataId = clientInfo.dataId
+
         when (action) {
             DropDownClientActions.SYNC -> {
 
             }
             DropDownClientActions.REMOVE_LOCALLY -> {
-                val dataId = clientInfo.dataId
-
                 var result = Utils.getDataIdFolder(context, dataId).deleteRecursively()
                 result = result && Utils.getDataIdFolder(context, dataId).delete()
                 if (result) {
@@ -217,7 +248,24 @@ class ChecksViewModel @Inject constructor(
                 }
             }
             DropDownClientActions.REMOVE_GLOBALLY -> {
+                repository.deleteClientInfo(dataId)
+                repository.deleteProjectDescription(dataId)
+                repository.deleteOtherInfo(dataId)
+                repository.deleteDeviceTemperatureCounter(dataId)
+                repository.deleteDeviceFlowTransducers(dataId)
+                repository.deleteDeviceTemperatureTransducers(dataId)
+                repository.deleteDevicePressureTransducers(dataId)
+                repository.deleteDeviceCounters(dataId)
 
+                var result = Utils.getDataIdFolder(context, dataId).deleteRecursively()
+                result = result && Utils.getDataIdFolder(context, dataId).delete()
+                if (result) {
+                    repository.deleteProjectFiles(dataId)
+                    repository.deleteCheckLengthPhotoFiles(dataId)
+                    repository.deleteFinalPhotoFiles(dataId)
+                }
+
+                SharedPreferencesManager.hideDataId(context, dataId)
             }
         }
     }

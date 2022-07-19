@@ -26,7 +26,7 @@ fun DownloadNewFilesContent(
     changeTitle: (String) -> Unit,
     onDismissRequest: () -> Unit,
     onFolderClick: (RefDoc) -> Unit,
-    viewModel: RefDocsVM = hiltViewModel()
+    viewModel: RefDocsVM
 ){
     LaunchedEffect(key1 = true) {
         viewModel.getRefDocs()
@@ -37,7 +37,9 @@ fun DownloadNewFilesContent(
     val onFileClick: (item: RefDoc) -> Unit = remember {
         {
             scope.launch {
-                viewModel.downloadFile(it)
+                viewModel.downloadFile(it) {
+                    onDismissRequest()
+                }
             }
         }
     }
@@ -69,7 +71,8 @@ fun DownloadNewFilesContent(
                 DocumentsNavigatorContent(
                     onFolderClick = onFolderClick,
                     onFileClick = onFileClick,
-                    changeTitle = changeTitle
+                    changeTitle = changeTitle,
+                    viewModel = viewModel
                 )
             }
         }
@@ -79,5 +82,5 @@ fun DownloadNewFilesContent(
 @Preview
 @Composable
 fun PreviewContent() {
-    DownloadNewFilesContent({}, {}, {})
+    //DownloadNewFilesContent({}, {}, {})
 }

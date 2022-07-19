@@ -3,20 +3,16 @@ package com.example.energy_monitoring.compose.screens.creatingNew3
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.energy_monitoring.compose.screens.creatingNew1.CreatingTextField
 import com.example.energy_monitoring.compose.screens.creatingNew1.IListEntry
 import com.example.energy_monitoring.checks.data.api.DeviceInfo
-import com.example.energy_monitoring.checks.data.devices.DeviceCounter
-import com.example.energy_monitoring.checks.data.devices.DeviceFlowTransducer
-import com.example.energy_monitoring.checks.data.devices.DevicePressureTransducer
-import com.example.energy_monitoring.checks.data.devices.DeviceTemperatureTransducer
+import com.example.energy_monitoring.checks.data.devices.*
 import java.math.BigDecimal
 
 interface IDeviceInfo<T : AbstractDevice<*>> : IListEntry {
@@ -31,9 +27,9 @@ interface IDeviceInfo<T : AbstractDevice<*>> : IListEntry {
 
 @Composable
 private fun NumberField(placeholder: String, value: String, onValueChanged: (String) -> Unit) {
-    OutlinedTextField(
+    TextField(
         modifier = Modifier
-            .padding(bottom = 5.dp, start = 20.dp, end = 20.dp)
+            .padding(start = 20.dp, end = 20.dp)
             .fillMaxWidth(),
         singleLine = true,
         label = {
@@ -50,25 +46,20 @@ private fun NumberField(placeholder: String, value: String, onValueChanged: (Str
 @Composable
 private fun ComposeCommonFields(device: AbstractDevice<*>) {
     with (device) {
-        CreatingTextField(placeholder = "Номер свидетельства", deviceNumber?.toString() ?: "") {
-            deviceNumber = it.toIntOrNull()
-        }
-
-        Button(
-            onClick = { /* TODO */ },
+        TextField(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp)
-        ) {
-            Text(text = "Проверить")
-        }
+                .fillMaxWidth(),
+            singleLine = true,
+            label = {
+                Text(text = "Модель прибора")
+            },
+            value = deviceName,
+            onValueChange = { deviceName = it },
+        )
 
-        CreatingTextField(placeholder = "Модель прибора", deviceName) {
-            deviceName = it
-        }
-
-        NumberField(placeholder = "Номер прибора", installationPlace?.toString() ?: "") {
-            installationPlace = it.toIntOrNull()
+        NumberField(placeholder = "Номер прибора", deviceNumber?.toString() ?: "") {
+            deviceNumber = it.toIntOrNull()
         }
     }
 }
@@ -81,40 +72,40 @@ sealed class AbstractDevice<D : DeviceInfo> {
     open val isValid: Boolean
         get() = deviceNumber != null && deviceNumber!! > 0 && installationPlace != null && installationPlace!! > 0
 
+    override fun toString(): String {
+        return "$deviceName #$deviceNumber"
+    }
+
     @Composable
     abstract fun compose()
 
-    abstract fun toDataDevice(): D
+    abstract fun toDataDevice(dataId: Int): D
     abstract fun fromDataDevice(device: D)
 
     abstract val info: IDeviceInfo<*>
 }
 
-class HeatCalculator : AbstractDevice<DeviceTemperatureTransducer>() {
+class HeatCalculator : AbstractDevice<DeviceTemperatureCounter>() {
     override val isValid: Boolean
         get() = super.isValid && installationPlace != null && installationPlace!! > 0
-
-    override fun toString(): String {
-        return "$nominative: $deviceName, $installationPlace"
-    }
 
     @Composable
     override fun compose() {
         ComposeCommonFields(this)
     }
 
-    override fun toDataDevice(): DeviceTemperatureTransducer {
-        return DeviceTemperatureTransducer().also {
+    override fun toDataDevice(dataId: Int): DeviceTemperatureCounter {
+        return DeviceTemperatureCounter().also {
+            it.dataId = dataId
+            it.typeId = 1
             it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
             it.deviceName.initialValue = deviceName
-            it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
         }
     }
 
-    override fun fromDataDevice(device: DeviceTemperatureTransducer) {
+    override fun fromDataDevice(device: DeviceTemperatureCounter) {
         deviceNumber = device.deviceNumber.initialValue.toIntOrNull()
         deviceName = device.deviceName.initialValue
-        installationPlace = device.installationPlace.initialValue.toIntOrNull()
     }
 
     override val info: IDeviceInfo<*>
@@ -141,12 +132,10 @@ class FlowConverter : AbstractDevice<DeviceFlowTransducer>() {
             diameter!! > BigDecimal.ZERO &&
             weight!! > BigDecimal.ZERO
 
-    override fun toString(): String {
-        return "$nominative: $deviceName, $installationPlace, $diameter, $weight"
-    }
-
-    override fun toDataDevice(): DeviceFlowTransducer {
+    override fun toDataDevice(dataId: Int): DeviceFlowTransducer {
         return DeviceFlowTransducer().also {
+            it.dataId = dataId
+            it.typeId = 2
             it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
             it.deviceName.initialValue = deviceName
             it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
@@ -215,12 +204,10 @@ class TemperatureConverter : AbstractDevice<DeviceTemperatureTransducer>() {
             length != null &&
             length!! > BigDecimal.ZERO
 
-    override fun toString(): String {
-        return "$nominative: $deviceName, $installationPlace, $length"
-    }
-
-    override fun toDataDevice(): DeviceTemperatureTransducer {
+    override fun toDataDevice(dataId: Int): DeviceTemperatureTransducer {
         return DeviceTemperatureTransducer().also {
+            it.dataId = dataId
+            it.typeId = 3
             it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
             it.deviceName.initialValue = deviceName
             it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
@@ -277,12 +264,10 @@ class PressureConverter : AbstractDevice<DevicePressureTransducer>() {
             min!! > BigDecimal.ZERO &&
             max!! >= min!!
 
-    override fun toString(): String {
-        return "$nominative: $deviceName, $min-$max"
-    }
-
-    override fun toDataDevice(): DevicePressureTransducer {
+    override fun toDataDevice(dataId: Int): DevicePressureTransducer {
         return DevicePressureTransducer().also {
+            it.dataId = dataId
+            it.typeId = 4
             it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
             it.deviceName.initialValue = deviceName
             it.installationPlace.initialValue = installationPlace?.toString() ?: "0"
@@ -353,12 +338,10 @@ class Counter : AbstractDevice<DeviceCounter>() {
             diameter!! > BigDecimal.ZERO &&
             weight!! > BigDecimal.ZERO
 
-    override fun toString(): String {
-        return "$nominative: $deviceName, $installationPlace, $diameter, $weight"
-    }
-
-    override fun toDataDevice(): DeviceCounter {
+    override fun toDataDevice(dataId: Int): DeviceCounter {
         return DeviceCounter().also {
+            it.dataId = dataId
+            it.typeId = 5
             it.deviceNumber.initialValue = deviceNumber?.toString() ?: "0"
             it.deviceName.initialValue = deviceName
             it.diameter.initialValue = diameter?.toString() ?: "0"
@@ -410,9 +393,9 @@ class Counter : AbstractDevice<DeviceCounter>() {
 
     companion object : IDeviceInfo<Counter> {
         override val nominative: String
-            get() = "Счётчик"
+            get() = "Механический счетчик"
         override val genitive: String
-            get() = "счётчика"
+            get() = "механического счетчика"
 
         override fun factory() = Counter()
     }

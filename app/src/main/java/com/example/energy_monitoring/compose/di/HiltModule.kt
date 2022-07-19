@@ -26,5 +26,5 @@ class HiltModule{
 
     @Provides
     fun provideResultDataDao(@ApplicationContext context: Context): ResultDataDAO
-            = ResultDataDatabase.getDatabase(context).resultDataDAO()
+        = ResultDataDatabase.getDatabase(context).resultDataDAO()
 }

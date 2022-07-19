@@ -117,6 +117,9 @@ abstract class ResultDataDAO {
     @Query("SELECT * FROM ClientInfo WHERE dataId = :dataId")
     abstract fun getClientInfo(dataId: Int): ClientInfo?
 
+    @Query("SELECT * FROM ClientInfo")
+    abstract fun getClientInfos(): List<ClientInfo>?
+
     @Query("SELECT * FROM OtherInfo WHERE dataId = :dataId")
     abstract fun getOtherInfo(dataId: Int): OtherInfo?
 

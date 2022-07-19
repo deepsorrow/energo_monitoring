@@ -1,9 +1,11 @@
 package com.example.energy_monitoring.compose.screens.creatingNew1
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.example.energy_monitoring.compose.DrawerScreens
+import com.example.energy_monitoring.compose.screens.BackHandlerConfirmExit
 import com.example.energy_monitoring.compose.screens.CreatingNewNavBottom
 import com.example.energy_monitoring.compose.screens.ExitConfirmAlertDialog
 import com.example.energy_monitoring.compose.screens.TopBar
@@ -16,6 +18,7 @@ fun CreatingNew1Screen(
     openDrawer: () -> Job,
     navController: NavController
 ) {
+    val context = LocalContext.current
     var showAlertDialog by remember { mutableStateOf(false) }
     
     Scaffold(
@@ -31,19 +34,15 @@ fun CreatingNew1Screen(
         content = {
             ExitConfirmAlertDialog(
                 showAlertDialog = showAlertDialog,
-                onConfirm = { navController.navigate("checks") },
+                onConfirm = {
+                    viewModel.dispose(context)
+                    navController.popBackStack(DrawerScreens.Checks.route, false)
+                },
                 onDismiss = { showAlertDialog = false }
             )
-            CreatingNew1Content(viewModel = viewModel)
+            CreatingNew1Content(viewModel)
         }
     )
 
-    BackHandler {
-        // Если предупреждение уже открыто, то можно выходить
-        if (showAlertDialog) {
-            navController.navigate("checks")
-        } else {
-            showAlertDialog = true
-        }
-    }
+    BackHandlerConfirmExit(navController, showAlertDialog) { showAlertDialog = true }
 }

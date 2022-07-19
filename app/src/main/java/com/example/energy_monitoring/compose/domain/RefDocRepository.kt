@@ -21,6 +21,10 @@ class RefDocRepository @Inject constructor(private val dao: RefDocDao) {
         dao.deleteRefDoc(file.id)
     }
 
+    fun deleteRefDocs() {
+        dao.deleteRefDocs()
+    }
+
     fun getAllRefDocs(): List<RefDoc>? {
         return dao.getAllRefDocs()
     }

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun ExitConfirmAlertDialog(showAlertDialog: Boolean, onConfirm: () -> Unit, onDismiss: () -> Unit) {
@@ -22,7 +23,8 @@ fun ExitConfirmAlertDialog(showAlertDialog: Boolean, onConfirm: () -> Unit, onDi
             text = { Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Выйти без сохранения?",
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp
             ) } ,
             buttons = {
                 Row(

@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface ServerApi {
     @GET("/api/v1/getAvailableClientInfo")
-    fun getAvailableClientInfo(@Query("userId") userId: Int): Call<List<ClientInfo>>
+    fun getAvailableClientInfo(): Call<List<ClientInfo>>
 
     @GET("/api/v1/getDetailedClientBundle")
     fun getDetailedClientBundle(@Query("id") id: Int): Call<ClientDataBundle>
@@ -23,6 +23,9 @@ interface ServerApi {
 
     @GET("/api/v1/getAllAgreements")
     fun allAgreements(): Call<List<ClientInfo>?>
+
+    @GET("/api/v1/ping")
+    fun ping(): Call<Boolean>
 
     @GET("api/v1/refDocById")
     fun getRefDocById(@Query("id") id: Int): Call<RefDoc>

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.lightColors
 import com.example.energy_monitoring.compose.SetupNavigation
 import com.example.energy_monitoring.compose.viewmodels.ClientInfoViewModel
 import com.example.energy_monitoring.compose.viewmodels.SharedViewModel
@@ -15,15 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class CreatingNew1Activity : AppCompatActivity() {
 
     private val sharedViewModel: SharedViewModel by viewModels()
-    private val clientInfoViewModel: ClientInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MaterialTheme{
+            MaterialTheme {
                 SetupNavigation(
-                    clientInfoViewModel = clientInfoViewModel,
                     sharedViewModel = sharedViewModel
                 )
             }

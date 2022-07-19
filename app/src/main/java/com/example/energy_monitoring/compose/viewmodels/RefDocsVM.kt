@@ -3,6 +3,10 @@ package com.example.energy_monitoring.compose.viewmodels
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
@@ -13,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.energy_monitoring.checks.data.api.ServerApi
+import com.example.energy_monitoring.checks.ui.utils.Utils
 import com.example.energy_monitoring.compose.data.api.RefDoc
 import com.example.energy_monitoring.compose.domain.RefDocRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +27,8 @@ import retrofit2.awaitResponse
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+import kotlin.math.min
+import kotlin.random.Random
 
 
 @SuppressLint("StaticFieldLeak")
@@ -36,6 +43,8 @@ class RefDocsVM @Inject constructor(
     var refDocs = mutableStateListOf<RefDoc>()
     var currentFolder by mutableStateOf(RefDoc())
     var currentChildFiles = mutableStateListOf<RefDoc>()
+
+    var newFolderName by mutableStateOf("")
 
     fun getRefDocs() = viewModelScope.launch(Dispatchers.IO) {
         try {
@@ -61,20 +70,19 @@ class RefDocsVM @Inject constructor(
         }
     }
 
-    fun downloadFile(refDoc: RefDoc) = viewModelScope.launch {
-        Log.d("TAG", "Execution thread: "+Thread.currentThread().name)
+    fun downloadFile(refDoc: RefDoc, onComplete: () -> Unit) = viewModelScope.launch {
         val resultFile = async(Dispatchers.IO) {
             try {
-                Log.d("TAG", "Execution thread1: "+Thread.currentThread().name)
                 isLoading = true
                 val response = serverApi.getRefDocById(refDoc.id).awaitResponse()
                 if (response.isSuccessful) {
                     val result = response.body()
                     if (result?.dataString != null) {
                         val extension = refDoc.title.substringAfterLast(".").lowercase()
-                        val file = File.createTempFile("refDoc", ".$extension", context.filesDir)
+                        val folder = Utils.getRefDocsFolder(context)
+                        val file = File.createTempFile("refDoc", ".$extension", folder)
                         val os = FileOutputStream(file)
-                        os.write(result.dataString!!.toByteArray())
+                        os.write(Base64.decode(result.dataString!!, 0))
                         os.close()
 
                         refDoc.localFilePath = file.canonicalPath
@@ -89,6 +97,7 @@ class RefDocsVM @Inject constructor(
                             }
                         }
 
+                        onComplete()
                         return@async Result.success(refDoc)
                     }
                 }
@@ -166,9 +175,39 @@ class RefDocsVM @Inject constructor(
         return true
     }
 
-    fun createNewFolder(folderName: String) {
-        repository.insertRefDoc(RefDoc(folderName, true))
+    fun createNewFolder() {
+        val refDoc = RefDoc(newFolderName, true)
+        refDoc.id = Random.nextInt(1, 1000000)
+        refDoc.parentId = currentFolder.id
+        refDoc.parentFolderName = currentFolder.title
+        repository.insertRefDoc(refDoc)
         getCurrentDocuments()
+        getCurrentFilesForFile(currentFolder)
+    }
+
+    fun createNewFile(path: String?) {
+        if (path == null)
+            return
+        val refDoc = RefDoc()
+        refDoc.id = Random.nextInt(1, 1000000)
+        refDoc.isFolder = false
+        refDoc.parentId = currentFolder.id
+        refDoc.parentFolderName = currentFolder.title
+        refDoc.size = Utils.getStringSizeLengthFile(File(path).length())
+        refDoc.title = path.substring(path.lastIndexOf("/") + 1)
+        refDoc.localFilePath = path
+        repository.insertRefDoc(refDoc)
+        getCurrentDocuments()
+        getCurrentFilesForFile(currentFolder)
+    }
+
+    fun deleteAllDocs(context: Context) {
+        if (Utils.getRefDocsFolder(context).deleteRecursively()) {
+            repository.deleteRefDocs()
+            getCurrentDocuments()
+        } else {
+            Toast.makeText(context, "Не удалось удалить файлы. Код ошибки: 33", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getTopLevelFiles() = refDocs.filter { it.parentId == 0 }.sortedBy { it.title }

@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,34 +20,31 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.energy_monitoring.R
 import com.example.energy_monitoring.compose.data.api.RefDoc
+import com.example.energy_monitoring.compose.screens.NoDataPlaceholder
 import com.example.energy_monitoring.compose.viewmodels.RefDocsVM
 
 @Composable
 fun DocumentsLibraryContent(
     changeTitle: (String) -> Unit,
     onFolderClick: (RefDoc) -> Unit,
-    viewModel: RefDocsVM = hiltViewModel()
+    viewModel: RefDocsVM
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.getCurrentDocuments()
     }
 
     if (viewModel.currentChildFiles.isEmpty()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_blur_on),
-                contentDescription = "Проверок нет",
-                tint = Color.Gray
+        if (viewModel.refDocs.isEmpty()) {
+            NoDataPlaceholder(
+                modifier = Modifier.fillMaxSize(),
+                text = "Сохраненных файлов пока нет\nЗагрузите или добавьте по кнопке сверху",
+                iconRes = R.drawable.ic_blur_on
             )
-            Text(
-                text = "Сохраненных файлов пока нет\nЗагрузите по кнопке сверху",
-                color = Color.Gray,
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp
+        } else {
+            NoDataPlaceholder(
+                modifier = Modifier.fillMaxSize(),
+                text = "В этой папке пока нет файлов",
+                iconRes = R.drawable.ic_blur_on
             )
         }
     } else {
@@ -55,7 +54,8 @@ fun DocumentsLibraryContent(
             DocumentsNavigatorContent(
                 onFolderClick = onFolderClick,
                 onFileClick = { viewModel.openFile(it) },
-                changeTitle = changeTitle
+                changeTitle = changeTitle,
+                viewModel = viewModel
             )
         }
     }

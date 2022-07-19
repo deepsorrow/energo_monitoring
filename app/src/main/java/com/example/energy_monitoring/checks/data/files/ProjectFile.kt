@@ -1,5 +1,6 @@
 package com.example.energy_monitoring.checks.data.files
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -13,4 +14,6 @@ class ProjectFile : BaseFile() {
 
     @Ignore
     var dataBase64: String = ""
+    @Ignore
+    var bitmap: Bitmap? = null
 }

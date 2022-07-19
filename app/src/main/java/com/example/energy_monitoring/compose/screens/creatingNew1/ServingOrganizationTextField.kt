@@ -1,16 +1,22 @@
 package com.example.energy_monitoring.compose.screens.creatingNew1
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.energy_monitoring.R
 
 @Entity
 data class ServingOrganization(
@@ -34,42 +40,53 @@ data class ServingOrganization(
 @Composable
 fun ServingOrganizationTextField(
     placeholder: String,
-    initialValue: ServingOrganization?,
+    initialValue: ServingOrganization,
     available: List<ServingOrganization>,
     onValueChanged: (ServingOrganization) -> Unit,
 ) {
-    val openDialog = remember {
-        mutableStateOf(false)
+    var openDialog by remember { mutableStateOf(false) }
+    var value by remember { mutableStateOf(initialValue) }
+
+    Box(
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            label = {
+                Text(text = placeholder)
+            },
+            value = value.name,
+            onValueChange = {
+                value.name = it
+                onValueChanged(value)
+            },
+            maxLines = 1 // временный костыль, чтобы кнопка влазила
+        )
+        Button(
+            modifier = Modifier.height(56.dp).padding(top = 7.dp, end = 2.dp),
+            onClick = { openDialog = true },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(248, 248, 248, 255)
+            )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_edit),
+                "Выбрать договор",
+                tint = Color.DarkGray
+            )
+        }
     }
 
-    var value by remember {
-        mutableStateOf(initialValue)
-    }
-
-    OutlinedTextField(
-        modifier = Modifier
-            .padding(bottom = 5.dp, start = 20.dp, end = 20.dp)
-            .fillMaxWidth()
-            .clickable(onClick = {
-                openDialog.value = true
-            }),
-        label = {
-            Text(text = placeholder)
-        },
-        value = value?.name ?: "",
-        onValueChange = {}, // NO-OP
-        // мы меняем значения внутри диалога
-        enabled = false,
-    )
-
-    if (openDialog.value) {
+    if (openDialog) {
         ChooseFromListDialog(
-            title = "Выбрать обслуживающую организацию",
+            title = "Выбор обслуживающей организации",
             list = available,
             openDialog = true,
-            onCloseClicked = { openDialog.value = false },
+            showSearch = true,
+            onCloseClicked = { openDialog = false },
             onConfirmClicked = {
-                openDialog.value = false
+                openDialog = false
                 value = it
                 onValueChanged.invoke(it)
             }
@@ -80,5 +97,5 @@ fun ServingOrganizationTextField(
 @Preview
 @Composable
 fun PreviewServingOrganizationTextField() {
-    ServingOrganizationTextField(placeholder = "Обслуживающая организация", null, listOf()) {}
+    //ServingOrganizationTextField(placeholder = "Обслуживающая организация", null, listOf()) {}
 }

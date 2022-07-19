@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.energy_monitoring.compose.navigation.createNewNavGraph
@@ -15,7 +16,7 @@ import com.example.energy_monitoring.compose.viewmodels.SharedViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
+fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel = hiltViewModel(),
                     sharedViewModel: SharedViewModel){
 
 
@@ -65,8 +66,8 @@ fun SetupNavigation(clientInfoViewModel: ClientInfoViewModel,
 @Composable
 @Preview
 private fun MainMenuPreview(){
-    SetupNavigation(
-        ClientInfoViewModel(),
-        SharedViewModel()
-    )
+//    SetupNavigation(
+//        ClientInfoViewModel(),
+//        SharedViewModel()
+//    )
 }

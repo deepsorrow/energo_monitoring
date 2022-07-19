@@ -16,16 +16,15 @@ import com.example.energy_monitoring.R
 import com.example.energy_monitoring.compose.data.api.RefDoc
 import com.example.energy_monitoring.compose.viewmodels.RefDocsVM
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DocumentFile(file: RefDoc,
-                 onClick: () -> Unit,
-                 viewModel: RefDocsVM = hiltViewModel()) {
+                 onClick: () -> Unit) {
     Row(modifier = Modifier.clickable { onClick() }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .height(60.dp)
+                .padding(start = 10.dp, end = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val extension = file.title.substringAfterLast(".").lowercase()
@@ -36,7 +35,7 @@ fun DocumentFile(file: RefDoc,
                 else -> R.drawable.ic_file
             }
             Image(
-                modifier = Modifier.size(45.dp),
+                modifier = Modifier.size(55.dp),
                 painter = painterResource(id = iconId),
                 contentDescription = "Файл " + file.title
             )

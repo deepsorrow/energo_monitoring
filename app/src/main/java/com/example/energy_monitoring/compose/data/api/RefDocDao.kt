@@ -13,6 +13,9 @@ abstract class RefDocDao {
     @Query("DELETE FROM RefDoc WHERE id = :id")
     abstract fun deleteRefDoc(id: Int)
 
+    @Query("DELETE FROM RefDoc")
+    abstract fun deleteRefDocs()
+
     @Query("SELECT * FROM RefDoc WHERE id = :id")
     abstract fun getRefDoc(id: Int): RefDoc?
 
